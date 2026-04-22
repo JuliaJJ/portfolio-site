@@ -1,0 +1,272 @@
+---
+// src/layouts/PixelLayout.astro
+// Pixel theme shell: sidebar nav + terminal content area.
+// Completely independent HTML structure — no shared classes with other layouts.
+
+const path = Astro.url.pathname;
+const navItems = [
+  { href: "/work",  label: "Work"  },
+  { href: "/lab",   label: "Lab"   },
+  { href: "/about", label: "About" },
+];
+---
+
+<div class="px-shell" id="shell-pixel" aria-hidden="true">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="px-sidebar">
+
+    <div class="px-sidebar__top">
+      <a href="/" class="px-logo" aria-label="Home">
+        <span class="px-logo__jj">JJ</span>
+        <span class="px-logo__sub">PORTFOLIO<br/>V2.0</span>
+      </a>
+
+      <div class="px-divider">════════════</div>
+
+      <nav aria-label="Main navigation">
+        <ul class="px-nav" role="list">
+          {navItems.map(({ href, label }) => {
+            const isActive = path === href || path.startsWith(href + "/");
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={["px-nav__link", { "px-nav__link--active": isActive }]}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <span class="px-nav__cursor">▶</span>
+                  <span class="px-nav__label">{label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <div class="px-divider">════════════</div>
+
+      <div class="px-status">
+        <span class="px-status__dot" aria-hidden="true"></span>
+        <span class="px-status__label">AVAILABLE</span>
+      </div>
+    </div>
+
+    <div class="px-sidebar__bottom">
+      <div class="px-prompt">C:\&gt; _</div>
+    </div>
+
+  </aside>
+
+  <!-- ── Main area ────────────────────────────────────────── -->
+  <div class="px-content">
+    <main id="pixel-main" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="px-footer">
+      <div class="px-footer__credits">
+        <span>© {new Date().getFullYear()} JULIE JOHNSTON</span>
+        <span class="px-footer__blink">★ PRESS START ★</span>
+      </div>
+    </footer>
+  </div>
+
+</div>
+
+<style>
+  /* ── Shell frame ── */
+
+  .px-shell {
+    display: none; /* shown by JS when theme = pixel */
+    grid-template-columns: 190px 1fr;
+    grid-template-rows: 1fr;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: var(--font-body);
+    font-weight: 300;
+    -webkit-font-smoothing: auto; /* pixel fonts look better without it */
+    image-rendering: pixelated;
+  }
+
+  .px-shell.is-active { display: grid; }
+
+  /* ── Sidebar ── */
+
+  .px-sidebar {
+    grid-column: 1;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid var(--rule);
+    background: var(--bg-2);
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1rem;
+    gap: var(--space-4);
+  }
+
+  .px-sidebar__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    flex: 1;
+  }
+
+  .px-sidebar__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-3);
+  }
+
+  /* Logo */
+  .px-logo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: inherit;
+  }
+  .px-logo__jj {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+  .px-logo__sub {
+    font-family: var(--font-display);
+    font-size: 7px;
+    color: var(--text-3);
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+
+  /* DOS double-line divider */
+  .px-divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    letter-spacing: -0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* Nav */
+  .px-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .px-nav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
+    text-decoration: none;
+    color: var(--text-2);
+    font-family: var(--font-display);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    border: 1px solid transparent;
+  }
+  .px-nav__cursor {
+    font-size: 8px;
+    color: var(--accent);
+    opacity: 0;
+    flex-shrink: 0;
+    width: 10px;
+  }
+  .px-nav__link:hover {
+    color: var(--text-1);
+    border-color: var(--rule);
+    background: var(--bg-3);
+  }
+  .px-nav__link:hover .px-nav__cursor { opacity: 1; }
+
+  .px-nav__link--active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .px-nav__link--active .px-nav__cursor { opacity: 1; }
+
+  /* Status */
+  .px-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .px-status__dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: px-blink-dot 2s steps(1) infinite;
+  }
+  @keyframes px-blink-dot {
+    0%, 60%  { opacity: 1; }
+    61%, 100% { opacity: 0.2; }
+  }
+  .px-status__label {
+    font-family: var(--font-display);
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  /* Command prompt */
+  .px-prompt {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    animation: px-blink-cursor 1.2s steps(1) infinite;
+  }
+  @keyframes px-blink-cursor {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  /* ── Content column ── */
+
+  .px-content {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  main {
+    flex: 1;
+    padding: var(--space-8) var(--space-8) var(--space-12);
+  }
+
+  /* ── Footer ── */
+
+  .px-footer {
+    border-top: 2px solid var(--rule);
+    padding: var(--space-5) var(--space-8);
+  }
+
+  .px-footer__credits {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    color: var(--text-4);
+  }
+
+  .px-footer__blink {
+    color: var(--accent);
+    font-size: 8px;
+    animation: px-blink-cursor 1s steps(1) infinite;
+  }
+</style>

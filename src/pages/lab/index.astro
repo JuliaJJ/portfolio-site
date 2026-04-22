@@ -1,0 +1,336 @@
+---
+// src/pages/lab/index.astro
+
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import LabCard from "@components/LabCard.astro";
+
+const allLab = await getCollection("lab", ({ data }) => !data.draft);
+const sorted = allLab.sort((a, b) => b.data.year - a.data.year);
+
+const url = Astro.url;
+const activeType = url.searchParams.get("type") ?? "all";
+
+const filtered =
+  activeType === "all"
+    ? sorted
+    : sorted.filter((e) => e.data.type === activeType);
+
+const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
+---
+
+<BaseLayout
+  title="Lab"
+  description="Personal projects, design explorations, tools, and experiments — work done for curiosity, craft, and the fun of it."
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <div class="lab-default">
+
+      <header class="lab-default__header">
+        <h1>Lab</h1>
+        <p class="lab-default__intro">
+          Personal projects, side experiments, and work done for curiosity
+          rather than a brief. This is where craft meets play.
+        </p>
+      </header>
+
+      {sorted.length > 0 && (
+        <nav class="filter-bar" aria-label="Filter lab projects">
+          <div class="filter-group">
+            <span class="filter-label">Type</span>
+            {types.map((t) => (
+              <a
+                href={t === "all" ? "/lab" : `/lab?type=${t}`}
+                class:list={["filter-pill", { active: activeType === t }]}
+              >
+                {t}
+              </a>
+            ))}
+          </div>
+        </nav>
+      )}
+
+      {filtered.length > 0 ? (
+        <ul class="lab-default__grid" role="list">
+          {filtered.map((entry) => (
+            <li><LabCard entry={entry} /></li>
+          ))}
+        </ul>
+      ) : sorted.length === 0 ? (
+        <div class="lab-empty">
+          <p class="eyebrow">Coming soon</p>
+          <p class="lab-empty__text">Nothing here yet — projects in progress. Check back soon.</p>
+        </div>
+      ) : (
+        <p class="no-results">
+          No lab entries match that filter. <a href="/lab">Show all</a>
+        </p>
+      )}
+
+    </div>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <div class="lab-pixel">
+
+      <div class="lab-pixel__header">
+        <p class="lab-pixel__title">EXPERIMENTS</p>
+        <p class="lab-pixel__sub">SIDE QUESTS &amp; BONUS CONTENT</p>
+        <div class="lab-pixel__divider">════════════════════════════════</div>
+      </div>
+
+      {sorted.length === 0 ? (
+        <div class="lab-pixel__empty">
+          <p class="lab-pixel__empty-msg">[ NO DATA FOUND ]</p>
+          <p class="lab-pixel__empty-sub">CONTENT LOADING... CHECK BACK SOON</p>
+        </div>
+      ) : (
+        <div class="lab-pixel__list">
+          {filtered.map((entry) => (
+            <div class="lab-pixel__item">
+              <span class="lab-pixel__cursor" aria-hidden="true">▶</span>
+              <div class="lab-pixel__item-body">
+                <p class="lab-pixel__item-title">{entry.data.title}</p>
+                <p class="lab-pixel__item-meta">{entry.data.type?.toUpperCase()} · {entry.data.year}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <div class="lab-editorial">
+
+      <header class="lab-editorial__header">
+        <h1 class="lab-editorial__title">Lab</h1>
+        <p class="lab-editorial__intro">
+          Personal projects, side experiments, and work done for curiosity
+          rather than a brief. Craft meets play.
+        </p>
+      </header>
+
+      {sorted.length === 0 ? (
+        <div class="lab-editorial__empty">
+          <p class="lab-editorial__coming-soon">Coming soon.</p>
+          <p>Projects in progress — check back soon.</p>
+        </div>
+      ) : (
+        <div class="lab-editorial__grid">
+          {filtered.map((entry) => (
+            <LabCard entry={entry} />
+          ))}
+        </div>
+      )}
+
+    </div>
+  </EditorialLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .lab-default__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    max-width: 640px;
+  }
+
+  .lab-default__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-5);
+  }
+
+  .lab-default__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .lab-empty { padding: var(--space-16) 0; }
+
+  .lab-empty__text {
+    font-size: var(--text-base);
+    color: var(--text-3);
+    margin-top: var(--space-3);
+  }
+
+  @media (max-width: 640px) {
+    .lab-default__grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .lab-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+
+  .lab-pixel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .lab-pixel__sub {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+  }
+
+  .lab-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .lab-pixel__empty {
+    border: 2px solid var(--rule);
+    padding: var(--space-8) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .lab-pixel__empty-msg {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+  }
+
+  .lab-pixel__empty-sub {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text-4);
+    animation: pixel-blink 2s steps(1) infinite;
+  }
+
+  .lab-pixel__list {
+    border: 2px solid var(--rule);
+  }
+
+  .lab-pixel__item {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    gap: 0 0.75rem;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .lab-pixel__item:last-child { border-bottom: none; }
+
+  .lab-pixel__item:hover { background: rgba(0, 255, 65, 0.06); }
+
+  .lab-pixel__cursor {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--accent);
+    opacity: 0;
+  }
+
+  .lab-pixel__item:hover .lab-pixel__cursor { opacity: 1; }
+
+  .lab-pixel__item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .lab-pixel__item-title {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--text-1);
+  }
+
+  .lab-pixel__item:hover .lab-pixel__item-title { color: var(--accent); }
+
+  .lab-pixel__item-meta {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.08em;
+    color: var(--text-4);
+  }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .lab-editorial__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-12);
+  }
+
+  .lab-editorial__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: var(--space-6);
+    color: var(--text-1);
+  }
+
+  .lab-editorial__intro {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .lab-editorial__empty {
+    padding: var(--space-16) 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .lab-editorial__coming-soon {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-4);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-4);
+  }
+
+  .lab-editorial__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .lab-editorial__grid { grid-template-columns: 1fr; }
+  }
+</style>

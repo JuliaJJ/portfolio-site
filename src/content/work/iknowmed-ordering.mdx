@@ -1,0 +1,114 @@
+---
+title: "Prescription ordering redesign"
+client: "McKesson — iKnowMed"
+role: "Senior UX Designer, Design Lead"
+year: 2023
+featured: true
+order: 1
+
+summary: "Redesigned the chemotherapy ordering workflow for an oncology EHR used by 10,000+ clinicians nationwide."
+complexity_note: "Mission-critical. 400+ drug interaction rules. A design error has direct patient safety consequences."
+my_contribution: "End-to-end ownership — research, interaction design, design system contribution, stakeholder alignment across clinical, product, and engineering."
+collaborators:
+  - "Clinical subject matter experts"
+  - "Pharmacy team"
+  - "Product management"
+  - "Frontend engineering"
+
+visibility: partial
+nda_note: "Final production screens are under NDA. Process artifacts, research synthesis, and wireframes are shown. Happy to walk through the full case study — reach out."
+
+domain: healthcare
+problem_types:
+  - workflow
+  - redesign
+skills:
+  - "User research"
+  - "Contextual inquiry"
+  - "Interaction design"
+  - "Usability testing"
+  - "Stakeholder management"
+  - "Design systems"
+tools:
+  - "Figma"
+  - "Maze"
+  - "Dovetail"
+  - "Confluence"
+
+outcomes:
+  - metric: "Task completion rate"
+    value: "+34%"
+    note: "Moderated usability test, n=12 oncology nurses"
+  - metric: "Critical ordering errors"
+    value: "–18%"
+    note: "Pilot program, 6-week observation"
+  - metric: "Clinician satisfaction"
+    value: "4.6 / 5.0"
+    note: "Post-launch survey, n=47"
+
+impact_note: "Full post-launch data pending — rollout completed Q4 2023. Pre/post comparative study in progress."
+
+# cover_image: "./covers/iknowmed-cover.png"
+# cover_alt: "Wireframe of the iKnowMed ordering interface showing the drug selection and dosing workflow"
+---
+
+import OutcomeBlock from "@components/OutcomeBlock.astro";
+import ProcessTimeline from "@components/ProcessTimeline.astro";
+import NdaBanner from "@components/NdaBanner.astro";
+
+<NdaBanner note={frontmatter.nda_note} />
+
+## The problem
+
+Oncology nurses using iKnowMed to order chemotherapy protocols were navigating a 14-step process spread across three separate screens, with no inline validation and drug interaction warnings buried in a side panel most users had learned to ignore.
+
+The consequence of an ordering error in this context isn't a failed checkout — it's the wrong drug, wrong dose, or wrong schedule reaching a cancer patient.
+
+## What I wanted to understand
+
+Before touching the interface, I needed to understand the actual mental model of an oncology nurse mid-shift. Not what the workflow *should* be — what it *is*, including the workarounds and memory cues they'd built up over years of using a difficult tool.
+
+**Research methods:**
+- Contextual inquiry with 8 oncology nurses across 2 clinic sites (4 hrs each)
+- Shadowing 3 pharmacists reviewing flagged orders
+- Card sorting to understand how clinicians mentally group drug protocol information
+- Review of 6 months of support tickets related to ordering errors
+
+## What I found
+
+Three findings shaped everything that followed.
+
+**Finding 1: The 14-step process was actually a 4-step mental model.** Clinicians had chunked the workflow into: choose the protocol, confirm the patient context, set the schedule, and verify dosing. The interface didn't map to any of those chunks — it was organized around the database structure, not the clinical task.
+
+**Finding 2: The side-panel warning pattern had trained people to dismiss it.** Because non-critical informational notices used the same visual treatment as critical drug interaction warnings, clinicians had unconsciously learned to close the panel without reading it. This is a known issue in alert fatigue research, but seeing it in context made the severity concrete.
+
+**Finding 3: New nurses were the highest-risk users, not experienced ones.** Experienced nurses had built reliable mental checklists. New nurses didn't have those yet and were most likely to miss the edge cases the interface assumed you'd already know.
+
+---
+
+*[Wireframes and research synthesis artifacts shown below — final production screens available on request]*
+
+---
+
+## Design approach
+
+I restructured the ordering flow around the clinician's 4-chunk mental model, collapsing the 14 screens into a single-page progressive disclosure pattern. Drug interaction warnings were separated into a dedicated severity hierarchy with distinct visual treatments — critical alerts required active acknowledgment before proceeding.
+
+A secondary goal was reducing the cognitive load on new nurses specifically. I introduced contextual guidance that surfaced at the moments most likely to trip them up, without adding noise for experienced users who'd already internalized those steps.
+
+<ProcessTimeline steps={[
+  { label: "Discovery", detail: "Contextual inquiry, 8 clinicians, 2 sites" },
+  { label: "Synthesis", detail: "Affinity mapping, 3 key findings" },
+  { label: "Concept", detail: "2 structural approaches, stakeholder review" },
+  { label: "Prototype", detail: "Mid-fi Figma, 3 rounds of iteration" },
+  { label: "Test", detail: "Moderated usability, 12 participants" },
+  { label: "Handoff", detail: "Dev specs, design system tokens, QA" },
+]} />
+
+## Outcome
+
+<OutcomeBlock outcomes={frontmatter.outcomes} note={frontmatter.impact_note} />
+
+## What I'd do differently
+
+The warning severity hierarchy worked well in testing, but I'd push harder on getting it into the design system as a reusable pattern rather than a one-off for this project. The same alert-fatigue problem exists in at least three other workflows in iKnowMed — a system-level solution would have compounding impact.

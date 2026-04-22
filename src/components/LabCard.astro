@@ -1,0 +1,153 @@
+---
+// src/components/LabCard.astro
+// Card for lab collection entries. If the entry has an external link,
+// the card links out directly; otherwise it links to the internal slug page.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"lab">;
+}
+
+const { entry } = Astro.props;
+const { data, slug } = entry;
+
+const href = data.link ?? `/lab/${slug}`;
+const isExternal = !!data.link;
+---
+
+<a
+  href={href}
+  class="lab-card"
+  aria-label={`${data.title} — ${data.summary}`}
+  {...isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+>
+  <!-- Cover -->
+  <div class="lab-card__cover">
+    {data.cover_image ? (
+      <img
+        src={data.cover_image}
+        alt={data.cover_alt ?? data.title}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="lab-card__cover-placeholder" aria-hidden="true" />
+    )}
+  </div>
+
+  <!-- Body -->
+  <div class="lab-card__body">
+    <div class="lab-card__meta">
+      <span class="tag tag--neutral">{data.type}</span>
+      <span class="lab-card__year">{data.year}</span>
+    </div>
+
+    <h2 class="lab-card__title">{data.title}</h2>
+    <p class="lab-card__summary">{data.summary}</p>
+
+    <p class="lab-card__shows">{data.what_it_shows}</p>
+
+    {isExternal && (
+      <span class="lab-card__link-hint" aria-hidden="true">
+        {data.link_label ?? "View project"} ↗
+      </span>
+    )}
+  </div>
+</a>
+
+<style>
+  .lab-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+    background: var(--bg-2);
+    height: 100%;
+  }
+
+  .lab-card:hover {
+    border-color: var(--rule-2);
+    transform: translateY(-2px);
+  }
+
+  .lab-card__cover {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-3);
+    overflow: hidden;
+  }
+
+  .lab-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lab-card__cover-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-3);
+  }
+
+  .lab-card__body {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+  }
+
+  .lab-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .lab-card__year {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    margin-left: auto;
+  }
+
+  .lab-card__title {
+    font-size: var(--text-md);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+    margin: 0;
+  }
+
+  .lab-card__summary {
+    font-size: var(--text-sm);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .lab-card__shows {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    font-style: italic;
+    line-height: var(--leading-normal);
+    padding-top: var(--space-3);
+    border-top: var(--border);
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
+  .lab-card__link-hint {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: var(--space-1);
+  }
+</style>

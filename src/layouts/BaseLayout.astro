@@ -1,0 +1,112 @@
+---
+// src/layouts/BaseLayout.astro
+// Minimal wrapper: <html>/<head>, FOUC prevention, fixed ThemeSwitcher overlay.
+// Pages render all three theme shells via <slot />.
+
+import '@styles/global.css';
+import ThemeSwitcher from '@components/ThemeSwitcher.tsx';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  bare?: boolean;
+}
+
+const {
+  title,
+  description = "Senior UX and product designer with 20+ years designing for complexity — healthcare, ecommerce, enterprise, and beyond.",
+  ogImage = "/og/default.png",
+  bare = false,
+} = Astro.props;
+
+const siteName = "Julie Johnston";
+const pageTitle = bare || !title ? siteName : `${title} — ${siteName}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- OG / Twitter -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonicalURL} />
+  <meta property="og:title"       content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={new URL(ogImage, Astro.site)} />
+  <meta property="og:site_name"   content={siteName} />
+  <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:title"      content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"      content={new URL(ogImage, Astro.site)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon"          href="/apple-touch-icon.png" />
+
+  <!-- Font preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Apply saved theme before first paint -->
+  <script is:inline>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Theme switcher — fixed overlay, the only consistent element across all themes -->
+  <div class="theme-overlay">
+    <ThemeSwitcher client:load />
+  </div>
+
+  <!-- Three independent theme shells — CSS controls which is visible -->
+  <slot />
+
+  <!-- Shell aria-hidden sync -->
+  <script is:inline>
+    (function () {
+      function syncShells() {
+        var theme = document.documentElement.getAttribute('data-theme') || 'default';
+        ['default', 'pixel', 'editorial'].forEach(function (t) {
+          var el = document.getElementById('shell-' + t);
+          if (el) el.setAttribute('aria-hidden', theme === t ? 'false' : 'true');
+        });
+      }
+      syncShells();
+      new MutationObserver(syncShells).observe(
+        document.documentElement,
+        { attributes: true, attributeFilter: ['data-theme'] }
+      );
+    })();
+  </script>
+</body>
+</html>
+
+<style>
+  /* Fixed ThemeSwitcher — same corner in every theme */
+  .theme-overlay {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9000;
+    background: var(--bg-2);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  }
+</style>

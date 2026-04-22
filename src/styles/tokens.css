@@ -1,0 +1,154 @@
+/* ============================================================
+   tokens.css
+   Single source of truth for all design decisions.
+   Import this first in global.css.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+:root {
+
+  /* ── Typography ──────────────────────────────────────────── */
+
+  --font-display: 'Figtree', system-ui, sans-serif;
+  --font-body:    'Epilogue', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Scale — major third (1.25) */
+  --text-xs:   0.6875rem;   /* 11px  — labels, badges, meta  */
+  --text-sm:   0.8125rem;   /* 13px  — captions, fine print  */
+  --text-base: 0.9375rem;   /* 15px  — body copy             */
+  --text-md:   1.125rem;    /* 18px  — card titles, subheads */
+  --text-lg:   1.375rem;    /* 22px  — h3                    */
+  --text-xl:   1.75rem;     /* 28px  — h2                    */
+  --text-2xl:  2.25rem;     /* 36px  — h1                    */
+  --text-3xl:  3.25rem;     /* 52px  — display / hero        */
+
+  /* Weight */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  /* Leading */
+  --leading-tight:  1.05;
+  --leading-snug:   1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.8;
+
+  /* Tracking */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.06em;
+  --tracking-wider:   0.10em;
+  --tracking-widest:  0.14em;
+
+
+  /* ── Color — Base ────────────────────────────────────────── */
+
+  --bg:          #0e0f14;
+  --bg-2:        #141618;
+  --bg-3:        #1b1e22;
+  --bg-4:        #222628;
+
+  --rule:        #262a30;
+  --rule-2:      #33383f;
+
+  --text-1:      #edf5f7;
+  --text-2:      #8fa4aa;
+  --text-3:      #6a7e87;
+  --text-4:      #3d4d52;
+
+  /* ── Color — Accent ──────────────────────────────────────── */
+
+  --accent:      #22d3ee;
+  --accent-2:    #1bbdd6;
+  --accent-3:    #17a8bf;
+  --accent-dim:  rgba(34, 211, 238, 0.08);
+  --accent-mid:  rgba(34, 211, 238, 0.15);
+
+
+  /* ── Color — Domain tags ─────────────────────────────────── */
+  /* Each domain gets a distinct muted tint — never bright */
+
+  --domain-healthcare:        #1a3a32;
+  --domain-healthcare-text:   #5fcca8;
+  --domain-ecommerce:         #3a2a1a;
+  --domain-ecommerce-text:    #c8935a;
+  --domain-enterprise:        #1a2438;
+  --domain-enterprise-text:   #6a9fd8;
+  --domain-web:               #2a1a38;
+  --domain-web-text:          #b07fd8;
+  --domain-mobile:            #1a2a2a;
+  --domain-mobile-text:       #5ec8c8;
+  --domain-agency:            #381a2a;
+  --domain-agency-text:       #d87fa8;
+
+
+  /* ── Color — Semantic ────────────────────────────────────── */
+
+  --color-success:      #4caf82;
+  --color-success-bg:   rgba(76, 175, 130, 0.1);
+  --color-warning:      #e8a733;
+  --color-warning-bg:   rgba(232, 167, 51, 0.1);
+  --color-info:         #6a9fd8;
+  --color-info-bg:      rgba(106, 159, 216, 0.1);
+
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+
+  --space-1:   0.25rem;   /*  4px */
+  --space-2:   0.5rem;    /*  8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+
+
+  /* ── Layout ──────────────────────────────────────────────── */
+
+  --max-width:        1120px;
+  --max-width-prose:  680px;
+  --gutter:           clamp(1.25rem, 4vw, 2.5rem);
+
+  /* ── Radius ──────────────────────────────────────────────── */
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 999px;
+
+
+  /* ── Borders ─────────────────────────────────────────────── */
+
+  --border:         1px solid var(--rule);
+  --border-2:       1px solid var(--rule-2);
+  --border-accent:  1px solid var(--accent-3);
+
+
+  /* ── Transitions ─────────────────────────────────────────── */
+
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:    cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast:   120ms;
+  --duration-base:   200ms;
+  --duration-slow:   350ms;
+
+
+  /* ── Z-index ─────────────────────────────────────────────── */
+
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 100;
+  --z-nav:     200;
+  --z-modal:   300;
+
+}

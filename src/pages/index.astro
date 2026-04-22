@@ -1,0 +1,414 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import CaseStudyCard from "@components/CaseStudyCard.astro";
+import MissionCard from "@components/pixel/MissionCard.astro";
+import SpreadCard from "@components/editorial/SpreadCard.astro";
+
+const allWork = await getCollection("work");
+const featured = allWork
+  .filter((e) => e.data.featured)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .slice(0, 4);
+---
+
+<BaseLayout bare={true}>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       Top nav · panoramic image cards · standard footer
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+
+    <section class="hero">
+      <p class="eyebrow eyebrow--ruled fade-up">Senior UX Designer</p>
+      <h1 class="hero__heading fade-up fade-up--delay-1">
+        Designing for<br />
+        <span class="text-accent">complexity.</span>
+      </h1>
+      <p class="hero__body fade-up fade-up--delay-2">
+        Twenty years of going toward the hard problems — clinical workflows,
+        large-scale commerce, enterprise platforms, and everything in between.
+        I make complex software comprehensible and high-stakes decisions
+        feel inevitable.
+      </p>
+      <dl class="hero__stats fade-up fade-up--delay-3">
+        <div class="stat">
+          <dt class="metric-value">20+</dt>
+          <dd class="metric-label">years</dd>
+        </div>
+        <div class="stat">
+          <dt class="metric-value">4</dt>
+          <dd class="metric-label">domains</dd>
+        </div>
+        <div class="stat">
+          <dt class="metric-value">∞</dt>
+          <dd class="metric-label">hard problems</dd>
+        </div>
+      </dl>
+    </section>
+
+    {featured.length > 0 && (
+      <section class="featured-work" aria-label="Featured case studies">
+        <div class="section-header">
+          <span class="eyebrow">Featured work</span>
+          <a href="/work" class="link-accent">All case studies →</a>
+        </div>
+        <ul class="default-featured-grid" role="list">
+          {featured.map((entry) => (
+            <li><CaseStudyCard entry={entry} /></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       Sidebar nav · terminal boot screen · mission select
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+
+    <div class="px-home">
+
+      <!-- Boot screen header -->
+      <div class="px-boot">
+        <div class="px-boot__frame">
+          <p class="px-boot__line">PORTFOLIO.EXE v2.0.24</p>
+          <p class="px-boot__line">USER: JULIE JOHNSTON</p>
+          <p class="px-boot__line">DOMAIN: UX / PRODUCT DESIGN</p>
+          <p class="px-boot__line px-boot__line--dim">EXP: 20+ YRS · DOMAINS: 4 · HARD_PROBLEMS: ∞</p>
+          <p class="px-boot__line px-boot__line--accent">STATUS: AVAILABLE_FOR_HIRE</p>
+        </div>
+      </div>
+
+      <!-- Featured missions -->
+      {featured.length > 0 && (
+        <div class="px-missions">
+          <div class="px-missions__header">
+            <span class="px-missions__label">═══ FEATURED MISSIONS ═══</span>
+            <a href="/work" class="px-missions__all">[ VIEW ALL ]</a>
+          </div>
+          <div class="px-missions__list">
+            {featured.map((entry, i) => (
+              <MissionCard entry={entry} index={i + 1} />
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       Newspaper masthead · typographic hero · spread cards
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+
+    <div class="ed-home">
+
+      <!-- Editorial hero -->
+      <section class="ed-hero">
+        <div class="ed-hero__text">
+          <h1 class="ed-hero__heading">
+            Designing for<br />complexity.
+          </h1>
+          <p class="ed-hero__body">
+            Twenty years of going toward the hard problems — clinical workflows,
+            large-scale commerce, enterprise platforms, and everything in between.
+            I make complex software comprehensible and high-stakes decisions feel
+            inevitable.
+          </p>
+        </div>
+        <aside class="ed-hero__stats" aria-label="Experience at a glance">
+          <dl class="ed-stats-list">
+            <div class="ed-stat">
+              <dt class="ed-stat__val">20+</dt>
+              <dd class="ed-stat__label">Years of practice</dd>
+            </div>
+            <div class="ed-stat">
+              <dt class="ed-stat__val">4</dt>
+              <dd class="ed-stat__label">Major domains</dd>
+            </div>
+            <div class="ed-stat">
+              <dt class="ed-stat__val">∞</dt>
+              <dd class="ed-stat__label">Hard problems</dd>
+            </div>
+          </dl>
+          <a href="mailto:hello@juliejohnston.design" class="ed-hero__contact">
+            hello@juliejohnston.design →
+          </a>
+        </aside>
+      </section>
+
+      <!-- Featured work spreads -->
+      {featured.length > 0 && (
+        <section aria-label="Featured case studies">
+          <div class="ed-section-header">
+            <span class="ed-section-label">Featured Work</span>
+            <a href="/work" class="ed-section-link">All case studies →</a>
+          </div>
+          <div class="ed-featured-list">
+            {featured.map((entry, i) => (
+              <SpreadCard entry={entry} index={i + 1} />
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+
+  </EditorialLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default: hero ───────────────────────────────────────── */
+
+  .hero {
+    padding-top: var(--space-20);
+    padding-bottom: var(--space-20);
+    max-width: 760px;
+  }
+
+  .hero__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-1);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__body {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--accent);
+    margin-bottom: var(--space-10);
+  }
+
+  .hero__stats {
+    display: flex;
+    gap: var(--space-12);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  /* ── Default: featured work ──────────────────────────────── */
+
+  .featured-work {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-16);
+  }
+
+  .default-featured-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  /* ── Pixel: home ─────────────────────────────────────────── */
+
+  .px-home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .px-boot {
+    margin-top: var(--space-6);
+  }
+
+  .px-boot__frame {
+    border: 2px solid var(--rule);
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .px-boot__line {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+    line-height: 1.8;
+  }
+
+  .px-boot__line--dim   { color: var(--text-4); }
+  .px-boot__line--accent {
+    color: var(--accent);
+    animation: pixel-blink 2s steps(1) infinite;
+  }
+
+  .px-missions__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+  }
+
+  .px-missions__label {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+  }
+
+  .px-missions__all {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    transition: none;
+  }
+  .px-missions__all:hover { text-decoration: underline; }
+
+  .px-missions__list {
+    border: 2px solid var(--rule);
+  }
+
+  /* ── Editorial: home ─────────────────────────────────────── */
+
+  .ed-home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .ed-hero {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: var(--space-16);
+    align-items: start;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ed-hero__heading {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-bottom: var(--space-8);
+  }
+
+  .ed-hero__body {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 54ch;
+  }
+
+  .ed-hero__stats {
+    padding-top: var(--space-2);
+  }
+
+  .ed-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ed-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .ed-stat__val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .ed-stat__label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .ed-hero__contact {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .ed-hero__contact:hover { color: var(--accent); }
+
+  .ed-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule-2);
+  }
+
+  .ed-section-label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .ed-section-link {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .ed-featured-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+
+  @media (max-width: 768px) {
+    .ed-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding-top: var(--space-12); padding-bottom: var(--space-12); }
+    .hero__stats { gap: var(--space-8); }
+  }
+</style>

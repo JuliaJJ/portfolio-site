@@ -1,0 +1,69 @@
+---
+// src/components/NdaBanner.astro
+// Shown at the top of case studies where visibility = partial | request
+
+interface Props {
+  visibility?: "full" | "partial" | "request";
+  note?: string;
+}
+
+const { visibility = "partial", note } = Astro.props;
+
+const isRequest = visibility === "request";
+---
+
+<div
+  class:list={["nda-banner", isRequest ? "nda-banner--request" : "nda-banner--partial"]}
+  role="note"
+>
+  <div class="nda-banner__icon" aria-hidden="true">
+    {isRequest ? "↗" : "◑"}
+  </div>
+  <div class="nda-banner__content">
+    {note ? (
+      <p>{note}</p>
+    ) : isRequest ? (
+      <p>This project is under NDA. Summary and context are shown. <a href="/about#contact">Reach out to request a walkthrough.</a></p>
+    ) : (
+      <p>Process artifacts and research are shown. Final production screens are under NDA. <a href="/about#contact">Get in touch to see the full case study.</a></p>
+    )}
+  </div>
+</div>
+
+<style>
+  .nda-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .nda-banner--partial {
+    background: var(--color-background-info);
+    color: var(--color-text-info);
+  }
+
+  .nda-banner--request {
+    background: var(--color-background-warning);
+    color: var(--color-text-warning);
+  }
+
+  .nda-banner__icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .nda-banner__content p {
+    margin: 0;
+  }
+
+  .nda-banner__content a {
+    color: inherit;
+    font-weight: 500;
+  }
+</style>

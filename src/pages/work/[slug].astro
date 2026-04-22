@@ -1,0 +1,544 @@
+---
+// src/pages/work/[slug].astro
+
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import OutcomeBlock from "@components/OutcomeBlock.astro";
+import NdaBanner from "@components/NdaBanner.astro";
+
+export async function getStaticPaths() {
+  const allWork = await getCollection("work");
+  return allWork.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: data.title,
+  description: data.summary,
+  author: { "@type": "Person", name: "Julie Johnston" },
+};
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <article class="cs-default">
+
+      <header class="cs-default__header">
+        <div class="cs-default__meta">
+          <span class={`tag tag--${data.domain}`}>{data.domain}</span>
+          {data.problem_types.map((pt) => (
+            <span class="tag tag--neutral">{pt}</span>
+          ))}
+          <span class="cs-default__year">{data.year}</span>
+        </div>
+        <h1 class="cs-default__title">{data.title}</h1>
+        <p class="cs-default__summary">{data.summary}</p>
+        <p class="cs-default__complexity">
+          <strong>What made it hard:</strong> {data.complexity_note}
+        </p>
+        <div class="cs-default__credits">
+          <div><span class="label">My role</span><span>{data.role}</span></div>
+          <div><span class="label">Client</span><span>{data.client}</span></div>
+          {data.collaborators.length > 0 && (
+            <div>
+              <span class="label">With</span>
+              <span>{data.collaborators.join(", ")}</span>
+            </div>
+          )}
+        </div>
+      </header>
+
+      {data.visibility !== "full" && (
+        <NdaBanner visibility={data.visibility} note={data.nda_note} />
+      )}
+
+      {data.cover_image && (
+        <div class="cs-default__cover">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      {data.outcomes.length > 0 && (
+        <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
+      )}
+
+      <div class="cs-default__body prose"><Content /></div>
+
+      <footer class="cs-default__footer">
+        {data.skills.length > 0 && (
+          <div class="cs-tags">
+            <span class="label">Skills</span>
+            {data.skills.map((s) => <span class="tag">{s}</span>)}
+          </div>
+        )}
+        {data.tools.length > 0 && (
+          <div class="cs-tags">
+            <span class="label">Tools</span>
+            {data.tools.map((t) => <span class="tag">{t}</span>)}
+          </div>
+        )}
+      </footer>
+
+    </article>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <div class="cs-pixel">
+
+      <div class="cs-pixel__header">
+        <p class="cs-pixel__id">MSN-XX · {data.domain.toUpperCase()} · {data.year}</p>
+        <h1 class="cs-pixel__title">{data.title}</h1>
+        <div class="cs-pixel__divider">════════════════════════════════</div>
+        <p class="cs-pixel__summary">{data.summary}</p>
+      </div>
+
+      {data.visibility !== "full" && (
+        <div class="cs-pixel__nda">
+          <span class="cs-pixel__nda-label">[{data.visibility.toUpperCase()}]</span>
+          {data.nda_note && <span class="cs-pixel__nda-text">{data.nda_note}</span>}
+        </div>
+      )}
+
+      <div class="cs-pixel__complexity">
+        <span class="cs-pixel__field-label">DIFFICULTY:</span>
+        <span>{data.complexity_note}</span>
+      </div>
+
+      {data.outcomes.length > 0 && (
+        <div class="cs-pixel__outcomes">
+          <p class="cs-pixel__section-head">MISSION OUTCOMES</p>
+          <div class="cs-pixel__outcomes-list">
+            {data.outcomes.map((o) => (
+              <div class="cs-pixel__outcome">
+                <span class="cs-pixel__outcome-prefix">▶</span>
+                <span class="cs-pixel__outcome-val">{o.value}</span>
+                <span class="cs-pixel__outcome-metric">{o.metric.toUpperCase()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="cs-pixel__section-head">MISSION LOG</div>
+      <div class="cs-pixel__body"><Content /></div>
+
+      <div class="cs-pixel__credits">
+        <p><span class="cs-pixel__field-label">ROLE: </span>{data.role}</p>
+        <p><span class="cs-pixel__field-label">CLIENT: </span>{data.client}</p>
+        {data.skills.length > 0 && (
+          <p><span class="cs-pixel__field-label">SKILLS: </span>{data.skills.join(" · ")}</p>
+        )}
+      </div>
+
+    </div>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <article class="cs-editorial">
+
+      <header class="cs-editorial__header">
+        <div class="cs-editorial__meta">
+          <span class={`tag tag--${data.domain}`}>{data.domain}</span>
+          {data.problem_types.map((pt) => (
+            <span class="tag tag--neutral">{pt}</span>
+          ))}
+          <span class="cs-editorial__year">{data.year}</span>
+        </div>
+
+        <h1 class="cs-editorial__title">{data.title}</h1>
+        <p class="cs-editorial__summary">{data.summary}</p>
+
+        <div class="cs-editorial__complexity">
+          <em>What made it hard:</em> {data.complexity_note}
+        </div>
+
+        <div class="cs-editorial__credits">
+          <div><span class="label">My role</span><span>{data.role}</span></div>
+          <div><span class="label">Client</span><span>{data.client}</span></div>
+          {data.collaborators.length > 0 && (
+            <div>
+              <span class="label">With</span>
+              <span>{data.collaborators.join(", ")}</span>
+            </div>
+          )}
+        </div>
+      </header>
+
+      {data.visibility !== "full" && (
+        <NdaBanner visibility={data.visibility} note={data.nda_note} />
+      )}
+
+      {data.cover_image && (
+        <div class="cs-editorial__cover">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      {data.outcomes.length > 0 && (
+        <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
+      )}
+
+      <div class="cs-editorial__body prose"><Content /></div>
+
+      <footer class="cs-editorial__footer">
+        {data.skills.length > 0 && (
+          <div class="cs-tags">
+            <span class="label">Skills</span>
+            {data.skills.map((s) => <span class="tag">{s}</span>)}
+          </div>
+        )}
+        {data.tools.length > 0 && (
+          <div class="cs-tags">
+            <span class="label">Tools</span>
+            {data.tools.map((t) => <span class="tag">{t}</span>)}
+          </div>
+        )}
+      </footer>
+
+    </article>
+  </EditorialLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .cs-default {
+    max-width: var(--max-width-prose);
+    margin-inline: auto;
+  }
+
+  .cs-default__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+  }
+
+  .cs-default__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .cs-default__year {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    margin-left: auto;
+  }
+
+  .cs-default__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-5);
+  }
+
+  .cs-default__summary {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-5);
+  }
+
+  .cs-default__complexity {
+    font-size: var(--text-base);
+    color: var(--text-2);
+    padding: var(--space-4) var(--space-5);
+    border-left: 2px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: var(--space-8);
+    line-height: var(--leading-relaxed);
+  }
+
+  .cs-default__complexity strong { color: var(--text-1); font-weight: var(--weight-medium); }
+
+  .cs-default__credits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-10);
+    padding-top: var(--space-6);
+    border-top: var(--border);
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .cs-default__credits > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .cs-default__cover { margin-bottom: var(--space-10); }
+  .cs-default__cover img { width: 100%; border-radius: var(--radius-md); border: var(--border); }
+  .cs-default__body { margin-bottom: var(--space-12); }
+
+  .cs-default__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .cs-tags {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .cs-tags .label { min-width: 44px; }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .cs-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .cs-pixel__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .cs-pixel__id {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-4);
+  }
+
+  .cs-pixel__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.625rem, 2vw, 1rem);
+    letter-spacing: 0.06em;
+    line-height: 2;
+    color: var(--accent);
+  }
+
+  .cs-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .cs-pixel__summary {
+    border-left: 2px solid var(--rule-2);
+    padding-left: var(--space-4);
+    color: var(--text-2);
+  }
+
+  .cs-pixel__nda {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-warning);
+    color: var(--color-warning);
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  .cs-pixel__nda-text { color: var(--text-2); font-size: inherit; }
+
+  .cs-pixel__complexity {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule);
+  }
+
+  .cs-pixel__field-label {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    margin-right: var(--space-2);
+  }
+
+  .cs-pixel__section-head {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .cs-pixel__outcomes-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border: 2px solid var(--rule);
+    padding: var(--space-4);
+  }
+
+  .cs-pixel__outcome {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .cs-pixel__outcome-prefix {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--accent);
+  }
+
+  .cs-pixel__outcome-val {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  .cs-pixel__outcome-metric {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+  }
+
+  .cs-pixel__body {
+    color: var(--text-1);
+  }
+
+  .cs-pixel__credits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--rule);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-2);
+    margin-top: var(--space-4);
+  }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .cs-editorial {
+    max-width: 860px;
+    margin-inline: auto;
+    padding-bottom: var(--space-24);
+  }
+
+  .cs-editorial__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-10);
+  }
+
+  .cs-editorial__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-8);
+  }
+
+  .cs-editorial__year {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    margin-left: auto;
+  }
+
+  .cs-editorial__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-bottom: var(--space-8);
+  }
+
+  .cs-editorial__summary {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .cs-editorial__complexity {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    margin-bottom: var(--space-8);
+  }
+
+  .cs-editorial__credits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-10);
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .cs-editorial__credits > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .cs-editorial__cover { margin-bottom: var(--space-10); }
+  .cs-editorial__cover img { width: 100%; border: var(--border); }
+  .cs-editorial__body { margin-bottom: var(--space-12); }
+
+  .cs-editorial__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+    border-top: 3px solid var(--text-1);
+  }
+</style>

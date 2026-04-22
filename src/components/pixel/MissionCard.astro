@@ -1,0 +1,289 @@
+---
+// src/components/pixel/MissionCard.astro
+// Pixel theme card. When a cover image exists it renders above the text row
+// with a CRT phosphor treatment: B&W → sepia → hue-rotate to green → scanlines.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  index: number;
+}
+
+const { entry, index } = Astro.props;
+const { data, slug } = entry;
+
+const missionId = String(index).padStart(2, "0");
+const leadOutcome = data.outcomes[0] ?? null;
+---
+
+<a
+  href={`/work/${slug}`}
+  class="px-mission"
+  aria-label={`${data.title} — ${data.summary}`}
+>
+
+  {/* CRT image strip — always rendered */}
+  <div class="px-mission__img-wrap" aria-hidden="true">
+    {data.cover_image ? (
+      <img
+        src={data.cover_image}
+        alt=""
+        class="px-mission__img"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="px-mission__no-signal">
+        <span class="px-mission__no-signal-text">// NO SIGNAL //</span>
+      </div>
+    )}
+  </div>
+
+  {/* Text row */}
+  <div class="px-mission__row">
+    <span class="px-mission__cursor" aria-hidden="true">▶</span>
+
+    <div class="px-mission__body">
+      <p class="px-mission__title">
+        <span class="px-mission__id">MSN-{missionId}</span>
+        {data.title}
+      </p>
+      <p class="px-mission__meta">{data.domain.toUpperCase()} · {data.year}</p>
+    </div>
+
+    {leadOutcome && (
+      <div class="px-mission__score" aria-label={leadOutcome.metric}>
+        <span class="px-mission__val">{leadOutcome.value}</span>
+        <span class="px-mission__metric">{leadOutcome.metric}</span>
+      </div>
+    )}
+
+    {data.visibility === "partial" && (
+      <span class="px-mission__flag">[PARTIAL]</span>
+    )}
+    {data.visibility === "request" && (
+      <span class="px-mission__flag px-mission__flag--nda">[NDA]</span>
+    )}
+  </div>
+
+</a>
+
+<style>
+  /* ── Card shell ── */
+
+  .px-mission {
+    display: block;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: var(--text-2);
+    overflow: hidden;
+  }
+
+  .px-mission:last-child { border-bottom: none; }
+
+  .px-mission:hover { background: rgba(0, 255, 65, 0.05); }
+
+  /* ── CRT image strip ── */
+
+  .px-mission__img-wrap {
+    position: relative;
+    width: 100%;
+    height: 72px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .px-mission__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /*
+     * CRT phosphor green treatment:
+     * 1. grayscale(1)      strip all colour
+     * 2. contrast(1.8)     push brights/darks apart — mimics phosphor bloom
+     * 3. brightness(0.55)  dim like an aged CRT
+     * 4. sepia(1)          warm neutral base for the hue shift
+     * 5. hue-rotate(85deg) rotate sepia into the phosphor green band
+     * 6. saturate(1.8)     intensify the green
+     */
+    filter:
+      grayscale(1)
+      contrast(1.8)
+      brightness(0.55)
+      sepia(1)
+      hue-rotate(85deg)
+      saturate(1.8);
+    image-rendering: pixelated;
+    transition: filter 0ms, brightness 0ms;
+  }
+
+  /* Brighten slightly on hover — simulates screen refresh */
+  .px-mission:hover .px-mission__img {
+    filter:
+      grayscale(1)
+      contrast(1.8)
+      brightness(0.75)
+      sepia(1)
+      hue-rotate(85deg)
+      saturate(2);
+  }
+
+  /*
+   * Scanline overlay — horizontal dark bands every 3px.
+   * z-index 1 so it sits above the image.
+   */
+  .px-mission__img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.25) 2px,
+      rgba(0, 0, 0, 0.25) 3px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /*
+   * Phosphor glow — subtle green gradient from top and bottom edges,
+   * like light bleed on an old CRT bezel.
+   */
+  .px-mission__img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 255, 65, 0.10) 0%,
+      transparent              30%,
+      transparent              70%,
+      rgba(0, 255, 65, 0.08) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: screen;
+  }
+
+  /* ── No-signal placeholder ── */
+
+  .px-mission__no-signal {
+    width: 100%;
+    height: 100%;
+    /* Phosphor dot matrix pattern — two overlapping grids */
+    background-color: #090e09;
+    background-image:
+      radial-gradient(circle, rgba(0, 255, 65, 0.18) 1px, transparent 1px),
+      radial-gradient(circle, rgba(0, 255, 65, 0.08) 1px, transparent 1px);
+    background-size: 8px 8px, 4px 4px;
+    background-position: 0 0, 2px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .px-mission__no-signal-text {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    color: rgba(0, 255, 65, 0.35);
+    animation: pixel-blink 2.4s steps(1) infinite;
+  }
+
+  /* ── Text row ── */
+
+  .px-mission__row {
+    display: grid;
+    grid-template-columns: 12px 1fr auto auto;
+    align-items: center;
+    gap: 0 0.75rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .px-mission__cursor {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--accent);
+    opacity: 0;
+    justify-self: center;
+    flex-shrink: 0;
+  }
+
+  .px-mission:hover .px-mission__cursor { opacity: 1; }
+
+  .px-mission__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .px-mission__title {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-1);
+  }
+
+  .px-mission:hover .px-mission__title { color: var(--accent); }
+
+  .px-mission__id {
+    color: var(--text-3);
+    margin-right: 0.75rem;
+  }
+
+  .px-mission__meta {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    color: var(--text-4);
+  }
+
+  /* Score column */
+  .px-mission__score {
+    text-align: right;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--rule);
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.1rem;
+    min-width: 4rem;
+    flex-shrink: 0;
+  }
+
+  .px-mission__val {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    color: var(--text-3);
+  }
+
+  .px-mission:hover .px-mission__val { color: var(--accent); }
+
+  .px-mission__metric {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.06em;
+    color: var(--text-4);
+  }
+
+  .px-mission__flag {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--color-warning);
+    flex-shrink: 0;
+  }
+
+  .px-mission__flag--nda { color: var(--color-info); }
+</style>

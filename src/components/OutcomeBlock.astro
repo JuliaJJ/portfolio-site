@@ -1,0 +1,84 @@
+---
+// src/components/OutcomeBlock.astro
+// Renders a row of metrics from the frontmatter outcomes array.
+// Front-loaded on case study pages — hiring managers scan for this first.
+
+interface Outcome {
+  metric: string;
+  value: string;
+  note?: string;
+}
+
+interface Props {
+  outcomes: Outcome[];
+  note?: string;
+}
+
+const { outcomes, note } = Astro.props;
+---
+
+<div class="outcome-block" aria-label="Project outcomes">
+  <div class="outcome-block__grid">
+    {outcomes.map((o) => (
+      <div class="outcome-block__item">
+        <div class="outcome-block__value">{o.value}</div>
+        <div class="outcome-block__metric">{o.metric}</div>
+        {o.note && (
+          <div class="outcome-block__note">{o.note}</div>
+        )}
+      </div>
+    ))}
+  </div>
+  {note && (
+    <p class="outcome-block__footer-note">{note}</p>
+  )}
+</div>
+
+<style>
+  .outcome-block {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--radius-lg, 12px);
+    padding: 28px 32px;
+    margin: 2rem 0;
+  }
+
+  .outcome-block__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 24px;
+  }
+
+  .outcome-block__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .outcome-block__value {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-text-primary);
+  }
+
+  .outcome-block__metric {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .outcome-block__note {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    margin-top: 2px;
+  }
+
+  .outcome-block__footer-note {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin: 16px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border-tertiary);
+  }
+</style>

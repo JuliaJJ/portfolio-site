@@ -1,0 +1,191 @@
+---
+// src/pages/lab/[slug].astro
+// Dynamic route — one page per lab entry that has body content.
+// External-only entries (data.link set, no MDX body) still get a page
+// but it will have minimal content; LabCard links out directly anyway.
+
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const allLab = await getCollection("lab", ({ data }) => !data.draft);
+  return allLab.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <article class="lab-post">
+
+    <!-- ── Header ───────────────────────────────────────────── -->
+    <header class="lab-post__header">
+      <div class="lab-post__meta">
+        <span class="tag tag--neutral">{data.type}</span>
+        <span class="lab-post__year">{data.year}</span>
+      </div>
+
+      <h1 class="lab-post__title">{data.title}</h1>
+      <p class="lab-post__summary">{data.summary}</p>
+
+      <p class="lab-post__shows">{data.what_it_shows}</p>
+
+      {data.link && (
+        <div class="lab-post__link">
+          <a
+            href={data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--accent"
+          >
+            {data.link_label ?? "View project"} ↗
+          </a>
+        </div>
+      )}
+    </header>
+
+    <!-- ── Cover ─────────────────────────────────────────────── -->
+    {data.cover_image && (
+      <div class="lab-post__cover">
+        <img
+          src={data.cover_image}
+          alt={data.cover_alt ?? data.title}
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- ── Body (MDX content) ───────────────────────────────── -->
+    <div class="lab-post__body prose">
+      <Content />
+    </div>
+
+    <!-- ── Footer ───────────────────────────────────────────── -->
+    <footer class="lab-post__footer">
+      {data.skills.length > 0 && (
+        <div class="lab-post__tags">
+          <span class="label">Skills</span>
+          {data.skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+        </div>
+      )}
+      {data.tools.length > 0 && (
+        <div class="lab-post__tags">
+          <span class="label">Tools</span>
+          {data.tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+        </div>
+      )}
+      {data.link && (
+        <a
+          href={data.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--accent"
+        >
+          {data.link_label ?? "View project"} ↗
+        </a>
+      )}
+    </footer>
+
+  </article>
+</BaseLayout>
+
+<style>
+  .lab-post {
+    max-width: var(--max-width-prose);
+    margin-inline: auto;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+
+  .lab-post__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+  }
+
+  .lab-post__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .lab-post__year {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    margin-left: auto;
+  }
+
+  .lab-post__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-5);
+  }
+
+  .lab-post__summary {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+
+  .lab-post__shows {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    font-style: italic;
+    line-height: var(--leading-normal);
+    padding: var(--space-4) var(--space-5);
+    border-left: 2px solid var(--rule-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .lab-post__link {
+    margin-top: var(--space-4);
+  }
+
+  /* ── Cover ───────────────────────────────────────────────── */
+
+  .lab-post__cover {
+    margin-bottom: var(--space-10);
+  }
+
+  .lab-post__cover img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: var(--border);
+  }
+
+  /* ── Body ────────────────────────────────────────────────── */
+
+  .lab-post__body {
+    margin-bottom: var(--space-12);
+  }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+
+  .lab-post__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .lab-post__tags {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .lab-post__tags .label {
+    min-width: 44px;
+  }
+</style>

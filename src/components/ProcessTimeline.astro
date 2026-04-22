@@ -1,0 +1,113 @@
+---
+// src/components/ProcessTimeline.astro
+// Horizontal timeline showing the phases of a case study.
+// Used inside MDX case study content.
+
+interface Step {
+  label: string;
+  detail?: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+
+<div class="process-timeline" role="list" aria-label="Project process">
+  {steps.map((step, i) => (
+    <div class="process-timeline__step" role="listitem">
+      <div class="process-timeline__marker">
+        <span class="process-timeline__number" aria-hidden="true">{i + 1}</span>
+      </div>
+      {i < steps.length - 1 && (
+        <div class="process-timeline__connector" aria-hidden="true" />
+      )}
+      <div class="process-timeline__content">
+        <div class="process-timeline__label">{step.label}</div>
+        {step.detail && (
+          <div class="process-timeline__detail">{step.detail}</div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .process-timeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 2rem 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .process-timeline__step {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 80px;
+    position: relative;
+  }
+
+  .process-timeline__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-background-secondary);
+    border: 1.5px solid var(--color-border-secondary);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .process-timeline__number {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  .process-timeline__connector {
+    flex: 1;
+    height: 1.5px;
+    background: var(--color-border-tertiary);
+    margin: 0 4px;
+    margin-top: -14px;
+    align-self: flex-start;
+    position: relative;
+    top: 14px;
+  }
+
+  .process-timeline__content {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90px;
+  }
+
+  .process-timeline__label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  .process-timeline__detail {
+    font-size: 10px;
+    color: var(--color-text-tertiary);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* Reserve space for the absolutely-positioned content labels */
+  .process-timeline {
+    padding-bottom: 56px;
+  }
+</style>

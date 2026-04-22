@@ -1,0 +1,579 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+
+const skills = [
+  "User research", "Contextual inquiry", "Interaction design",
+  "Usability testing", "Stakeholder management", "Design systems",
+  "Information architecture", "Journey mapping", "Service design",
+  "Workshop facilitation", "Prototyping", "Content strategy",
+];
+
+const tools = [
+  "Figma", "Maze", "Dovetail", "UserTesting",
+  "Miro", "Confluence", "Jira", "FullStory",
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Senior UX designer with 20+ years designing for complexity — clinical workflows, ecommerce at scale, enterprise platforms, and beyond."
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <div class="about-default">
+
+      <section class="about-default__hero">
+        <p class="eyebrow eyebrow--ruled fade-up">About</p>
+        <h1 class="about-default__heading fade-up fade-up--delay-1">
+          I go toward<br />
+          <span class="text-accent">the hard problems.</span>
+        </h1>
+        <p class="about-default__intro fade-up fade-up--delay-2">
+          Senior UX designer with 20+ years of experience building complex
+          systems across healthcare, ecommerce, enterprise, and web.
+        </p>
+        <div class="about-default__ctas fade-up fade-up--delay-3">
+          <a href="mailto:hello@juliejohnston.design" class="btn btn--accent">Get in touch</a>
+          <a href="https://linkedin.com/in/juliejohnston" target="_blank" rel="noopener noreferrer" class="btn">
+            LinkedIn ↗
+          </a>
+        </div>
+      </section>
+
+      <section class="about-default__body">
+        <div class="about-default__prose">
+          <p>Twenty years of designing for complexity has taught me one thing: the hard problems are where the interesting work lives.</p>
+          <p>I work research-first, upstream of the mockup. Before I draw anything, I want to understand the system — who uses it, what breaks them, what constraints I'm actually designing within.</p>
+          <p>My deepest domain is healthcare — clinical workflows, EHR systems, tools where a design error has direct patient safety consequences. That context changes how you work.</p>
+          <p>I've also spent years in ecommerce at scale, enterprise internal tooling, and consumer web products. Different domains, same discipline: go upstream, understand the system, don't mistake the brief for the problem.</p>
+        </div>
+        <aside class="about-default__facts">
+          <dl class="facts-list">
+            <div class="fact">
+              <dt class="label">Experience</dt>
+              <dd>20+ years</dd>
+            </div>
+            <div class="fact">
+              <dt class="label">Domains</dt>
+              <dd class="fact__tags">
+                <span class="tag tag--healthcare">Healthcare</span>
+                <span class="tag tag--ecommerce">Ecommerce</span>
+                <span class="tag tag--enterprise">Enterprise</span>
+                <span class="tag tag--web">Web</span>
+              </dd>
+            </div>
+            <div class="fact">
+              <dt class="label">Status</dt>
+              <dd class="fact__available">
+                <span class="about-status-dot" aria-hidden="true"></span>
+                Available for new work
+              </dd>
+            </div>
+            <div class="fact">
+              <dt class="label">Contact</dt>
+              <dd><a href="mailto:hello@juliejohnston.design" class="link-accent">hello@juliejohnston.design</a></dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="about-default__skills">
+        <div class="section-header">
+          <span class="eyebrow">Skills &amp; tools</span>
+        </div>
+        <div class="skills-group">
+          <p class="label skills-group__label">Practice</p>
+          <div class="tag-cloud">{skills.map((s) => <span class="tag tag--neutral">{s}</span>)}</div>
+        </div>
+        <div class="skills-group">
+          <p class="label skills-group__label">Tools</p>
+          <div class="tag-cloud">{tools.map((t) => <span class="tag tag--neutral">{t}</span>)}</div>
+        </div>
+      </section>
+
+    </div>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <div class="about-pixel">
+
+      <div class="about-pixel__header">
+        <p class="about-pixel__title">PLAYER PROFILE</p>
+        <div class="about-pixel__divider">════════════════════════════════</div>
+      </div>
+
+      <div class="about-pixel__sheet">
+        <div class="about-pixel__stat-block">
+          <div class="about-pixel__stat">
+            <span class="about-pixel__stat-label">NAME</span>
+            <span class="about-pixel__stat-val">JULIE JOHNSTON</span>
+          </div>
+          <div class="about-pixel__stat">
+            <span class="about-pixel__stat-label">CLASS</span>
+            <span class="about-pixel__stat-val">SENIOR UX DESIGNER</span>
+          </div>
+          <div class="about-pixel__stat">
+            <span class="about-pixel__stat-label">LVL</span>
+            <span class="about-pixel__stat-val about-pixel__stat-val--accent">20+</span>
+          </div>
+          <div class="about-pixel__stat">
+            <span class="about-pixel__stat-label">STATUS</span>
+            <span class="about-pixel__stat-val about-pixel__stat-val--green">AVAILABLE_FOR_HIRE</span>
+          </div>
+          <div class="about-pixel__stat">
+            <span class="about-pixel__stat-label">CONTACT</span>
+            <a href="mailto:hello@juliejohnston.design" class="about-pixel__stat-val about-pixel__stat-link">
+              hello@juliejohnston.design
+            </a>
+          </div>
+        </div>
+
+        <div class="about-pixel__divider">════════════════════════════════</div>
+        <p class="about-pixel__section-head">DOMAINS UNLOCKED</p>
+        <div class="about-pixel__domains">
+          <span class="about-pixel__domain about-pixel__domain--healthcare">■ HEALTHCARE</span>
+          <span class="about-pixel__domain about-pixel__domain--ecommerce">■ ECOMMERCE</span>
+          <span class="about-pixel__domain about-pixel__domain--enterprise">■ ENTERPRISE</span>
+          <span class="about-pixel__domain about-pixel__domain--web">■ WEB</span>
+        </div>
+
+        <div class="about-pixel__divider">════════════════════════════════</div>
+        <p class="about-pixel__section-head">SKILLS</p>
+        <div class="about-pixel__skills">
+          {skills.map((s) => (
+            <span class="about-pixel__skill">▶ {s.toUpperCase()}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="about-pixel__bio">
+        <p class="about-pixel__section-head">BIO LOG</p>
+        <p>
+          Twenty years of designing for complexity. Healthcare, ecommerce at scale,
+          enterprise platforms, consumer web. Research-first approach.
+          Goes upstream of the brief. Stays until the hard problem isn't.
+        </p>
+        <p>
+          Available for contract and full-time opportunities. Remote-friendly.
+        </p>
+      </div>
+
+    </div>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <div class="about-editorial">
+
+      <header class="about-editorial__header">
+        <h1 class="about-editorial__heading">
+          I go toward<br />the hard problems.
+        </h1>
+        <p class="about-editorial__deck">
+          Senior UX designer with 20+ years building complex systems across healthcare,
+          ecommerce, enterprise, and web.
+        </p>
+        <div class="about-editorial__ctas">
+          <a href="mailto:hello@juliejohnston.design" class="btn btn--accent">Get in touch</a>
+          <a href="https://linkedin.com/in/juliejohnston" target="_blank" rel="noopener noreferrer" class="btn">
+            LinkedIn ↗
+          </a>
+        </div>
+      </header>
+
+      <div class="about-editorial__body">
+        <div class="about-editorial__prose">
+          <p>Twenty years of designing for complexity has taught me one thing: the hard problems are where the interesting work lives. I've spent my career in rooms where the requirements are ambiguous, the stakeholders disagree, and the right answer isn't obvious.</p>
+          <p>I work research-first, upstream of the mockup. Before I draw anything, I want to understand the system — who uses it, what breaks them, what constraints I'm actually designing within versus what someone just assumes is a constraint.</p>
+          <p>My deepest domain is healthcare — clinical workflows, EHR systems, tools where a design error has direct patient safety consequences. That context changes how you work. You learn to sit with complexity rather than simplify prematurely.</p>
+          <p>I've also spent years in ecommerce at scale, enterprise internal tooling, and consumer web products. Different domains, same discipline: go upstream, understand the system, don't mistake the brief for the problem.</p>
+        </div>
+
+        <aside class="about-editorial__sidebar">
+          <div class="about-editorial__fact-block">
+            <div class="about-editorial__fact">
+              <span class="about-editorial__fact-num">20+</span>
+              <span class="about-editorial__fact-label">Years of practice</span>
+            </div>
+            <div class="about-editorial__fact">
+              <span class="about-editorial__fact-num">4</span>
+              <span class="about-editorial__fact-label">Major domains</span>
+            </div>
+          </div>
+
+          <div class="about-editorial__contact-block">
+            <p class="label">Available for new work</p>
+            <a href="mailto:hello@juliejohnston.design" class="about-editorial__email">
+              hello@juliejohnston.design
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <section class="about-editorial__skills">
+        <div class="about-editorial__skills-header">Practice</div>
+        <div class="tag-cloud about-editorial__tags">
+          {skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+        </div>
+        <div class="about-editorial__skills-header">Tools</div>
+        <div class="tag-cloud about-editorial__tags">
+          {tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+        </div>
+      </section>
+
+    </div>
+  </EditorialLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .about-default__hero {
+    padding-top: var(--space-20);
+    padding-bottom: var(--space-16);
+    max-width: 760px;
+  }
+
+  .about-default__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .about-default__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 58ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .about-default__ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  .about-default__body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-16);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    border-top: var(--border);
+  }
+
+  .about-default__prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .about-default__prose p {
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-default__facts { padding-top: var(--space-2); }
+
+  .facts-list { display: flex; flex-direction: column; gap: var(--space-6); }
+  .fact { display: flex; flex-direction: column; gap: var(--space-2); }
+  .fact dd { font-size: var(--text-sm); color: var(--text-2); }
+  .fact__tags { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+
+  .fact__available {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-success);
+    font-size: var(--text-sm);
+  }
+
+  .about-status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-success); flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .about-status-dot { animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  }
+
+  .about-default__skills { padding-bottom: var(--space-16); }
+
+  .skills-group { margin-bottom: var(--space-6); }
+  .skills-group__label { margin-bottom: var(--space-3); }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  @media (max-width: 768px) {
+    .about-default__body { grid-template-columns: 1fr; gap: var(--space-10); }
+    .about-default__facts { border-top: var(--border); padding-top: var(--space-8); }
+  }
+
+  @media (max-width: 480px) {
+    .about-default__hero { padding-top: var(--space-12); padding-bottom: var(--space-10); }
+  }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .about-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+  }
+
+  .about-pixel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .about-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .about-pixel__sheet {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border: 2px solid var(--rule);
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .about-pixel__stat-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .about-pixel__stat {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  .about-pixel__stat-label {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-4);
+  }
+
+  .about-pixel__stat-val {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    color: var(--text-1);
+  }
+
+  .about-pixel__stat-val--accent { color: var(--accent); }
+  .about-pixel__stat-val--green  { color: var(--color-success); }
+
+  .about-pixel__stat-link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .about-pixel__stat-link:hover { text-decoration: underline; }
+
+  .about-pixel__section-head {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .about-pixel__domains {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .about-pixel__domain {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+  }
+
+  .about-pixel__domain--healthcare { color: var(--domain-healthcare-text); }
+  .about-pixel__domain--ecommerce  { color: var(--domain-ecommerce-text);  }
+  .about-pixel__domain--enterprise { color: var(--domain-enterprise-text); }
+  .about-pixel__domain--web        { color: var(--domain-web-text);        }
+
+  .about-pixel__skills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .about-pixel__skill {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    color: var(--text-2);
+  }
+
+  .about-pixel__bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-left: 2px solid var(--rule-2);
+  }
+
+  .about-pixel__bio p {
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .about-editorial__header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-12);
+  }
+
+  .about-editorial__heading {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-bottom: var(--space-8);
+  }
+
+  .about-editorial__deck {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 54ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .about-editorial__ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  .about-editorial__body {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: var(--space-16);
+    align-items: start;
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-12);
+  }
+
+  .about-editorial__prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .about-editorial__prose p {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-editorial__fact-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .about-editorial__fact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .about-editorial__fact-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .about-editorial__fact-label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .about-editorial__contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .about-editorial__email {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .about-editorial__email:hover { color: var(--accent-2); }
+
+  .about-editorial__skills {
+    padding-bottom: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .about-editorial__skills-header {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule);
+    margin-top: var(--space-2);
+  }
+
+  .about-editorial__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  @media (max-width: 768px) {
+    .about-editorial__body { grid-template-columns: 1fr; gap: var(--space-10); }
+  }
+</style>

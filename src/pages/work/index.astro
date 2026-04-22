@@ -1,0 +1,210 @@
+---
+// src/pages/work/index.astro
+
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import CaseStudyCard from "@components/CaseStudyCard.astro";
+import MissionCard from "@components/pixel/MissionCard.astro";
+import SpreadCard from "@components/editorial/SpreadCard.astro";
+import DomainFilter from "@components/DomainFilter.tsx";
+
+const allWork = await getCollection("work");
+const sorted = allWork.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  if (a.data.order !== undefined && b.data.order !== undefined) {
+    return a.data.order - b.data.order;
+  }
+  return b.data.year - a.data.year;
+});
+
+const domains = ["all", ...new Set(sorted.map((e) => e.data.domain))];
+const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
+---
+
+<BaseLayout
+  title="Work"
+  description="UX design case studies across healthcare, ecommerce, enterprise, and web — 20 years of designing for complexity."
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <div class="work-default">
+
+      <header class="work-default__header">
+        <h1>Work</h1>
+        <p class="work-default__intro">
+          Case studies from two decades of designing complex systems — clinical workflows,
+          large-scale commerce, enterprise platforms, and everything in between.
+        </p>
+      </header>
+
+      <!-- DomainFilter only operates on default shell cards -->
+      <DomainFilter client:load domains={domains} types={types} />
+
+      <ul class="work-default__grid" role="list">
+        {sorted.map((entry) => (
+          <li
+            data-card-domain={entry.data.domain}
+            data-card-types={entry.data.problem_types.join(",")}
+          >
+            <CaseStudyCard entry={entry} />
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <div class="work-pixel">
+
+      <div class="work-pixel__header">
+        <p class="work-pixel__title">MISSION SELECT</p>
+        <p class="work-pixel__sub">CHOOSE YOUR MISSION · {sorted.length} AVAILABLE</p>
+        <div class="work-pixel__divider">════════════════════════════════</div>
+      </div>
+
+      <div class="work-pixel__list">
+        {sorted.map((entry, i) => (
+          <MissionCard entry={entry} index={i + 1} />
+        ))}
+      </div>
+
+    </div>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <div class="work-editorial">
+
+      <header class="work-editorial__header">
+        <h1 class="work-editorial__title">Work</h1>
+        <p class="work-editorial__intro">
+          Case studies from two decades of designing complex systems — clinical workflows,
+          large-scale commerce, enterprise platforms, and everything in between.
+          The common thread: I go toward the hard problems.
+        </p>
+      </header>
+
+      <div class="work-editorial__list">
+        {sorted.map((entry, i) => (
+          <SpreadCard entry={entry} index={i + 1} />
+        ))}
+      </div>
+
+    </div>
+  </EditorialLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .work-default__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    max-width: 640px;
+  }
+
+  .work-default__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-5);
+  }
+
+  .work-default__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .work-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+
+  .work-pixel__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .work-pixel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .work-pixel__sub {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+  }
+
+  .work-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .work-pixel__list {
+    border: 2px solid var(--rule);
+  }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .work-editorial__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .work-editorial__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: var(--space-6);
+    color: var(--text-1);
+  }
+
+  .work-editorial__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 62ch;
+  }
+
+  .work-editorial__list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--space-16);
+  }
+</style>

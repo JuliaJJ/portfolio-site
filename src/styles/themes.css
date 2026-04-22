@@ -1,0 +1,298 @@
+/* ============================================================
+   themes.css
+   Token overrides for alternate visual identities.
+   RULE: No structural CSS here. Only custom property overrides,
+   body/html level appearance, and global element styling.
+   Each theme's layout structure lives in its own layout file.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SHELL VISIBILITY — CSS-driven, no FOUC
+   Default is visible; pixel and editorial are hidden.
+   Switching data-theme on <html> swaps shells instantly.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+#shell-default   { display: block; }
+#shell-pixel     { display: none;  }
+#shell-editorial { display: none;  }
+
+html[data-theme="pixel"]     #shell-default   { display: none; }
+html[data-theme="pixel"]     #shell-pixel     { display: grid; }
+html[data-theme="pixel"]     #shell-editorial { display: none; }
+
+html[data-theme="editorial"] #shell-default   { display: none;  }
+html[data-theme="editorial"] #shell-pixel     { display: none;  }
+html[data-theme="editorial"] #shell-editorial { display: block; }
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PIXEL / 8-BIT
+   CRT phosphor-green terminal. Sharp corners. Instant snaps.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+html[data-theme="pixel"] {
+
+  /* Typography */
+  --font-display: 'Press Start 2P', monospace;
+  --font-body:    'VT323', monospace;
+  --font-mono:    'Press Start 2P', monospace;
+
+  /* Scale — VT323 needs larger sizes to read comfortably */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1.125rem;
+  --text-md:   1.375rem;
+  --text-lg:   1.625rem;
+  --text-xl:   2rem;
+  --text-2xl:  2.5rem;
+  --text-3xl:  3rem;
+
+  /* Leading */
+  --leading-relaxed: 1.9;
+  --leading-normal:  1.6;
+
+  /* Color — phosphor green CRT */
+  --bg:      #070a07;
+  --bg-2:    #0c110c;
+  --bg-3:    #111811;
+  --bg-4:    #162016;
+
+  --rule:    #1c3020;
+  --rule-2:  #254530;
+
+  --text-1:  #d8ffd8;
+  --text-2:  #7abf7a;
+  --text-3:  #4d8c4d;
+  --text-4:  #2e5c2e;
+
+  --accent:      #00ff41;
+  --accent-2:    #00d936;
+  --accent-3:    #00b32c;
+  --accent-dim:  rgba(0, 255, 65, 0.07);
+  --accent-mid:  rgba(0, 255, 65, 0.15);
+
+  /* Domain tags */
+  --domain-healthcare:        #0a2e14;
+  --domain-healthcare-text:   #4dcc7a;
+  --domain-ecommerce:         #1a2e0a;
+  --domain-ecommerce-text:    #99cc4d;
+  --domain-enterprise:        #0a1a33;
+  --domain-enterprise-text:   #4d99e6;
+  --domain-web:               #1a0a33;
+  --domain-web-text:          #9966e6;
+  --domain-mobile:            #0a2e2e;
+  --domain-mobile-text:       #4de6e6;
+  --domain-agency:            #2e0a1a;
+  --domain-agency-text:       #e64d99;
+
+  /* Semantic */
+  --color-success:      #00cc34;
+  --color-success-bg:   rgba(0, 204, 52, 0.12);
+  --color-warning:      #ffcc00;
+  --color-warning-bg:   rgba(255, 204, 0, 0.12);
+  --color-info:         #00aaff;
+  --color-info-bg:      rgba(0, 170, 255, 0.12);
+
+  /* Geometry — zero radius everywhere */
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-pill: 0px;
+
+  /* Borders */
+  --border:        2px solid var(--rule);
+  --border-2:      2px solid var(--rule-2);
+  --border-accent: 2px solid var(--accent-3);
+
+  /* Transitions — instant snap */
+  --ease-out: steps(1);
+  --ease-in:  steps(1);
+  --duration-fast: 0ms;
+  --duration-base: 0ms;
+  --duration-slow: 0ms;
+
+  /* Layout */
+  --max-width: 980px;
+  --gutter: 1.5rem;
+}
+
+/* Terminal window: body constrained + phosphor glow frame */
+html[data-theme="pixel"] {
+  background: #000;
+  padding: 1.5rem;
+}
+
+html[data-theme="pixel"] body {
+  max-width: 980px;
+  margin: 0 auto;
+  min-height: calc(100vh - 3rem);
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 0 0 5px #000,
+    0 0 0 7px var(--rule-2),
+    0 0 60px rgba(0, 255, 65, 0.18),
+    0 0 120px rgba(0, 255, 65, 0.06);
+  -webkit-font-smoothing: auto;
+  image-rendering: pixelated;
+}
+
+/* Pixel shell fills the terminal frame */
+html[data-theme="pixel"] #shell-pixel {
+  min-height: calc(100vh - 3rem);
+}
+
+/* CRT scanline overlay */
+html[data-theme="pixel"] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: var(--z-modal);
+}
+
+/* Global keyframe shared by pixel components */
+@keyframes pixel-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EDITORIAL
+   Warm newsprint base. Oversized serif headlines. Editorial red.
+   Full light theme — maximum contrast with both others.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+html[data-theme="editorial"] {
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Scale */
+  --text-xs:   0.6875rem;
+  --text-sm:   0.8125rem;
+  --text-base: 1rem;
+  --text-md:   1.1875rem;
+  --text-lg:   1.5rem;
+  --text-xl:   2rem;
+  --text-2xl:  3rem;
+  --text-3xl:  clamp(3.5rem, 8vw, 6.5rem);
+
+  /* Weights — Playfair Display tops at 700 */
+  --weight-black:    700;
+  --weight-bold:     600;
+  --weight-semibold: 600;
+  --weight-medium:   400;
+
+  /* Tracking */
+  --tracking-tight: -0.03em;
+
+  /* Leading */
+  --leading-tight: 1.0;
+  --leading-snug:  1.2;
+
+  /* Color — warm newsprint (light theme) */
+  --bg:      #f8f4ed;
+  --bg-2:    #f0ece4;
+  --bg-3:    #e8e3da;
+  --bg-4:    #dedace;
+
+  --rule:    #ccc7bc;
+  --rule-2:  #b8b3a8;
+
+  --text-1:  #1a1714;
+  --text-2:  #4a4640;
+  --text-3:  #7c7870;
+  --text-4:  #aaa69e;
+
+  --accent:      #c8102e;
+  --accent-2:    #a80c26;
+  --accent-3:    #8c081e;
+  --accent-dim:  rgba(200, 16, 46, 0.07);
+  --accent-mid:  rgba(200, 16, 46, 0.14);
+
+  /* Domain tags — rebalanced for light background */
+  --domain-healthcare:        #d0ece6;
+  --domain-healthcare-text:   #1a6b50;
+  --domain-ecommerce:         #eee8d4;
+  --domain-ecommerce-text:    #7a5020;
+  --domain-enterprise:        #d4dcea;
+  --domain-enterprise-text:   #1a3d6b;
+  --domain-web:               #e0d4ea;
+  --domain-web-text:          #52206b;
+  --domain-mobile:            #d4eaea;
+  --domain-mobile-text:       #1a6060;
+  --domain-agency:            #ead4e0;
+  --domain-agency-text:       #6b1a40;
+
+  /* Semantic */
+  --color-success:      #1a7a48;
+  --color-success-bg:   rgba(26, 122, 72, 0.1);
+  --color-warning:      #a06000;
+  --color-warning-bg:   rgba(160, 96, 0, 0.1);
+  --color-info:         #1a4a8c;
+  --color-info-bg:      rgba(26, 74, 140, 0.1);
+
+  /* Geometry — flat, architectural */
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-pill: 2px;
+
+  /* Borders */
+  --border:        1px solid var(--rule);
+  --border-2:      2px solid var(--rule-2);
+  --border-accent: 2px solid var(--accent);
+
+  /* Layout */
+  --max-width: 1200px;
+  --gutter: clamp(2rem, 6vw, 5rem);
+}
+
+/* Body — light theme adjustments */
+html[data-theme="editorial"] body {
+  font-weight: 300;
+}
+
+/* Headings — high-contrast editorial serif italic */
+html[data-theme="editorial"] h1,
+html[data-theme="editorial"] h2,
+html[data-theme="editorial"] h3 {
+  font-style: italic;
+}
+
+/* Selection — red on newsprint */
+html[data-theme="editorial"] ::selection {
+  background: var(--accent);
+  color: #f8f4ed;
+}
+
+/* ThemeSwitcher overlay adapts to light background */
+html[data-theme="editorial"] .theme-overlay {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Filter pill active — editorial version uses text-1 instead of accent */
+html[data-theme="editorial"] .filter-pill.active {
+  background: var(--text-1);
+  color: var(--bg);
+  border-color: var(--text-1);
+}
+
+/* Eyebrow rule — muted in editorial */
+html[data-theme="editorial"] .eyebrow--ruled::before {
+  background: var(--text-4);
+  width: 32px;
+}

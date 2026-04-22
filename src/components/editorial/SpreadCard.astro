@@ -1,0 +1,197 @@
+---
+// src/components/editorial/SpreadCard.astro
+// Editorial theme card: magazine feature spread.
+// Large issue number, oversized italic serif title, byline, excerpt.
+// No image dependency — typography is the visual.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  index: number;
+}
+
+const { entry, index } = Astro.props;
+const { data, slug } = entry;
+
+const issueNum = String(index).padStart(2, "0");
+---
+
+<a
+  href={`/work/${slug}`}
+  class="ed-spread"
+  aria-label={`${data.title} — ${data.summary}`}
+>
+
+  <div class="ed-spread__header">
+    <span class="ed-spread__issue" aria-hidden="true">{issueNum}</span>
+    <div class="ed-spread__byline">
+      <span class={`ed-spread__domain ed-spread__domain--${data.domain}`}>
+        {data.domain}
+      </span>
+      <span class="ed-spread__year">{data.year}</span>
+      {data.visibility === "partial" && (
+        <span class="ed-spread__flag">Process shown</span>
+      )}
+      {data.visibility === "request" && (
+        <span class="ed-spread__flag ed-spread__flag--nda">NDA — request access</span>
+      )}
+    </div>
+  </div>
+
+  <h2 class="ed-spread__title">{data.title}</h2>
+
+  <div class="ed-spread__rule"></div>
+
+  <div class="ed-spread__body">
+    <p class="ed-spread__summary">{data.summary}</p>
+    <span class="ed-spread__cta" aria-hidden="true">Read case study →</span>
+  </div>
+
+</a>
+
+<style>
+  .ed-spread {
+    display: block;
+    padding: var(--space-10) 0;
+    border-top: 3px solid var(--text-1);
+    text-decoration: none;
+    color: inherit;
+    transition: none;
+  }
+
+  /* Top row: issue number + byline */
+  .ed-spread__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .ed-spread__issue {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 0.85;
+    color: var(--text-4);
+    letter-spacing: -0.04em;
+    flex-shrink: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .ed-spread:hover .ed-spread__issue {
+    color: var(--accent);
+  }
+
+  .ed-spread__byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .ed-spread__domain {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--rule-2);
+    color: var(--text-3);
+  }
+
+  .ed-spread__year {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .ed-spread__flag {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-warning);
+  }
+
+  .ed-spread__flag--nda {
+    color: var(--color-info);
+  }
+
+  /* Title — the centrepiece */
+  .ed-spread__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text-1);
+    margin-bottom: var(--space-6);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .ed-spread:hover .ed-spread__title {
+    color: var(--accent);
+  }
+
+  /* Thin rule between title and summary */
+  .ed-spread__rule {
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: var(--space-5);
+  }
+
+  /* Body: summary + read link */
+  .ed-spread__body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .ed-spread__summary {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  .ed-spread__cta {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .ed-spread:hover .ed-spread__cta {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .ed-spread__body {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .ed-spread__header {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .ed-spread__byline {
+      justify-content: flex-start;
+    }
+  }
+</style>
