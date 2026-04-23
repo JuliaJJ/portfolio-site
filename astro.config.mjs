@@ -9,7 +9,7 @@ import keystatic from "@keystatic/astro";
 export default defineConfig({
   output: "static",
   adapter: vercel(),
-  site: "https://juliejohnston.design",
+  site: "https://portfolio-site-liart-ten.vercel.app",
 
   integrations: [
     mdx(),
