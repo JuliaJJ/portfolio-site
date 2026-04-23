@@ -4,7 +4,6 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
-import keystatic from "@keystatic/astro";
 
 export default defineConfig({
   output: "static",
@@ -17,7 +16,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    keystatic(),
+
   ],
 
   image: {
