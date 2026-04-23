@@ -1,10 +1,9 @@
 import { config, collection, fields } from "@keystatic/core";
 
 export default config({
-  storage: {
-    kind: "github",
-    repo: { owner: "JuliaJJ", name: "portfolio-site" },
-  },
+  storage: import.meta.env.DEV
+    ? { kind: "local" }
+    : { kind: "github", repo: { owner: "JuliaJJ", name: "portfolio-site" } },
 
   collections: {
     // ── Work ──────────────────────────────────────────────────────────────
