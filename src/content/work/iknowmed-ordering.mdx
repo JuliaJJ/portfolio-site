@@ -52,12 +52,6 @@ impact_note: "Full post-launch data pending — rollout completed Q4 2023. Pre/p
 # cover_alt: "Wireframe of the iKnowMed ordering interface showing the drug selection and dosing workflow"
 ---
 
-import OutcomeBlock from "@components/OutcomeBlock.astro";
-import ProcessTimeline from "@components/ProcessTimeline.astro";
-import NdaBanner from "@components/NdaBanner.astro";
-
-<NdaBanner note={frontmatter.nda_note} />
-
 ## The problem
 
 Oncology nurses using iKnowMed to order chemotherapy protocols were navigating a 14-step process spread across three separate screens, with no inline validation and drug interaction warnings buried in a side panel most users had learned to ignore.
@@ -106,8 +100,6 @@ A secondary goal was reducing the cognitive load on new nurses specifically. I i
 ]} />
 
 ## Outcome
-
-<OutcomeBlock outcomes={frontmatter.outcomes} note={frontmatter.impact_note} />
 
 ## What I'd do differently
 

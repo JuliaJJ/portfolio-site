@@ -1,4 +1,5 @@
 import { config, collection, fields } from "@keystatic/core";
+import { block } from "@keystatic/core/content-components";
 
 export default config({
   storage: import.meta.env.DEV
@@ -85,7 +86,23 @@ export default config({
         cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
         prototype_url: fields.url({ label: "Prototype URL (Figma)", validation: { isRequired: false } }),
 
-        content: fields.mdx({ label: "Case study body" }),
+        content: fields.mdx({
+          label: "Case study body",
+          components: {
+            ProcessTimeline: block({
+              label: "Process Timeline",
+              schema: {
+                steps: fields.array(
+                  fields.object({
+                    label: fields.text({ label: "Step name" }),
+                    detail: fields.text({ label: "Detail" }),
+                  }),
+                  { label: "Steps", itemLabel: (p) => p.fields.label.value }
+                ),
+              },
+            }),
+          },
+        }),
       },
     }),
 
