@@ -35,4 +35,10 @@ export default defineConfig({
   },
 
   trailingSlash: "never",
+
+  security: {
+    allowedDomains: [
+      { hostname: "portfolio-site-liart-ten.vercel.app" },
+    ],
+  },
 });
