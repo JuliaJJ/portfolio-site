@@ -1,4 +1,4 @@
-import { config, collection, fields } from "@keystatic/core";
+import { config, collection, singleton, fields } from "@keystatic/core";
 import { block } from "@keystatic/core/content-components";
 
 export default config({
@@ -148,6 +148,71 @@ export default config({
         draft: fields.checkbox({ label: "Draft (hide from grid)", defaultValue: false }),
 
         content: fields.mdx({ label: "Body" }),
+      },
+    }),
+  },
+
+  singletons: {
+    // ── Home ──────────────────────────────────────────────────────────────
+    home: singleton({
+      label: "Home",
+      path: "src/content/singletons/home",
+      schema: {
+        tagline: fields.text({ label: "Tagline (eyebrow)" }),
+        heading: fields.text({ label: "Heading" }),
+        intro: fields.text({ label: "Intro paragraph", multiline: true }),
+        stats: fields.array(
+          fields.object({
+            value: fields.text({ label: "Value" }),
+            label: fields.text({ label: "Label" }),
+          }),
+          { label: "Stats", itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}` }
+        ),
+        email: fields.text({ label: "Contact email" }),
+      },
+    }),
+
+    // ── About ─────────────────────────────────────────────────────────────
+    about: singleton({
+      label: "About",
+      path: "src/content/singletons/about",
+      schema: {
+        heading: fields.text({ label: "Heading" }),
+        intro: fields.text({ label: "Short intro (under heading)" }),
+        bio: fields.array(
+          fields.text({ label: "Paragraph", multiline: true }),
+          { label: "Bio paragraphs" }
+        ),
+        bio_short: fields.text({ label: "Short bio (pixel theme)", multiline: true }),
+        skills: fields.array(
+          fields.text({ label: "Skill" }),
+          { label: "Skills", itemLabel: (p) => p.value }
+        ),
+        tools: fields.array(
+          fields.text({ label: "Tool" }),
+          { label: "Tools", itemLabel: (p) => p.value }
+        ),
+        email: fields.text({ label: "Email" }),
+        linkedin_url: fields.url({ label: "LinkedIn URL" }),
+        available: fields.checkbox({ label: "Available for new work", defaultValue: true }),
+      },
+    }),
+
+    // ── Work landing ──────────────────────────────────────────────────────
+    workLanding: singleton({
+      label: "Work landing",
+      path: "src/content/singletons/work-landing",
+      schema: {
+        intro: fields.text({ label: "Intro paragraph", multiline: true }),
+      },
+    }),
+
+    // ── Lab landing ───────────────────────────────────────────────────────
+    labLanding: singleton({
+      label: "Lab landing",
+      path: "src/content/singletons/lab-landing",
+      schema: {
+        intro: fields.text({ label: "Intro paragraph", multiline: true }),
       },
     }),
   },

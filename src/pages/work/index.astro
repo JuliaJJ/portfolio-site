@@ -2,6 +2,7 @@
 // src/pages/work/index.astro
 
 import { getCollection } from "astro:content";
+import { createReader } from "@keystatic/core/reader";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
@@ -10,6 +11,10 @@ import CaseStudyCard from "@components/CaseStudyCard.astro";
 import MissionCard from "@components/pixel/MissionCard.astro";
 import SpreadCard from "@components/editorial/SpreadCard.astro";
 import DomainFilter from "@components/DomainFilter.tsx";
+import keystaticConfig from "../../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const workLanding = await reader.singletons.workLanding.read();
 
 const allWork = await getCollection("work");
 const sorted = allWork.sort((a, b) => {
@@ -38,10 +43,7 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
 
       <header class="work-default__header">
         <h1>Work</h1>
-        <p class="work-default__intro">
-          Case studies from two decades of designing complex systems — clinical workflows,
-          large-scale commerce, enterprise platforms, and everything in between.
-        </p>
+        <p class="work-default__intro">{workLanding?.intro}</p>
       </header>
 
       <!-- DomainFilter only operates on default shell cards -->
@@ -92,11 +94,7 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
 
       <header class="work-editorial__header">
         <h1 class="work-editorial__title">Work</h1>
-        <p class="work-editorial__intro">
-          Case studies from two decades of designing complex systems — clinical workflows,
-          large-scale commerce, enterprise platforms, and everything in between.
-          The common thread: I go toward the hard problems.
-        </p>
+        <p class="work-editorial__intro">{workLanding?.intro}</p>
       </header>
 
       <div class="work-editorial__list">

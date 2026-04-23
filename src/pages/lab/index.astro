@@ -2,11 +2,16 @@
 // src/pages/lab/index.astro
 
 import { getCollection } from "astro:content";
+import { createReader } from "@keystatic/core/reader";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import LabCard from "@components/LabCard.astro";
+import keystaticConfig from "../../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const labLanding = await reader.singletons.labLanding.read();
 
 const allLab = await getCollection("lab", ({ data }) => !data.draft);
 const sorted = allLab.sort((a, b) => b.data.year - a.data.year);
@@ -35,10 +40,7 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
 
       <header class="lab-default__header">
         <h1>Lab</h1>
-        <p class="lab-default__intro">
-          Personal projects, side experiments, and work done for curiosity
-          rather than a brief. This is where craft meets play.
-        </p>
+        <p class="lab-default__intro">{labLanding?.intro}</p>
       </header>
 
       {sorted.length > 0 && (
@@ -121,10 +123,7 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
 
       <header class="lab-editorial__header">
         <h1 class="lab-editorial__title">Lab</h1>
-        <p class="lab-editorial__intro">
-          Personal projects, side experiments, and work done for curiosity
-          rather than a brief. Craft meets play.
-        </p>
+        <p class="lab-editorial__intro">{labLanding?.intro}</p>
       </header>
 
       {sorted.length === 0 ? (

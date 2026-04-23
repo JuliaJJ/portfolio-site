@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { createReader } from "@keystatic/core/reader";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
@@ -7,6 +8,10 @@ import EditorialLayout from "@layouts/EditorialLayout.astro";
 import CaseStudyCard from "@components/CaseStudyCard.astro";
 import MissionCard from "@components/pixel/MissionCard.astro";
 import SpreadCard from "@components/editorial/SpreadCard.astro";
+import keystaticConfig from "../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const home = await reader.singletons.home.read();
 
 const allWork = await getCollection("work");
 const featured = allWork
@@ -24,30 +29,18 @@ const featured = allWork
   <DefaultLayout>
 
     <section class="hero">
-      <p class="eyebrow eyebrow--ruled fade-up">Senior UX Designer</p>
+      <p class="eyebrow eyebrow--ruled fade-up">{home?.tagline}</p>
       <h1 class="hero__heading fade-up fade-up--delay-1">
-        Designing for<br />
-        <span class="text-accent">complexity.</span>
+        {home?.heading}
       </h1>
-      <p class="hero__body fade-up fade-up--delay-2">
-        Twenty years of going toward the hard problems — clinical workflows,
-        large-scale commerce, enterprise platforms, and everything in between.
-        I make complex software comprehensible and high-stakes decisions
-        feel inevitable.
-      </p>
+      <p class="hero__body fade-up fade-up--delay-2">{home?.intro}</p>
       <dl class="hero__stats fade-up fade-up--delay-3">
-        <div class="stat">
-          <dt class="metric-value">20+</dt>
-          <dd class="metric-label">years</dd>
-        </div>
-        <div class="stat">
-          <dt class="metric-value">4</dt>
-          <dd class="metric-label">domains</dd>
-        </div>
-        <div class="stat">
-          <dt class="metric-value">∞</dt>
-          <dd class="metric-label">hard problems</dd>
-        </div>
+        {home?.stats.map((s) => (
+          <div class="stat">
+            <dt class="metric-value">{s.value}</dt>
+            <dd class="metric-label">{s.label}</dd>
+          </div>
+        ))}
       </dl>
     </section>
 
@@ -82,7 +75,9 @@ const featured = allWork
           <p class="px-boot__line">PORTFOLIO.EXE v2.0.24</p>
           <p class="px-boot__line">USER: JULIE JOHNSTON</p>
           <p class="px-boot__line">DOMAIN: UX / PRODUCT DESIGN</p>
-          <p class="px-boot__line px-boot__line--dim">EXP: 20+ YRS · DOMAINS: 4 · HARD_PROBLEMS: ∞</p>
+          <p class="px-boot__line px-boot__line--dim">
+            {home?.stats.map((s) => `${s.value} ${s.label.toUpperCase()}`).join(" · ")}
+          </p>
           <p class="px-boot__line px-boot__line--accent">STATUS: AVAILABLE_FOR_HIRE</p>
         </div>
       </div>
@@ -118,33 +113,20 @@ const featured = allWork
       <!-- Editorial hero -->
       <section class="ed-hero">
         <div class="ed-hero__text">
-          <h1 class="ed-hero__heading">
-            Designing for<br />complexity.
-          </h1>
-          <p class="ed-hero__body">
-            Twenty years of going toward the hard problems — clinical workflows,
-            large-scale commerce, enterprise platforms, and everything in between.
-            I make complex software comprehensible and high-stakes decisions feel
-            inevitable.
-          </p>
+          <h1 class="ed-hero__heading">{home?.heading}</h1>
+          <p class="ed-hero__body">{home?.intro}</p>
         </div>
         <aside class="ed-hero__stats" aria-label="Experience at a glance">
           <dl class="ed-stats-list">
-            <div class="ed-stat">
-              <dt class="ed-stat__val">20+</dt>
-              <dd class="ed-stat__label">Years of practice</dd>
-            </div>
-            <div class="ed-stat">
-              <dt class="ed-stat__val">4</dt>
-              <dd class="ed-stat__label">Major domains</dd>
-            </div>
-            <div class="ed-stat">
-              <dt class="ed-stat__val">∞</dt>
-              <dd class="ed-stat__label">Hard problems</dd>
-            </div>
+            {home?.stats.map((s) => (
+              <div class="ed-stat">
+                <dt class="ed-stat__val">{s.value}</dt>
+                <dd class="ed-stat__label">{s.label}</dd>
+              </div>
+            ))}
           </dl>
-          <a href="mailto:hello@juliejohnston.design" class="ed-hero__contact">
-            hello@juliejohnston.design →
+          <a href={`mailto:${home?.email}`} class="ed-hero__contact">
+            {home?.email} →
           </a>
         </aside>
       </section>

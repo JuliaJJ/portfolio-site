@@ -1,0 +1,36 @@
+heading: "I go toward the hard problems."
+intro: Senior UX designer with 20+ years of experience building complex systems across healthcare, ecommerce, enterprise, and web.
+bio:
+  - Twenty years of designing for complexity has taught me one thing: the hard problems are where the interesting work lives.
+  - I work research-first, upstream of the mockup. Before I draw anything, I want to understand the system — who uses it, what breaks them, what constraints I'm actually designing within.
+  - My deepest domain is healthcare — clinical workflows, EHR systems, tools where a design error has direct patient safety consequences. That context changes how you work.
+  - I've also spent years in ecommerce at scale, enterprise internal tooling, and consumer web products. Different domains, same discipline: go upstream, understand the system, don't mistake the brief for the problem.
+bio_short: >-
+  Twenty years of designing for complexity. Healthcare, ecommerce at scale,
+  enterprise platforms, consumer web. Research-first approach.
+  Goes upstream of the brief. Stays until the hard problem isn't.
+skills:
+  - User research
+  - Contextual inquiry
+  - Interaction design
+  - Usability testing
+  - Stakeholder management
+  - Design systems
+  - Information architecture
+  - Journey mapping
+  - Service design
+  - Workshop facilitation
+  - Prototyping
+  - Content strategy
+tools:
+  - Figma
+  - Maze
+  - Dovetail
+  - UserTesting
+  - Miro
+  - Confluence
+  - Jira
+  - FullStory
+email: hello@juliejohnston.design
+linkedin_url: https://linkedin.com/in/juliejohnston
+available: true

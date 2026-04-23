@@ -1,20 +1,16 @@
 ---
+import { createReader } from "@keystatic/core/reader";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
+import keystaticConfig from "../../keystatic.config";
 
-const skills = [
-  "User research", "Contextual inquiry", "Interaction design",
-  "Usability testing", "Stakeholder management", "Design systems",
-  "Information architecture", "Journey mapping", "Service design",
-  "Workshop facilitation", "Prototyping", "Content strategy",
-];
+const reader = createReader(process.cwd(), keystaticConfig);
+const about = await reader.singletons.about.read();
 
-const tools = [
-  "Figma", "Maze", "Dovetail", "UserTesting",
-  "Miro", "Confluence", "Jira", "FullStory",
-];
+const skills = about?.skills ?? [];
+const tools = about?.tools ?? [];
 ---
 
 <BaseLayout
@@ -31,16 +27,12 @@ const tools = [
       <section class="about-default__hero">
         <p class="eyebrow eyebrow--ruled fade-up">About</p>
         <h1 class="about-default__heading fade-up fade-up--delay-1">
-          I go toward<br />
-          <span class="text-accent">the hard problems.</span>
+          {about?.heading}
         </h1>
-        <p class="about-default__intro fade-up fade-up--delay-2">
-          Senior UX designer with 20+ years of experience building complex
-          systems across healthcare, ecommerce, enterprise, and web.
-        </p>
+        <p class="about-default__intro fade-up fade-up--delay-2">{about?.intro}</p>
         <div class="about-default__ctas fade-up fade-up--delay-3">
-          <a href="mailto:hello@juliejohnston.design" class="btn btn--accent">Get in touch</a>
-          <a href="https://linkedin.com/in/juliejohnston" target="_blank" rel="noopener noreferrer" class="btn">
+          <a href={`mailto:${about?.email}`} class="btn btn--accent">Get in touch</a>
+          <a href={about?.linkedin_url ?? "#"} target="_blank" rel="noopener noreferrer" class="btn">
             LinkedIn ↗
           </a>
         </div>
@@ -48,10 +40,7 @@ const tools = [
 
       <section class="about-default__body">
         <div class="about-default__prose">
-          <p>Twenty years of designing for complexity has taught me one thing: the hard problems are where the interesting work lives.</p>
-          <p>I work research-first, upstream of the mockup. Before I draw anything, I want to understand the system — who uses it, what breaks them, what constraints I'm actually designing within.</p>
-          <p>My deepest domain is healthcare — clinical workflows, EHR systems, tools where a design error has direct patient safety consequences. That context changes how you work.</p>
-          <p>I've also spent years in ecommerce at scale, enterprise internal tooling, and consumer web products. Different domains, same discipline: go upstream, understand the system, don't mistake the brief for the problem.</p>
+          {about?.bio.map((p) => <p>{p}</p>)}
         </div>
         <aside class="about-default__facts">
           <dl class="facts-list">
@@ -68,16 +57,18 @@ const tools = [
                 <span class="tag tag--web">Web</span>
               </dd>
             </div>
-            <div class="fact">
-              <dt class="label">Status</dt>
-              <dd class="fact__available">
-                <span class="about-status-dot" aria-hidden="true"></span>
-                Available for new work
-              </dd>
-            </div>
+            {about?.available && (
+              <div class="fact">
+                <dt class="label">Status</dt>
+                <dd class="fact__available">
+                  <span class="about-status-dot" aria-hidden="true"></span>
+                  Available for new work
+                </dd>
+              </div>
+            )}
             <div class="fact">
               <dt class="label">Contact</dt>
-              <dd><a href="mailto:hello@juliejohnston.design" class="link-accent">hello@juliejohnston.design</a></dd>
+              <dd><a href={`mailto:${about?.email}`} class="link-accent">{about?.email}</a></dd>
             </div>
           </dl>
         </aside>
@@ -132,8 +123,8 @@ const tools = [
           </div>
           <div class="about-pixel__stat">
             <span class="about-pixel__stat-label">CONTACT</span>
-            <a href="mailto:hello@juliejohnston.design" class="about-pixel__stat-val about-pixel__stat-link">
-              hello@juliejohnston.design
+            <a href={`mailto:${about?.email}`} class="about-pixel__stat-val about-pixel__stat-link">
+              {about?.email}
             </a>
           </div>
         </div>
@@ -158,14 +149,8 @@ const tools = [
 
       <div class="about-pixel__bio">
         <p class="about-pixel__section-head">BIO LOG</p>
-        <p>
-          Twenty years of designing for complexity. Healthcare, ecommerce at scale,
-          enterprise platforms, consumer web. Research-first approach.
-          Goes upstream of the brief. Stays until the hard problem isn't.
-        </p>
-        <p>
-          Available for contract and full-time opportunities. Remote-friendly.
-        </p>
+        <p>{about?.bio_short}</p>
+        {about?.available && <p>Available for contract and full-time opportunities. Remote-friendly.</p>}
       </div>
 
     </div>
@@ -179,16 +164,11 @@ const tools = [
     <div class="about-editorial">
 
       <header class="about-editorial__header">
-        <h1 class="about-editorial__heading">
-          I go toward<br />the hard problems.
-        </h1>
-        <p class="about-editorial__deck">
-          Senior UX designer with 20+ years building complex systems across healthcare,
-          ecommerce, enterprise, and web.
-        </p>
+        <h1 class="about-editorial__heading">{about?.heading}</h1>
+        <p class="about-editorial__deck">{about?.intro}</p>
         <div class="about-editorial__ctas">
-          <a href="mailto:hello@juliejohnston.design" class="btn btn--accent">Get in touch</a>
-          <a href="https://linkedin.com/in/juliejohnston" target="_blank" rel="noopener noreferrer" class="btn">
+          <a href={`mailto:${about?.email}`} class="btn btn--accent">Get in touch</a>
+          <a href={about?.linkedin_url ?? "#"} target="_blank" rel="noopener noreferrer" class="btn">
             LinkedIn ↗
           </a>
         </div>
@@ -196,10 +176,7 @@ const tools = [
 
       <div class="about-editorial__body">
         <div class="about-editorial__prose">
-          <p>Twenty years of designing for complexity has taught me one thing: the hard problems are where the interesting work lives. I've spent my career in rooms where the requirements are ambiguous, the stakeholders disagree, and the right answer isn't obvious.</p>
-          <p>I work research-first, upstream of the mockup. Before I draw anything, I want to understand the system — who uses it, what breaks them, what constraints I'm actually designing within versus what someone just assumes is a constraint.</p>
-          <p>My deepest domain is healthcare — clinical workflows, EHR systems, tools where a design error has direct patient safety consequences. That context changes how you work. You learn to sit with complexity rather than simplify prematurely.</p>
-          <p>I've also spent years in ecommerce at scale, enterprise internal tooling, and consumer web products. Different domains, same discipline: go upstream, understand the system, don't mistake the brief for the problem.</p>
+          {about?.bio.map((p) => <p>{p}</p>)}
         </div>
 
         <aside class="about-editorial__sidebar">
@@ -214,12 +191,14 @@ const tools = [
             </div>
           </div>
 
-          <div class="about-editorial__contact-block">
-            <p class="label">Available for new work</p>
-            <a href="mailto:hello@juliejohnston.design" class="about-editorial__email">
-              hello@juliejohnston.design
-            </a>
-          </div>
+          {about?.available && (
+            <div class="about-editorial__contact-block">
+              <p class="label">Available for new work</p>
+              <a href={`mailto:${about?.email}`} class="about-editorial__email">
+                {about?.email}
+              </a>
+            </div>
+          )}
         </aside>
       </div>
 
