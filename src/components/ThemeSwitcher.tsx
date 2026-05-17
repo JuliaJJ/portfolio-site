@@ -12,18 +12,19 @@ const THEMES: { id: ThemeId; label: string; bg: string; accent: string }[] = [
   { id: "editorial", label: "Editorial", bg: "#f8f4ed", accent: "#c8102e" },
 ];
 
-function getInitialTheme(): ThemeId {
-  if (typeof window === "undefined") return "studio";
-  return (localStorage.getItem("theme") as ThemeId) ?? "studio";
-}
-
 export default function ThemeSwitcher() {
-  const [active, setActive] = useState<ThemeId>(getInitialTheme);
+  const [active, setActive] = useState<ThemeId>("studio");
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", active);
-    localStorage.setItem("theme", active);
-  }, [active]);
+    const fromDom = (document.documentElement.getAttribute("data-theme") as ThemeId) ?? "studio";
+    setActive(fromDom);
+  }, []);
+
+  function switchTheme(id: ThemeId) {
+    setActive(id);
+    document.documentElement.setAttribute("data-theme", id);
+    localStorage.setItem("theme", id);
+  }
 
   return (
     <div
@@ -38,7 +39,7 @@ export default function ThemeSwitcher() {
           aria-checked={active === id}
           aria-label={`${label} theme`}
           title={label}
-          onClick={() => setActive(id)}
+          onClick={() => switchTheme(id)}
           style={{
             display: "flex",
             alignItems: "center",
