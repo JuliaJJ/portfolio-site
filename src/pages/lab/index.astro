@@ -12,7 +12,7 @@ import PixelLabCard from "@components/pixel/LabCard.astro";
 import EditorialLabCard from "@components/editorial/LabCard.astro";
 import LabFilter from "@components/LabFilter.tsx";
 import StudioLayout from "@layouts/StudioLayout.astro";
-import StudioLabCard from "@components/studio/LabCard.astro";
+import StudioLabGridCard from "@components/studio/LabGridCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -113,11 +113,13 @@ const tags  = [...new Set(sorted.flatMap((e) => e.data.tags))].filter(Boolean);
           <p>Projects in progress — check back soon.</p>
         </div>
       ) : (
-        <div class="lab-editorial__list">
+        <ul class="lab-editorial__grid" role="list">
           {sorted.map((entry) => (
-            <EditorialLabCard entry={entry} />
+            <li>
+              <EditorialLabCard entry={entry} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
 
     </div>
@@ -138,10 +140,10 @@ const tags  = [...new Set(sorted.flatMap((e) => e.data.tags))].filter(Boolean);
       {sorted.length === 0 ? (
         <p class="st-lab__empty">Nothing here yet — projects in progress.</p>
       ) : (
-        <ul class="st-lab__list" role="list">
+        <ul class="st-lab__grid" role="list">
           {sorted.map((entry, i) => (
             <li style={`--st-delay: ${i * 60}ms`}>
-              <StudioLabCard entry={entry} index={i + 1} />
+              <StudioLabGridCard entry={entry} index={i + 1} />
             </li>
           ))}
         </ul>
@@ -288,10 +290,16 @@ const tags  = [...new Set(sorted.flatMap((e) => e.data.tags))].filter(Boolean);
     margin-bottom: var(--space-4);
   }
 
-  .lab-editorial__list {
-    display: flex;
-    flex-direction: column;
+  .lab-editorial__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
     padding-bottom: var(--space-16);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .lab-editorial__grid { grid-template-columns: 1fr; }
   }
 
   /* ── Studio shell ────────────────────────────────────────── */
@@ -324,7 +332,17 @@ const tags  = [...new Set(sorted.flatMap((e) => e.data.tags))].filter(Boolean);
     max-width: 60ch;
   }
 
-  .st-lab__list { list-style: none; }
+  .st-lab__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12) var(--space-10);
+    padding-top: var(--space-10);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .st-lab__grid { grid-template-columns: 1fr; }
+  }
 
   .st-lab__empty {
     padding: var(--space-16) 0;

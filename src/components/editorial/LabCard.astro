@@ -1,6 +1,7 @@
 ---
 // src/components/editorial/LabCard.astro
-// Editorial theme lab card: horizontal layout, italic title, tag byline.
+// Editorial theme lab card: two-column grid format.
+// Border-top, byline, image, italic serif title. No summary at this scale.
 
 import type { CollectionEntry } from "astro:content";
 
@@ -17,123 +18,122 @@ const isExternal = !!data.link;
 
 <a
   href={href}
-  class="ed-lab"
+  class="ed-lgc"
   aria-label={`${data.title} — ${data.summary}`}
   {...isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {}}
 >
-  <div class="ed-lab__byline">
-    <span class="ed-lab__type">{data.type}</span>
-    <span class="ed-lab__year">{data.year}</span>
-    {data.tags.slice(0, 3).map((tag) => (
-      <span class="ed-lab__tag">{tag}</span>
+
+  <div class="ed-lgc__byline">
+    <span class="ed-lgc__type">{data.type}</span>
+    <span class="ed-lgc__year">{data.year}</span>
+    {data.tags.slice(0, 2).map((tag) => (
+      <span class="ed-lgc__tag">{tag}</span>
     ))}
   </div>
 
-  <h2 class="ed-lab__title">{data.title}</h2>
-
-  <div class="ed-lab__rule" aria-hidden="true"></div>
-
-  <div class="ed-lab__body">
-    <p class="ed-lab__summary">{data.summary}</p>
-    <span class="ed-lab__cta" aria-hidden="true">
-      {isExternal ? (data.link_label ?? "View project") + " ↗" : "View project →"}
-    </span>
+  <div class="ed-lgc__img-wrap" aria-hidden={!data.cover_image}>
+    {data.cover_image ? (
+      <img
+        src={data.cover_image}
+        alt={data.cover_alt ?? data.title}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="img-placeholder">
+        <span class="img-placeholder__label">Cover image</span>
+      </div>
+    )}
   </div>
+
+  <h2 class="ed-lgc__title">
+    {data.title}{isExternal && <span class="ed-lgc__ext" aria-hidden="true"> ↗</span>}
+  </h2>
+
 </a>
 
 <style>
-  .ed-lab {
+  .ed-lgc {
     display: block;
-    padding: var(--space-8) 0;
-    border-top: 1px solid var(--rule-2);
+    padding-top: var(--space-6);
+    border-top: 3px solid var(--text-1);
     text-decoration: none;
     color: inherit;
-    transition: none;
   }
 
-  .ed-lab__byline {
+  .ed-lgc__byline {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
     flex-wrap: wrap;
     margin-bottom: var(--space-4);
   }
 
-  .ed-lab__type {
+  .ed-lgc__type {
     font-size: var(--text-xs);
     font-weight: 500;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border: 1px solid var(--rule-2);
     color: var(--text-3);
   }
 
-  .ed-lab__year {
+  .ed-lgc__year {
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     color: var(--text-3);
   }
 
-  .ed-lab__tag {
+  .ed-lgc__tag {
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
     color: var(--text-4);
     font-style: italic;
   }
 
-  .ed-lab__title {
+  .ed-lgc__img-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--rule-2);
+    margin-bottom: var(--space-5);
+  }
+
+  .ed-lgc__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.3) brightness(0.95);
+    transition:
+      transform 500ms var(--ease-out),
+      filter    400ms var(--ease-out);
+  }
+
+  .ed-lgc:hover .ed-lgc__img-wrap img {
+    transform: scale(1.02);
+    filter: none;
+  }
+
+  .ed-lgc__title {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 700;
-    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     color: var(--text-1);
-    margin-bottom: var(--space-5);
     transition: color var(--duration-fast) var(--ease-out);
+    margin-bottom: var(--space-6);
   }
 
-  .ed-lab:hover .ed-lab__title { color: var(--accent); }
-
-  .ed-lab__rule {
-    height: 1px;
-    background: var(--rule);
-    margin-bottom: var(--space-4);
+  .ed-lgc:hover .ed-lgc__title {
+    color: var(--accent);
   }
 
-  .ed-lab__body {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--space-6);
-  }
-
-  .ed-lab__summary {
-    font-size: var(--text-base);
-    color: var(--text-2);
-    line-height: var(--leading-relaxed);
-    max-width: 56ch;
-  }
-
-  .ed-lab__cta {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    letter-spacing: var(--tracking-wide);
-    color: var(--text-3);
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: color var(--duration-fast) var(--ease-out);
-  }
-
-  .ed-lab:hover .ed-lab__cta { color: var(--accent); }
-
-  @media (max-width: 640px) {
-    .ed-lab__body {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-3);
-    }
+  .ed-lgc__ext {
+    color: var(--accent);
+    font-style: normal;
   }
 </style>
