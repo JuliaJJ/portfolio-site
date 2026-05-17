@@ -142,8 +142,25 @@ export default config({
         link: fields.url({ label: "External link", validation: { isRequired: false } }),
         link_label: fields.text({ label: "Link label", validation: { isRequired: false } }),
 
+        gallery: fields.array(
+          fields.object({
+            image: fields.image({
+              label: "Image",
+              directory: "public/images/lab",
+              publicPath: "/images/lab/",
+            }),
+            alt: fields.text({ label: "Alt text", validation: { isRequired: false } }),
+          }),
+          { label: "Gallery", itemLabel: (p) => p.fields.alt.value || "Image" }
+        ),
+
         cover_image: fields.text({ label: "Cover image path", validation: { isRequired: false } }),
         cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
+
+        tags: fields.array(
+          fields.text({ label: "Tag" }),
+          { label: "Tags", itemLabel: (p) => p.value }
+        ),
 
         draft: fields.checkbox({ label: "Draft (hide from grid)", defaultValue: false }),
 

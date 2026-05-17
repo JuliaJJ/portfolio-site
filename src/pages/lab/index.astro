@@ -8,6 +8,11 @@ import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import LabCard from "@components/LabCard.astro";
+import PixelLabCard from "@components/pixel/LabCard.astro";
+import EditorialLabCard from "@components/editorial/LabCard.astro";
+import LabFilter from "@components/LabFilter.tsx";
+import StudioLayout from "@layouts/StudioLayout.astro";
+import StudioLabCard from "@components/studio/LabCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -16,15 +21,8 @@ const labLanding = await reader.singletons.labLanding.read();
 const allLab = await getCollection("lab", ({ data }) => !data.draft);
 const sorted = allLab.sort((a, b) => b.data.year - a.data.year);
 
-const url = Astro.url;
-const activeType = url.searchParams.get("type") ?? "all";
-
-const filtered =
-  activeType === "all"
-    ? sorted
-    : sorted.filter((e) => e.data.type === activeType);
-
-const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
+const types = [...new Set(sorted.map((e) => e.data.type))];
+const tags  = [...new Set(sorted.flatMap((e) => e.data.tags))].filter(Boolean);
 ---
 
 <BaseLayout
@@ -43,37 +41,26 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
         <p class="lab-default__intro">{labLanding?.intro}</p>
       </header>
 
-      {sorted.length > 0 && (
-        <nav class="filter-bar" aria-label="Filter lab projects">
-          <div class="filter-group">
-            <span class="filter-label">Type</span>
-            {types.map((t) => (
-              <a
-                href={t === "all" ? "/lab" : `/lab?type=${t}`}
-                class:list={["filter-pill", { active: activeType === t }]}
-              >
-                {t}
-              </a>
-            ))}
-          </div>
-        </nav>
-      )}
-
-      {filtered.length > 0 ? (
-        <ul class="lab-default__grid" role="list">
-          {filtered.map((entry) => (
-            <li><LabCard entry={entry} /></li>
-          ))}
-        </ul>
-      ) : sorted.length === 0 ? (
+      {sorted.length === 0 ? (
         <div class="lab-empty">
           <p class="eyebrow">Coming soon</p>
           <p class="lab-empty__text">Nothing here yet — projects in progress. Check back soon.</p>
         </div>
       ) : (
-        <p class="no-results">
-          No lab entries match that filter. <a href="/lab">Show all</a>
-        </p>
+        <>
+          <LabFilter client:load types={types} tags={tags} />
+
+          <ul class="lab-default__grid" role="list">
+            {sorted.map((entry) => (
+              <li
+                data-lab-type={entry.data.type}
+                data-lab-tags={entry.data.tags.join(",")}
+              >
+                <LabCard entry={entry} />
+              </li>
+            ))}
+          </ul>
+        </>
       )}
 
     </div>
@@ -99,14 +86,8 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
         </div>
       ) : (
         <div class="lab-pixel__list">
-          {filtered.map((entry) => (
-            <div class="lab-pixel__item">
-              <span class="lab-pixel__cursor" aria-hidden="true">▶</span>
-              <div class="lab-pixel__item-body">
-                <p class="lab-pixel__item-title">{entry.data.title}</p>
-                <p class="lab-pixel__item-meta">{entry.data.type?.toUpperCase()} · {entry.data.year}</p>
-              </div>
-            </div>
+          {sorted.map((entry) => (
+            <PixelLabCard entry={entry} />
           ))}
         </div>
       )}
@@ -132,15 +113,42 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
           <p>Projects in progress — check back soon.</p>
         </div>
       ) : (
-        <div class="lab-editorial__grid">
-          {filtered.map((entry) => (
-            <LabCard entry={entry} />
+        <div class="lab-editorial__list">
+          {sorted.map((entry) => (
+            <EditorialLabCard entry={entry} />
           ))}
         </div>
       )}
 
     </div>
   </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <div class="st-lab">
+
+      <header class="st-lab__header">
+        <h1 class="st-lab__title">Lab</h1>
+        <p class="st-lab__intro">{labLanding?.intro}</p>
+      </header>
+
+      {sorted.length === 0 ? (
+        <p class="st-lab__empty">Nothing here yet — projects in progress.</p>
+      ) : (
+        <ul class="st-lab__list" role="list">
+          {sorted.map((entry, i) => (
+            <li style={`--st-delay: ${i * 60}ms`}>
+              <StudioLabCard entry={entry} index={i + 1} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+    </div>
+  </StudioLayout>
 
 </BaseLayout>
 
@@ -165,6 +173,7 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-6);
+    margin-top: var(--space-4);
   }
 
   .lab-empty { padding: var(--space-16) 0; }
@@ -237,57 +246,13 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
     border: 2px solid var(--rule);
   }
 
-  .lab-pixel__item {
-    display: grid;
-    grid-template-columns: 12px 1fr;
-    gap: 0 0.75rem;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .lab-pixel__item:last-child { border-bottom: none; }
-
-  .lab-pixel__item:hover { background: rgba(0, 255, 65, 0.06); }
-
-  .lab-pixel__cursor {
-    font-family: var(--font-display);
-    font-size: 8px;
-    color: var(--accent);
-    opacity: 0;
-  }
-
-  .lab-pixel__item:hover .lab-pixel__cursor { opacity: 1; }
-
-  .lab-pixel__item-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .lab-pixel__item-title {
-    font-family: var(--font-display);
-    font-size: 0.625rem;
-    letter-spacing: 0.04em;
-    color: var(--text-1);
-  }
-
-  .lab-pixel__item:hover .lab-pixel__item-title { color: var(--accent); }
-
-  .lab-pixel__item-meta {
-    font-family: var(--font-display);
-    font-size: 0.4rem;
-    letter-spacing: 0.08em;
-    color: var(--text-4);
-  }
-
   /* ── Editorial shell ─────────────────────────────────────── */
 
   .lab-editorial__header {
     padding-top: var(--space-12);
     padding-bottom: var(--space-10);
     border-bottom: 3px solid var(--text-1);
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-8);
   }
 
   .lab-editorial__title {
@@ -323,13 +288,47 @@ const types = ["all", ...new Set(sorted.map((e) => e.data.type))];
     margin-bottom: var(--space-4);
   }
 
-  .lab-editorial__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-8);
+  .lab-editorial__list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--space-16);
   }
 
-  @media (max-width: 640px) {
-    .lab-editorial__grid { grid-template-columns: 1fr; }
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-lab {
+    padding-inline: var(--gutter);
+  }
+
+  .st-lab__header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-2);
+  }
+
+  .st-lab__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: var(--leading-tight);
+    color: var(--text-1);
+    margin-bottom: var(--space-6);
+  }
+
+  .st-lab__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  .st-lab__list { list-style: none; }
+
+  .st-lab__empty {
+    padding: var(--space-16) 0;
+    color: var(--text-3);
+    font-size: var(--text-sm);
   }
 </style>

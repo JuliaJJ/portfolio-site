@@ -3,12 +3,13 @@
 
 import { useState, useEffect } from "react";
 
-type ThemeId = "default" | "pixel" | "editorial";
+type ThemeId = "default" | "pixel" | "editorial" | "studio";
 
 const THEMES: { id: ThemeId; label: string; bg: string; accent: string }[] = [
   { id: "default",   label: "Default",   bg: "#0e0f14", accent: "#22d3ee" },
   { id: "pixel",     label: "Pixel",     bg: "#070a07", accent: "#00ff41" },
   { id: "editorial", label: "Editorial", bg: "#f8f4ed", accent: "#c8102e" },
+  { id: "studio",    label: "Studio",    bg: "#f8f8f5", accent: "#3d6b3f" },
 ];
 
 function getInitialTheme(): ThemeId {

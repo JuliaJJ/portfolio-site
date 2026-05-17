@@ -19,6 +19,7 @@
 #shell-default   { display: block; }
 #shell-pixel     { display: none;  }
 #shell-editorial { display: none;  }
+#shell-studio    { display: none;  }
 
 html[data-theme="pixel"]     #shell-default   { display: none; }
 html[data-theme="pixel"]     #shell-pixel     { display: grid; }
@@ -295,4 +296,116 @@ html[data-theme="editorial"] .filter-pill.active {
 html[data-theme="editorial"] .eyebrow--ruled::before {
   background: var(--text-4);
   width: 32px;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STUDIO
+   Clean off-white. Warm moss accent. Full-width numbered rows.
+   Contemporary, minimalist, refined hover animations.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+html[data-theme="studio"] #shell-default   { display: none;  }
+html[data-theme="studio"] #shell-pixel     { display: none;  }
+html[data-theme="studio"] #shell-editorial { display: none;  }
+html[data-theme="studio"] #shell-studio    { display: block; }
+
+html[data-theme="studio"] {
+
+  /* Typography — existing fonts, configured for airy feel */
+  --font-display: 'Figtree', system-ui, sans-serif;
+  --font-body:    'Epilogue', system-ui, sans-serif;
+
+  /* Scale — same as default */
+  --text-xs:   0.6875rem;
+  --text-sm:   0.8125rem;
+  --text-base: 0.9375rem;
+  --text-md:   1.125rem;
+  --text-lg:   1.375rem;
+  --text-xl:   1.75rem;
+  --text-2xl:  2.25rem;
+  --text-3xl:  3.25rem;
+
+  /* Weight */
+  --weight-black: 700;
+
+  /* Color — warm off-white (light theme) */
+  --bg:    #f8f8f5;
+  --bg-2:  #f1f1ee;
+  --bg-3:  #eaeae6;
+  --bg-4:  #e2e2de;
+
+  --rule:   rgba(0, 0, 0, 0.08);
+  --rule-2: rgba(0, 0, 0, 0.14);
+
+  --text-1: #111110;
+  --text-2: #4b4946;
+  --text-3: #7c7a74;
+  --text-4: #b0ada8;
+
+  /* Accent — warm moss */
+  --accent:     #3d6b3f;
+  --accent-2:   #2e5230;
+  --accent-3:   #1f3c22;
+  --accent-dim: rgba(61, 107, 63, 0.08);
+  --accent-mid: rgba(61, 107, 63, 0.16);
+
+  /* Domain tags — rebalanced for light background */
+  --domain-healthcare:        #dff0e8;
+  --domain-healthcare-text:   #1a5e3d;
+  --domain-ecommerce:         #f0ead8;
+  --domain-ecommerce-text:    #704f18;
+  --domain-enterprise:        #d8e5f0;
+  --domain-enterprise-text:   #1a3d6b;
+  --domain-web:               #e6d8f0;
+  --domain-web-text:          #4c1f6b;
+  --domain-mobile:            #d8eef0;
+  --domain-mobile-text:       #1a5c60;
+  --domain-agency:            #f0d8e8;
+  --domain-agency-text:       #6b1a42;
+
+  /* Semantic */
+  --color-success:      #2a7a48;
+  --color-success-bg:   rgba(42, 122, 72, 0.10);
+  --color-warning:      #8f6200;
+  --color-warning-bg:   rgba(143, 98, 0, 0.10);
+  --color-info:         #1a4a8c;
+  --color-info-bg:      rgba(26, 74, 140, 0.10);
+
+  /* Geometry */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-pill: 999px;
+
+  /* Borders */
+  --border:        1px solid rgba(0, 0, 0, 0.08);
+  --border-2:      1px solid rgba(0, 0, 0, 0.14);
+  --border-accent: 2px solid var(--accent);
+
+  /* Transitions — refined, slightly longer */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 260ms;
+  --duration-slow: 420ms;
+
+  /* Layout — wide gutter for studio breathing room */
+  --max-width: 1400px;
+  --gutter:    clamp(2rem, 7vw, 8rem);
+}
+
+/* Light body weight for airy feel */
+html[data-theme="studio"] body {
+  font-weight: 300;
+}
+
+/* Selection */
+html[data-theme="studio"] ::selection {
+  background: var(--accent-mid);
+  color: var(--text-1);
+}
+
+/* ThemeSwitcher overlay — light background shadow */
+html[data-theme="studio"] .theme-overlay {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }

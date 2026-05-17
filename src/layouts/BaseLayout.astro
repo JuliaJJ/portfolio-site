@@ -81,7 +81,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     (function () {
       function syncShells() {
         var theme = document.documentElement.getAttribute('data-theme') || 'default';
-        ['default', 'pixel', 'editorial'].forEach(function (t) {
+        ['default', 'pixel', 'editorial', 'studio'].forEach(function (t) {
           var el = document.getElementById('shell-' + t);
           if (el) el.setAttribute('aria-hidden', theme === t ? 'false' : 'true');
         });

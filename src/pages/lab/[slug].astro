@@ -1,11 +1,15 @@
 ---
 // src/pages/lab/[slug].astro
-// Dynamic route — one page per lab entry that has body content.
-// External-only entries (data.link set, no MDX body) still get a page
-// but it will have minimal content; LabCard links out directly anyway.
+// Triple-shell lab detail page — Default, Pixel, Editorial.
+// External-only entries (data.link set, no body) get a minimal page;
+// LabCard links out directly anyway, so this is a fallback.
 
 import { getCollection, render } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import StudioLayout from "@layouts/StudioLayout.astro";
 
 export async function getStaticPaths() {
   const allLab = await getCollection("lab", ({ data }) => !data.draft);
@@ -18,25 +22,34 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { data } = entry;
+
+const hasGallery = data.gallery.length > 0;
 ---
 
 <BaseLayout title={data.title} description={data.summary}>
-  <article class="lab-post">
 
-    <!-- ── Header ───────────────────────────────────────────── -->
-    <header class="lab-post__header">
-      <div class="lab-post__meta">
-        <span class="tag tag--neutral">{data.type}</span>
-        <span class="lab-post__year">{data.year}</span>
-      </div>
 
-      <h1 class="lab-post__title">{data.title}</h1>
-      <p class="lab-post__summary">{data.summary}</p>
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <article class="ld-default">
 
-      <p class="lab-post__shows">{data.what_it_shows}</p>
+      <header class="ld-default__header">
+        <div class="ld-default__meta">
+          <span class="tag tag--neutral">{data.type}</span>
+          {data.tags.map((tag) => (
+            <span class="tag tag--neutral">{tag}</span>
+          ))}
+          <span class="ld-default__year">{data.year}</span>
+        </div>
 
-      {data.link && (
-        <div class="lab-post__link">
+        <h1 class="ld-default__title">{data.title}</h1>
+        <p class="ld-default__summary">{data.summary}</p>
+
+        <p class="ld-default__shows">{data.what_it_shows}</p>
+
+        {data.link && (
           <a
             href={data.link}
             target="_blank"
@@ -45,83 +58,377 @@ const { data } = entry;
           >
             {data.link_label ?? "View project"} ↗
           </a>
+        )}
+      </header>
+
+      {/* Cover image — shown if no gallery */}
+      {!hasGallery && data.cover_image && (
+        <div class="ld-default__cover">
+          <img
+            src={data.cover_image}
+            alt={data.cover_alt ?? data.title}
+            loading="eager"
+          />
         </div>
       )}
-    </header>
 
-    <!-- ── Cover ─────────────────────────────────────────────── -->
-    {data.cover_image && (
-      <div class="lab-post__cover">
-        <img
-          src={data.cover_image}
-          alt={data.cover_alt ?? data.title}
-          loading="eager"
-        />
+      {/* Masonry gallery */}
+      {hasGallery && (
+        <div class="ld-default__gallery" aria-label="Project gallery">
+          {data.gallery.map((item) => (
+            <div class="ld-default__gallery-item">
+              <img
+                src={item.image}
+                alt={item.alt ?? ""}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Body (MDX content) */}
+      <div class="ld-default__body prose">
+        <Content />
       </div>
-    )}
 
-    <!-- ── Body (MDX content) ───────────────────────────────── -->
-    <div class="lab-post__body prose">
-      <Content />
-    </div>
+      {/* Footer */}
+      <footer class="ld-default__footer">
+        {(data.skills.length > 0 || data.tools.length > 0) && (
+          <div class="ld-default__footer-tags">
+            {data.skills.length > 0 && (
+              <div class="ld-default__tag-row">
+                <span class="label">Skills</span>
+                {data.skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+              </div>
+            )}
+            {data.tools.length > 0 && (
+              <div class="ld-default__tag-row">
+                <span class="label">Tools</span>
+                {data.tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+              </div>
+            )}
+          </div>
+        )}
+        {data.link && (
+          <a
+            href={data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--accent"
+          >
+            {data.link_label ?? "View project"} ↗
+          </a>
+        )}
+        <a href="/lab" class="ld-default__back">← Back to Lab</a>
+      </footer>
 
-    <!-- ── Footer ───────────────────────────────────────────── -->
-    <footer class="lab-post__footer">
-      {data.skills.length > 0 && (
-        <div class="lab-post__tags">
-          <span class="label">Skills</span>
-          {data.skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+    </article>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <article class="ld-pixel">
+
+      <div class="ld-pixel__header">
+        <div class="ld-pixel__title-row">
+          <p class="ld-pixel__title">{data.title}</p>
+          {data.link && (
+            <a
+              href={data.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ld-pixel__ext-link"
+              aria-label="View external project"
+            >
+              [VIEW PROJECT →]
+            </a>
+          )}
+        </div>
+        <p class="ld-pixel__meta">{data.type?.toUpperCase()} · {data.year}</p>
+        <div class="ld-pixel__divider">════════════════════════════════</div>
+      </div>
+
+      {/* CRT gallery strip */}
+      {hasGallery && (
+        <div class="ld-pixel__gallery" aria-label="Project gallery">
+          {data.gallery.map((item) => (
+            <div class="ld-pixel__gallery-item">
+              <img
+                src={item.image}
+                alt={item.alt ?? ""}
+                class="ld-pixel__gallery-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
         </div>
       )}
-      {data.tools.length > 0 && (
-        <div class="lab-post__tags">
-          <span class="label">Tools</span>
-          {data.tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+
+      {!hasGallery && data.cover_image && (
+        <div class="ld-pixel__cover-wrap" aria-hidden="true">
+          <img
+            src={data.cover_image}
+            alt=""
+            class="ld-pixel__gallery-img"
+            loading="eager"
+          />
         </div>
       )}
-      {data.link && (
-        <a
-          href={data.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn--accent"
-        >
-          {data.link_label ?? "View project"} ↗
-        </a>
-      )}
-    </footer>
 
-  </article>
+      <div class="ld-pixel__summary-block">
+        <p class="ld-pixel__summary">{data.summary}</p>
+        {data.what_it_shows && (
+          <p class="ld-pixel__shows">{data.what_it_shows}</p>
+        )}
+      </div>
+
+      <div class="ld-pixel__body prose">
+        <Content />
+      </div>
+
+      <div class="ld-pixel__footer">
+        <a href="/lab" class="ld-pixel__back">[ ← RETURN TO LAB ]</a>
+      </div>
+
+    </article>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <article class="ld-editorial">
+
+      <header class="ld-editorial__header">
+        <div class="ld-editorial__byline">
+          <span class="ld-editorial__type">{data.type}</span>
+          <span class="ld-editorial__year">{data.year}</span>
+          {data.tags.slice(0, 3).map((tag) => (
+            <span class="ld-editorial__tag">{tag}</span>
+          ))}
+        </div>
+
+        <h1 class="ld-editorial__title">{data.title}</h1>
+
+        <p class="ld-editorial__deck">{data.summary}</p>
+
+        {data.link && (
+          <a
+            href={data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="ld-editorial__ext-link"
+          >
+            {data.link_label ?? "View project"} ↗
+          </a>
+        )}
+      </header>
+
+      {/* Gallery */}
+      {hasGallery && (
+        <div class="ld-editorial__gallery" aria-label="Project gallery">
+          {data.gallery.map((item) => (
+            <div class="ld-editorial__gallery-item">
+              <img
+                src={item.image}
+                alt={item.alt ?? ""}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!hasGallery && data.cover_image && (
+        <div class="ld-editorial__cover">
+          <img
+            src={data.cover_image}
+            alt={data.cover_alt ?? data.title}
+            loading="eager"
+          />
+        </div>
+      )}
+
+      {/* What it shows — pull quote style */}
+      {data.what_it_shows && (
+        <blockquote class="ld-editorial__pull-quote">
+          {data.what_it_shows}
+        </blockquote>
+      )}
+
+      <div class="ld-editorial__body prose">
+        <Content />
+      </div>
+
+      <footer class="ld-editorial__footer">
+        {(data.skills.length > 0 || data.tools.length > 0) && (
+          <div class="ld-editorial__credits">
+            {data.skills.length > 0 && (
+              <div class="ld-editorial__credit-row">
+                <span class="ld-editorial__credit-label">Skills</span>
+                <span>{data.skills.join(", ")}</span>
+              </div>
+            )}
+            {data.tools.length > 0 && (
+              <div class="ld-editorial__credit-row">
+                <span class="ld-editorial__credit-label">Tools</span>
+                <span>{data.tools.join(", ")}</span>
+              </div>
+            )}
+          </div>
+        )}
+        <a href="/lab" class="ld-editorial__back">← Back to Lab</a>
+      </footer>
+
+    </article>
+  </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <article class="st-ld">
+
+      {/* Full-bleed media — st-main has no padding-inline so this hits the edges naturally */}
+      {hasGallery ? (
+        <div class="st-ld__gallery" aria-label="Project gallery">
+          {data.gallery.map((item, i) => (
+            <div class="st-ld__gallery-item" style={i === 0 ? "grid-column: 1 / -1" : undefined}>
+              <img
+                src={item.image}
+                alt={item.alt ?? ""}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      ) : data.cover_image ? (
+        <div class="st-ld__cover">
+          <img
+            src={data.cover_image}
+            alt={data.cover_alt ?? data.title}
+            loading="eager"
+          />
+        </div>
+      ) : null}
+
+      <div class="st-ld__inner">
+
+        <header class="st-ld__header">
+          <div class="st-ld__header-main">
+            <div class="st-ld__eyebrow">
+              <span class="st-ld__type">{data.type}</span>
+              <span class="st-ld__year">{data.year}</span>
+            </div>
+            <h1 class="st-ld__title">{data.title}</h1>
+            <p class="st-ld__summary">{data.summary}</p>
+
+            {data.what_it_shows && (
+              <p class="st-ld__shows">{data.what_it_shows}</p>
+            )}
+
+            {data.link && (
+              <a
+                href={data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="st-ld__ext-link"
+              >
+                {data.link_label ?? "View project"} ↗
+              </a>
+            )}
+          </div>
+
+          <aside class="st-ld__sidebar">
+            {data.tags.length > 0 && (
+              <div class="st-ld__sidebar-section">
+                <p class="st-ld__sidebar-label">Tags</p>
+                <div class="st-ld__sidebar-tags">
+                  {data.tags.map((tag) => (
+                    <span class="tag tag--neutral">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {data.skills.length > 0 && (
+              <div class="st-ld__sidebar-section">
+                <p class="st-ld__sidebar-label">Skills</p>
+                <p class="st-ld__sidebar-value">{data.skills.join(", ")}</p>
+              </div>
+            )}
+            {data.tools.length > 0 && (
+              <div class="st-ld__sidebar-section">
+                <p class="st-ld__sidebar-label">Tools</p>
+                <p class="st-ld__sidebar-value">{data.tools.join(", ")}</p>
+              </div>
+            )}
+          </aside>
+        </header>
+
+        <div class="st-ld__body prose">
+          <Content />
+        </div>
+
+        <footer class="st-ld__footer">
+          <a href="/lab" class="st-ld__back">← Back to Lab</a>
+          {data.link && (
+            <a
+              href={data.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="st-ld__ext-link"
+            >
+              {data.link_label ?? "View project"} ↗
+            </a>
+          )}
+        </footer>
+
+      </div>
+    </article>
+  </StudioLayout>
+
 </BaseLayout>
 
+
 <style>
-  .lab-post {
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .ld-default {
     max-width: var(--max-width-prose);
     margin-inline: auto;
   }
 
-  /* ── Header ─────────────────────────────────────────────── */
-
-  .lab-post__header {
+  .ld-default__header {
     padding-top: var(--space-12);
     padding-bottom: var(--space-10);
   }
 
-  .lab-post__meta {
+  .ld-default__meta {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    flex-wrap: wrap;
     margin-bottom: var(--space-6);
   }
 
-  .lab-post__year {
+  .ld-default__year {
     font-size: var(--text-xs);
     color: var(--text-3);
     letter-spacing: var(--tracking-wide);
     margin-left: auto;
   }
 
-  .lab-post__title {
+  .ld-default__title {
     font-size: clamp(1.75rem, 4vw, 3rem);
     font-weight: var(--weight-black);
     line-height: var(--leading-tight);
@@ -129,14 +436,14 @@ const { data } = entry;
     margin-bottom: var(--space-5);
   }
 
-  .lab-post__summary {
+  .ld-default__summary {
     font-size: var(--text-md);
     color: var(--text-2);
     line-height: var(--leading-relaxed);
     margin-bottom: var(--space-4);
   }
 
-  .lab-post__shows {
+  .ld-default__shows {
     font-size: var(--text-sm);
     color: var(--text-3);
     font-style: italic;
@@ -146,46 +453,610 @@ const { data } = entry;
     margin-bottom: var(--space-6);
   }
 
-  .lab-post__link {
-    margin-top: var(--space-4);
+  /* Masonry gallery — CSS columns */
+
+  .ld-default__gallery {
+    columns: 2;
+    column-gap: var(--space-4);
+    margin-bottom: var(--space-12);
   }
 
-  /* ── Cover ───────────────────────────────────────────────── */
+  .ld-default__gallery-item {
+    break-inside: avoid;
+    margin-bottom: var(--space-4);
+  }
 
-  .lab-post__cover {
+  .ld-default__gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius-md);
+    border: var(--border);
+  }
+
+  @media (min-width: 768px) {
+    .ld-default__gallery { columns: 3; }
+  }
+
+  @media (max-width: 480px) {
+    .ld-default__gallery { columns: 1; }
+  }
+
+  .ld-default__cover {
     margin-bottom: var(--space-10);
   }
 
-  .lab-post__cover img {
+  .ld-default__cover img {
     width: 100%;
     border-radius: var(--radius-md);
     border: var(--border);
   }
 
-  /* ── Body ────────────────────────────────────────────────── */
-
-  .lab-post__body {
+  .ld-default__body {
     margin-bottom: var(--space-12);
   }
 
-  /* ── Footer ──────────────────────────────────────────────── */
-
-  .lab-post__footer {
+  .ld-default__footer {
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
     padding-top: var(--space-8);
     border-top: var(--border);
+    padding-bottom: var(--space-16);
   }
 
-  .lab-post__tags {
+  .ld-default__footer-tags {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .ld-default__tag-row {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     flex-wrap: wrap;
   }
 
-  .lab-post__tags .label {
-    min-width: 44px;
+  .ld-default__back {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    text-decoration: none;
+    letter-spacing: var(--tracking-wide);
   }
+
+  .ld-default__back:hover { color: var(--accent); }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .ld-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-12);
+  }
+
+  .ld-pixel__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ld-pixel__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .ld-pixel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .ld-pixel__ext-link {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .ld-pixel__ext-link:hover { text-decoration: underline; }
+
+  .ld-pixel__meta {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+  }
+
+  .ld-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* CRT gallery */
+
+  .ld-pixel__gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 2px;
+    border: 2px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .ld-pixel__gallery-item {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .ld-pixel__gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.25) 2px,
+      rgba(0, 0, 0, 0.25) 3px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ld-pixel__gallery-img,
+  .ld-pixel__cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter:
+      grayscale(1)
+      contrast(1.8)
+      brightness(0.55)
+      sepia(1)
+      hue-rotate(85deg)
+      saturate(1.8);
+    image-rendering: pixelated;
+  }
+
+  .ld-pixel__cover-wrap {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    border: 2px solid var(--rule);
+  }
+
+  .ld-pixel__summary-block {
+    border: 1px solid var(--rule);
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ld-pixel__summary,
+  .ld-pixel__shows {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+    color: var(--text-3);
+  }
+
+  .ld-pixel__shows { color: var(--text-4); }
+
+  .ld-pixel__body {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
+    line-height: 2;
+    color: var(--text-2);
+  }
+
+  .ld-pixel__footer {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .ld-pixel__back {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    text-decoration: none;
+  }
+
+  .ld-pixel__back:hover { color: var(--accent); }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .ld-editorial {
+    padding-bottom: var(--space-20);
+  }
+
+  .ld-editorial__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-12);
+  }
+
+  .ld-editorial__byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-5);
+  }
+
+  .ld-editorial__type {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--rule-2);
+    color: var(--text-3);
+  }
+
+  .ld-editorial__year {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .ld-editorial__tag {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-4);
+    font-style: italic;
+  }
+
+  .ld-editorial__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-bottom: var(--space-6);
+  }
+
+  .ld-editorial__deck {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 56ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .ld-editorial__ext-link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .ld-editorial__ext-link:hover { text-decoration: underline; }
+
+  /* Gallery — masonry via columns */
+
+  .ld-editorial__gallery {
+    columns: 2;
+    column-gap: var(--space-5);
+    margin-bottom: var(--space-12);
+  }
+
+  .ld-editorial__gallery-item {
+    break-inside: avoid;
+    margin-bottom: var(--space-5);
+  }
+
+  .ld-editorial__gallery-item img {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--rule-2);
+  }
+
+  @media (min-width: 900px) {
+    .ld-editorial__gallery { columns: 3; }
+  }
+
+  @media (max-width: 480px) {
+    .ld-editorial__gallery { columns: 1; }
+  }
+
+  .ld-editorial__cover {
+    margin-bottom: var(--space-12);
+  }
+
+  .ld-editorial__cover img {
+    width: 100%;
+    border: 1px solid var(--rule-2);
+  }
+
+  .ld-editorial__pull-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--text-2);
+    border-left: 4px solid var(--accent);
+    padding-left: var(--space-6);
+    margin: 0 0 var(--space-10);
+  }
+
+  .ld-editorial__body {
+    margin-bottom: var(--space-12);
+  }
+
+  .ld-editorial__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+  }
+
+  .ld-editorial__credits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ld-editorial__credit-row {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .ld-editorial__credit-label {
+    font-weight: 600;
+    color: var(--text-3);
+    min-width: 44px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    font-size: var(--text-xs);
+    padding-top: 2px;
+  }
+
+  .ld-editorial__back {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    text-decoration: none;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .ld-editorial__back:hover { color: var(--accent); }
+
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-ld {
+    padding-bottom: var(--space-24);
+  }
+
+  /* Full-bleed cover — st-main has no padding-inline */
+
+  .st-ld__cover {
+    width: 100%;
+    max-height: 60vh;
+    overflow: hidden;
+  }
+
+  .st-ld__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Gallery grid — first image spans full width */
+
+  .st-ld__gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 0;
+  }
+
+  .st-ld__gallery-item {
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  .st-ld__gallery-item:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 21 / 9;
+  }
+
+  .st-ld__gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 600ms var(--ease-out);
+  }
+
+  .st-ld__gallery-item:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Inner content — adds the gutter back */
+
+  .st-ld__inner {
+    padding-inline: var(--gutter);
+  }
+
+  /* Header — two-column on wide viewports */
+
+  .st-ld__header {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: var(--space-12);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .st-ld__header {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .st-ld__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .st-ld__type {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--accent);
+  }
+
+  .st-ld__year {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    color: var(--text-4);
+  }
+
+  .st-ld__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: var(--leading-tight);
+    color: var(--text-1);
+    margin-bottom: var(--space-6);
+  }
+
+  .st-ld__summary {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 58ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .st-ld__shows {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+    padding: var(--space-4) var(--space-5);
+    border-left: 2px solid var(--accent-mid);
+    margin-bottom: var(--space-6);
+  }
+
+  .st-ld__ext-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: var(--space-2);
+    position: relative;
+  }
+
+  .st-ld__ext-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .st-ld__ext-link:hover::after { transform: scaleX(1); }
+
+  /* Sidebar */
+
+  .st-ld__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-2);
+  }
+
+  .st-ld__sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .st-ld__sidebar-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--text-4);
+  }
+
+  .st-ld__sidebar-value {
+    font-size: var(--text-sm);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .st-ld__sidebar-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* Body prose */
+
+  .st-ld__body {
+    max-width: 68ch;
+    margin-bottom: var(--space-16);
+  }
+
+  /* Footer */
+
+  .st-ld__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+  }
+
+  .st-ld__back {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    text-decoration: none;
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  .st-ld__back:hover { color: var(--accent); }
 </style>

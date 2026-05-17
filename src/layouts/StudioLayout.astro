@@ -1,0 +1,298 @@
+---
+// src/layouts/StudioLayout.astro
+// Studio theme shell: full-width, contemporary, minimalist.
+// No container constraint — sections manage their own horizontal padding.
+// Signature: ultra-thin nav, warm moss accent, refined micro-animations.
+
+const path = Astro.url.pathname;
+const navItems = [
+  { href: "/work",  label: "Work"  },
+  { href: "/lab",   label: "Lab"   },
+  { href: "/about", label: "About" },
+];
+---
+
+<div id="shell-studio" aria-hidden="true">
+
+  <!-- ── Navigation ──────────────────────────────────────────── -->
+  <header class="st-header" role="banner">
+    <nav class="st-nav" aria-label="Main navigation">
+
+      <a href="/" class="st-wordmark" aria-label="Julie Johnston — home">
+        Julie Johnston
+      </a>
+
+      <ul class="st-nav__links" role="list">
+        {navItems.map(({ href, label }) => {
+          const isActive = path === href || path.startsWith(href + "/");
+          return (
+            <li>
+              <a
+                href={href}
+                class:list={["st-nav__link", { "st-nav__link--active": isActive }]}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div class="st-status" aria-label="Availability status">
+        <span class="st-status__dot" aria-hidden="true"></span>
+        <span class="st-status__label">Available</span>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- ── Main content ────────────────────────────────────────── -->
+  <main id="main-content" class="st-main" tabindex="-1">
+    <slot />
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────── -->
+  <footer class="st-footer" role="contentinfo">
+    <div class="st-footer__inner">
+
+      <div class="st-footer__brand">
+        <span class="st-footer__name">Julie Johnston</span>
+        <span class="st-footer__tagline">Designing for complexity</span>
+      </div>
+
+      <nav class="st-footer__nav" aria-label="Footer navigation">
+        <ul role="list">
+          {navItems.map(({ href, label }) => (
+            <li><a href={href} class="st-footer__link">{label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="st-footer__contact">
+        <a href="mailto:hello@juliejohnston.design" class="st-footer__link">
+          hello@juliejohnston.design
+        </a>
+        <a
+          href="https://linkedin.com/in/juliejohnston"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="st-footer__link"
+        >
+          LinkedIn ↗
+        </a>
+      </div>
+
+    </div>
+
+    <div class="st-footer__bottom">
+      <span>© {new Date().getFullYear()} Julie Johnston</span>
+      <span>Built with Astro · Deployed on Vercel</span>
+    </div>
+  </footer>
+
+</div>
+
+
+<style>
+  /* ── Shell ──────────────────────────────────────────────────── */
+
+  #shell-studio {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg);
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────── */
+
+  .st-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .st-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    height: 64px;
+    padding-inline: var(--gutter);
+  }
+
+  .st-wordmark {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.07em;
+    color: var(--text-1);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .st-wordmark:hover { color: var(--accent); }
+
+  .st-nav__links {
+    display: flex;
+    gap: var(--space-8);
+    margin-right: auto;
+  }
+
+  /* Underline-draw hover — the signature nav interaction */
+  .st-nav__link {
+    position: relative;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding-block: var(--space-1);
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  .st-nav__link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .st-nav__link:hover           { color: var(--text-1); }
+  .st-nav__link:hover::after    { transform: scaleX(1); }
+
+  .st-nav__link--active         { color: var(--accent); }
+  .st-nav__link--active::after  { transform: scaleX(1); }
+
+  .st-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .st-status__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-success);
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .st-status__dot { animation: st-pulse 2.4s ease-in-out infinite; }
+    @keyframes st-pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+  }
+
+  .st-status__label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-success);
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .st-status__label { display: none; }
+    .st-nav__links    { gap: var(--space-5); }
+  }
+
+  /* ── Main ───────────────────────────────────────────────────── */
+
+  /* No padding-inline — each page section adds its own.
+     This allows full-bleed cover images on detail pages. */
+  .st-main {
+    flex: 1;
+    padding-bottom: var(--space-24);
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+
+  .st-footer {
+    border-top: 1px solid var(--rule);
+    padding: var(--space-10) var(--gutter) var(--space-8);
+  }
+
+  .st-footer__inner {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-12);
+    align-items: start;
+    padding-bottom: var(--space-8);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .st-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .st-footer__name {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
+    color: var(--text-1);
+  }
+
+  .st-footer__tagline {
+    font-size: var(--text-xs);
+    color: var(--text-4);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .st-footer__nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .st-footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-end;
+  }
+
+  .st-footer__link {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .st-footer__link:hover { color: var(--text-1); }
+
+  .st-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--text-4);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  @media (max-width: 700px) {
+    .st-footer__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+    .st-footer__brand   { grid-column: 1 / -1; }
+    .st-footer__contact { align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .st-footer__inner { grid-template-columns: 1fr; }
+  }
+</style>

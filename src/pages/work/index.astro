@@ -11,6 +11,8 @@ import CaseStudyCard from "@components/CaseStudyCard.astro";
 import MissionCard from "@components/pixel/MissionCard.astro";
 import SpreadCard from "@components/editorial/SpreadCard.astro";
 import DomainFilter from "@components/DomainFilter.tsx";
+import StudioLayout from "@layouts/StudioLayout.astro";
+import StudioWorkCard from "@components/studio/WorkCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -105,6 +107,33 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
 
     </div>
   </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <div class="st-work">
+
+      <header class="st-work__header">
+        <h1 class="st-work__title">Work</h1>
+        <p class="st-work__intro">{workLanding?.intro}</p>
+      </header>
+
+      {sorted.length === 0 ? (
+        <p class="st-work__empty">No case studies yet.</p>
+      ) : (
+        <ul class="st-work__list" role="list">
+          {sorted.map((entry, i) => (
+            <li style={`--st-delay: ${i * 60}ms`}>
+              <StudioWorkCard entry={entry} index={i + 1} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+    </div>
+  </StudioLayout>
 
 </BaseLayout>
 
@@ -204,5 +233,43 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
     display: flex;
     flex-direction: column;
     padding-bottom: var(--space-16);
+  }
+
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-work {
+    padding-inline: var(--gutter);
+  }
+
+  .st-work__header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-2);
+  }
+
+  .st-work__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: var(--leading-tight);
+    color: var(--text-1);
+    margin-bottom: var(--space-6);
+  }
+
+  .st-work__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  .st-work__list { list-style: none; }
+
+  .st-work__empty {
+    padding: var(--space-16) 0;
+    color: var(--text-3);
+    font-size: var(--text-sm);
   }
 </style>

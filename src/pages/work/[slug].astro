@@ -6,6 +6,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
+import StudioLayout from "@layouts/StudioLayout.astro";
 import OutcomeBlock from "@components/OutcomeBlock.astro";
 import NdaBanner from "@components/NdaBanner.astro";
 
@@ -222,6 +223,88 @@ const structuredData = {
 
     </article>
   </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       Full-bleed cover · two-col header · clean prose
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <article class="st-cs">
+
+      {/* Full-bleed cover — breaks out of the gutter via negative margin */}
+      {data.cover_image && (
+        <div class="st-cs__cover-bleed">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      <div class="st-cs__inner">
+
+        <header class="st-cs__header">
+          <div class="st-cs__header-left">
+            <div class="st-cs__meta">
+              <span class={`tag tag--${data.domain}`}>{data.domain}</span>
+              {data.problem_types.map((pt) => (
+                <span class="tag tag--neutral">{pt}</span>
+              ))}
+              <span class="st-cs__year">{data.year}</span>
+            </div>
+            <h1 class="st-cs__title">{data.title}</h1>
+            <p class="st-cs__summary">{data.summary}</p>
+          </div>
+          <aside class="st-cs__header-right">
+            <dl class="st-cs__credits">
+              <div>
+                <dt class="label">My role</dt>
+                <dd>{data.role}</dd>
+              </div>
+              <div>
+                <dt class="label">Client</dt>
+                <dd>{data.client}</dd>
+              </div>
+              {data.collaborators.length > 0 && (
+                <div>
+                  <dt class="label">With</dt>
+                  <dd>{data.collaborators.join(", ")}</dd>
+                </div>
+              )}
+            </dl>
+            {data.complexity_note && (
+              <p class="st-cs__complexity">{data.complexity_note}</p>
+            )}
+          </aside>
+        </header>
+
+        {data.visibility !== "full" && (
+          <NdaBanner visibility={data.visibility} note={data.nda_note} />
+        )}
+
+        {data.outcomes.length > 0 && (
+          <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
+        )}
+
+        <div class="st-cs__body prose"><Content /></div>
+
+        <footer class="st-cs__footer">
+          {data.skills.length > 0 && (
+            <div class="cs-tags">
+              <span class="label">Skills</span>
+              {data.skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+            </div>
+          )}
+          {data.tools.length > 0 && (
+            <div class="cs-tags">
+              <span class="label">Tools</span>
+              {data.tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+            </div>
+          )}
+          <a href="/work" class="st-cs__back">← Back to Work</a>
+        </footer>
+
+      </div>
+    </article>
+  </StudioLayout>
 
 </BaseLayout>
 
@@ -540,5 +623,134 @@ const structuredData = {
     gap: var(--space-5);
     padding-top: var(--space-8);
     border-top: 3px solid var(--text-1);
+  }
+
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-cs {
+    /* No side padding — cover image bleeds edge to edge */
+  }
+
+  /* Full-bleed cover: st-main has no padding-inline, so this is naturally
+     edge-to-edge. st-cs__inner below it adds the gutter for text content. */
+  .st-cs__cover-bleed {
+    margin-bottom: var(--space-12);
+    overflow: hidden;
+  }
+
+  .st-cs__cover-bleed img {
+    width: 100%;
+    max-height: 560px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .st-cs__inner {
+    padding-inline: var(--gutter);
+  }
+
+  .st-cs__header {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-16);
+    align-items: start;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-10);
+  }
+
+  .st-cs__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .st-cs__year {
+    font-size: var(--text-xs);
+    color: var(--text-4);
+    letter-spacing: var(--tracking-wide);
+    margin-left: auto;
+  }
+
+  .st-cs__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3.5rem);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    margin-bottom: var(--space-5);
+  }
+
+  .st-cs__summary {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .st-cs__header-right {
+    padding-top: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .st-cs__credits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .st-cs__credits > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .st-cs__credits dd {
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .st-cs__complexity {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    line-height: var(--leading-relaxed);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+    font-style: italic;
+  }
+
+  .st-cs__body {
+    max-width: 68ch;
+    margin-bottom: var(--space-12);
+  }
+
+  .st-cs__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+    border-top: 1px solid var(--rule);
+  }
+
+  .st-cs__back {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+    margin-top: var(--space-2);
+  }
+  .st-cs__back:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .st-cs__header {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
   }
 </style>

@@ -122,8 +122,17 @@ const labCollection = defineCollection({
     link: z.string().url().optional(),
     link_label: z.string().optional(),
 
+    // Image gallery — stored as managed image paths (via Keystatic fields.image)
+    gallery: z.array(z.object({
+      image: z.string(),
+      alt: z.string().optional(),
+    })).default([]),
+
     cover_image: z.string().optional(),
     cover_alt: z.string().optional(),
+
+    // Freeform tags for secondary filtering (in addition to type)
+    tags: z.array(z.string()).default([]),
 
     // Hide from grid without deleting the file
     draft: z.boolean().default(false),

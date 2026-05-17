@@ -4,6 +4,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
+import StudioLayout from "@layouts/StudioLayout.astro";
 import keystaticConfig from "../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -215,6 +216,80 @@ const tools = about?.tools ?? [];
 
     </div>
   </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <div class="st-about">
+
+      <header class="st-about__hero">
+        <div class="st-about__hero-grid">
+          <div class="st-about__hero-left">
+            <h1 class="st-about__heading">{about?.heading}</h1>
+            <p class="st-about__intro">{about?.intro}</p>
+            <div class="st-about__ctas">
+              <a href={`mailto:${about?.email}`} class="btn btn--accent">Get in touch</a>
+              <a href={about?.linkedin_url ?? "#"} target="_blank" rel="noopener noreferrer" class="btn">
+                LinkedIn ↗
+              </a>
+            </div>
+          </div>
+          <aside class="st-about__sidebar">
+            <dl class="st-about__facts">
+              <div class="st-about__fact">
+                <dt class="label">Experience</dt>
+                <dd>20+ years</dd>
+              </div>
+              <div class="st-about__fact">
+                <dt class="label">Domains</dt>
+                <dd class="st-about__fact-tags">
+                  <span class="tag tag--healthcare">Healthcare</span>
+                  <span class="tag tag--ecommerce">Ecommerce</span>
+                  <span class="tag tag--enterprise">Enterprise</span>
+                  <span class="tag tag--web">Web</span>
+                </dd>
+              </div>
+              {about?.available && (
+                <div class="st-about__fact">
+                  <dt class="label">Status</dt>
+                  <dd class="st-about__available">
+                    <span class="st-about__dot" aria-hidden="true"></span>
+                    Available for new work
+                  </dd>
+                </div>
+              )}
+              <div class="st-about__fact">
+                <dt class="label">Contact</dt>
+                <dd>
+                  <a href={`mailto:${about?.email}`} class="st-about__email">
+                    {about?.email}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </header>
+
+      <section class="st-about__bio">
+        {about?.bio.map((p) => <p>{p}</p>)}
+      </section>
+
+      <section class="st-about__skills">
+        <div class="st-about__skill-group">
+          <p class="label st-about__skill-label">Practice</p>
+          <div class="tag-cloud">{skills.map((s) => <span class="tag tag--neutral">{s}</span>)}</div>
+        </div>
+        <div class="st-about__skill-group">
+          <p class="label st-about__skill-label">Tools</p>
+          <div class="tag-cloud">{tools.map((t) => <span class="tag tag--neutral">{t}</span>)}</div>
+        </div>
+      </section>
+
+    </div>
+  </StudioLayout>
 
 </BaseLayout>
 
@@ -554,5 +629,140 @@ const tools = about?.tools ?? [];
 
   @media (max-width: 768px) {
     .about-editorial__body { grid-template-columns: 1fr; gap: var(--space-10); }
+  }
+
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-about {
+    padding-inline: var(--gutter);
+  }
+
+  .st-about__hero {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-12);
+  }
+
+  .st-about__hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .st-about__hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .st-about__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.03em;
+    color: var(--text-1);
+  }
+
+  .st-about__intro {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 54ch;
+  }
+
+  .st-about__ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  .st-about__sidebar {
+    padding-top: var(--space-2);
+  }
+
+  .st-about__facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .st-about__fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .st-about__fact dd {
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .st-about__fact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .st-about__available {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-success);
+  }
+
+  .st-about__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-success);
+    flex-shrink: 0;
+  }
+
+  .st-about__email {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .st-about__email:hover { color: var(--accent-2); }
+
+  .st-about__bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    max-width: 68ch;
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-12);
+  }
+
+  .st-about__bio p {
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .st-about__skills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  .st-about__skill-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .st-about__skill-label {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (max-width: 768px) {
+    .st-about__hero-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
   }
 </style>

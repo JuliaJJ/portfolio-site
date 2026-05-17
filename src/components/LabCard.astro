@@ -46,6 +46,14 @@ const isExternal = !!data.link;
     <h2 class="lab-card__title">{data.title}</h2>
     <p class="lab-card__summary">{data.summary}</p>
 
+    {data.tags.length > 0 && (
+      <div class="lab-card__tags" aria-label="Tags">
+        {data.tags.map((tag) => (
+          <span class="lab-card__tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
     <p class="lab-card__shows">{data.what_it_shows}</p>
 
     {isExternal && (
@@ -140,6 +148,23 @@ const isExternal = !!data.link;
     border-top: var(--border);
     margin-top: auto;
     margin-bottom: 0;
+  }
+
+  .lab-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .lab-card__tag {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    background: var(--bg-3);
+    border: var(--border);
+    border-radius: var(--radius-full);
+    padding: 1px 8px;
+    line-height: 1.6;
   }
 
   .lab-card__link-hint {
