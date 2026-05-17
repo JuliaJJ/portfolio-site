@@ -13,6 +13,7 @@ import SpreadCard from "@components/editorial/SpreadCard.astro";
 import DomainFilter from "@components/DomainFilter.tsx";
 import StudioLayout from "@layouts/StudioLayout.astro";
 import StudioWorkCard from "@components/studio/WorkCard.astro";
+import StudioWorkGridCard from "@components/studio/WorkGridCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -123,10 +124,10 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
       {sorted.length === 0 ? (
         <p class="st-work__empty">No case studies yet.</p>
       ) : (
-        <ul class="st-work__list" role="list">
+        <ul class="st-work__grid" role="list">
           {sorted.map((entry, i) => (
             <li style={`--st-delay: ${i * 60}ms`}>
-              <StudioWorkCard entry={entry} index={i + 1} />
+              <StudioWorkGridCard entry={entry} index={i + 1} />
             </li>
           ))}
         </ul>
@@ -265,7 +266,17 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
     max-width: 60ch;
   }
 
-  .st-work__list { list-style: none; }
+  .st-work__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12) var(--space-10);
+    padding-top: var(--space-10);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .st-work__grid { grid-template-columns: 1fr; }
+  }
 
   .st-work__empty {
     padding: var(--space-16) 0;

@@ -1,0 +1,146 @@
+---
+// src/components/studio/WorkGridCard.astro
+// Studio theme: compact two-column grid card for the work index.
+// Image fills the card naturally (no grid-breaking); info row below.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  index: number;
+}
+
+const { entry, index } = Astro.props;
+const { data, slug } = entry;
+const num = String(index).padStart(2, "0");
+---
+
+<a
+  href={`/work/${slug}`}
+  class="st-gc"
+  aria-label={`${data.title} — ${data.summary}`}
+>
+  <div class="st-gc__img-wrap" aria-hidden="true">
+    {data.cover_image ? (
+      <img
+        src={data.cover_image}
+        alt={data.cover_alt ?? data.title}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="img-placeholder">
+        <span class="img-placeholder__label">Cover image</span>
+      </div>
+    )}
+  </div>
+
+  <div class="st-gc__info">
+    <span class="st-gc__num" aria-hidden="true">{num}</span>
+    <span class="st-gc__title">{data.title}</span>
+    <div class="st-gc__meta">
+      <span class={`tag tag--${data.domain}`}>{data.domain}</span>
+      {data.visibility !== "full" && (
+        <span class="st-gc__nda">NDA</span>
+      )}
+      <span class="st-gc__year">{data.year}</span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .st-gc {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .st-gc__img-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+  }
+
+  .st-gc__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.5) brightness(0.9);
+    transition:
+      transform 500ms var(--ease-out),
+      filter    400ms var(--ease-out);
+  }
+
+  .st-gc:hover .st-gc__img-wrap img {
+    transform: scale(1.04);
+    filter: saturate(1) brightness(1);
+  }
+
+  .st-gc__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-left: var(--space-4);
+    border-left: 2px solid transparent;
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+
+  .st-gc:hover .st-gc__info {
+    border-color: var(--accent);
+  }
+
+  .st-gc__num {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-wider);
+    color: var(--accent);
+  }
+
+  .st-gc__title {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    font-weight: var(--weight-light);
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+    line-height: var(--leading-snug);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .st-gc:hover .st-gc__title { transform: translateX(4px); }
+
+    .st-gc {
+      animation: st-gc-in var(--duration-slow) var(--ease-out) var(--st-delay, 0ms) both;
+    }
+    @keyframes st-gc-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  .st-gc__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  .st-gc__nda {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-warning);
+    background: var(--color-warning-bg);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  .st-gc__year {
+    font-size: var(--text-xs);
+    color: var(--text-4);
+    letter-spacing: var(--tracking-wider);
+    margin-left: auto;
+  }
+</style>
