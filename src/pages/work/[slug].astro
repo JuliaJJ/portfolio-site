@@ -10,6 +10,7 @@ import StudioLayout from "@layouts/StudioLayout.astro";
 import OutcomeBlock from "@components/OutcomeBlock.astro";
 import NdaBanner from "@components/NdaBanner.astro";
 import ProcessTimeline from "@components/ProcessTimeline.astro";
+import CaseStudyImage from "@components/CaseStudyImage.astro";
 
 export async function getStaticPaths() {
   const allWork = await getCollection("work");
@@ -85,7 +86,7 @@ const structuredData = {
         <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
       )}
 
-      <div class="cs-default__body prose"><Content components={{ ProcessTimeline }} /></div>
+      <div class="cs-default__body prose"><Content components={{ ProcessTimeline, CaseStudyImage }} /></div>
 
       <footer class="cs-default__footer">
         {data.skills.length > 0 && (
@@ -147,7 +148,7 @@ const structuredData = {
       )}
 
       <div class="cs-pixel__section-head">MISSION LOG</div>
-      <div class="cs-pixel__body"><Content components={{ ProcessTimeline }} /></div>
+      <div class="cs-pixel__body"><Content components={{ ProcessTimeline, CaseStudyImage }} /></div>
 
       <div class="cs-pixel__credits">
         <p><span class="cs-pixel__field-label">ROLE: </span>{data.role}</p>
@@ -213,7 +214,7 @@ const structuredData = {
         <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
       )}
 
-      <div class="cs-editorial__body prose"><Content components={{ ProcessTimeline }} /></div>
+      <div class="cs-editorial__body prose"><Content components={{ ProcessTimeline, CaseStudyImage }} /></div>
 
       <footer class="cs-editorial__footer">
         {data.skills.length > 0 && (
@@ -243,8 +244,8 @@ const structuredData = {
 
       {/* Full-bleed cover — st-main has no padding-inline so this hits edges naturally */}
       <div class="st-cs__cover-bleed">
-        {data.cover_image ? (
-          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        {(data.cover_image_wide ?? data.cover_image) ? (
+          <img src={data.cover_image_wide ?? data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
         ) : (
           <div class="img-placeholder" aria-hidden="true">
             <span class="img-placeholder__label">Cover image</span>
@@ -297,7 +298,7 @@ const structuredData = {
           <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
         )}
 
-        <div class="st-cs__body prose"><Content components={{ ProcessTimeline }} /></div>
+        <div class="st-cs__body prose"><Content components={{ ProcessTimeline, CaseStudyImage }} /></div>
 
         <footer class="st-cs__footer">
           {data.skills.length > 0 && (

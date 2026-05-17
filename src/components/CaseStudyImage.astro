@@ -1,0 +1,48 @@
+---
+// src/components/CaseStudyImage.astro
+// Inline image block for case study prose content.
+// Registered as a Keystatic MDX block — handles upload, alt, caption, size.
+
+interface Props {
+  image: string;
+  alt?: string;
+  caption?: string;
+  size?: "full" | "medium";
+}
+
+const { image, alt = "", caption, size = "full" } = Astro.props;
+---
+
+<figure class={`cs-image cs-image--${size}`}>
+  <img src={image} alt={alt} loading="lazy" decoding="async" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .cs-image {
+    margin: var(--space-10) 0;
+  }
+
+  .cs-image img {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius-md);
+    border: var(--border);
+    /* Override the generic .prose img margin so the figcaption sits flush */
+    margin: 0;
+  }
+
+  .cs-image--medium {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  figcaption {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    text-align: center;
+    margin-top: var(--space-3);
+    font-style: italic;
+    line-height: var(--leading-normal);
+  }
+</style>

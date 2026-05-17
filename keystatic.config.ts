@@ -82,7 +82,8 @@ export default config({
         ),
         impact_note: fields.text({ label: "Impact note", multiline: true, validation: { isRequired: false } }),
 
-        cover_image: fields.text({ label: "Cover image path", validation: { isRequired: false } }),
+        cover_image: fields.text({ label: "Cover image — standard (16:9)", validation: { isRequired: false } }),
+        cover_image_wide: fields.text({ label: "Cover image — wide (21:9, Studio header)", validation: { isRequired: false } }),
         cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
         prototype_url: fields.url({ label: "Prototype URL (Figma)", validation: { isRequired: false } }),
 
@@ -99,6 +100,26 @@ export default config({
                   }),
                   { label: "Steps", itemLabel: (p) => p.fields.label.value }
                 ),
+              },
+            }),
+            CaseStudyImage: block({
+              label: "Image",
+              schema: {
+                image: fields.image({
+                  label: "Image",
+                  directory: "public/images/work",
+                  publicPath: "/images/work/",
+                }),
+                alt: fields.text({ label: "Alt text", validation: { isRequired: false } }),
+                caption: fields.text({ label: "Caption (optional)", validation: { isRequired: false } }),
+                size: fields.select({
+                  label: "Size",
+                  defaultValue: "full",
+                  options: [
+                    { label: "Full width", value: "full" },
+                    { label: "Medium (centred)", value: "medium" },
+                  ],
+                }),
               },
             }),
           },
@@ -154,7 +175,8 @@ export default config({
           { label: "Gallery", itemLabel: (p) => p.fields.alt.value || "Image" }
         ),
 
-        cover_image: fields.text({ label: "Cover image path", validation: { isRequired: false } }),
+        cover_image: fields.text({ label: "Cover image — standard (16:9)", validation: { isRequired: false } }),
+        cover_image_wide: fields.text({ label: "Cover image — wide (21:9, Studio header)", validation: { isRequired: false } }),
         cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
 
         tags: fields.array(

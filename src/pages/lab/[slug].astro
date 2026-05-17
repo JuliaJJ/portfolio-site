@@ -329,10 +329,10 @@ const hasGallery = data.gallery.length > 0;
             </div>
           ))}
         </div>
-      ) : data.cover_image ? (
+      ) : (data.cover_image_wide ?? data.cover_image) ? (
         <div class="st-ld__cover">
           <img
-            src={data.cover_image}
+            src={data.cover_image_wide ?? data.cover_image}
             alt={data.cover_alt ?? data.title}
             loading="eager"
           />

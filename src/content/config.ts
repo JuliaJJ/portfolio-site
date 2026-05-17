@@ -85,6 +85,8 @@ const workCollection = defineCollection({
     // ── Assets
     // Path relative to this file, or /public URL
     cover_image: z.string().optional(),
+    // Wide crop for Studio full-bleed header (21:9). Falls back to cover_image if absent.
+    cover_image_wide: z.string().optional(),
     // Alt text for cover
     cover_alt: z.string().optional(),
     // Optional Figma embed URL for prototypes
@@ -129,6 +131,7 @@ const labCollection = defineCollection({
     })).default([]),
 
     cover_image: z.string().optional(),
+    cover_image_wide: z.string().optional(),
     cover_alt: z.string().optional(),
 
     // Freeform tags for secondary filtering (in addition to type)
