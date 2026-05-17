@@ -2,15 +2,6 @@ import { defineCollection, z } from "astro:content";
 
 // ─── Shared enums ──────────────────────────────────────────────────────────
 
-const domainEnum = z.enum([
-  "healthcare",
-  "ecommerce",
-  "web",
-  "mobile",
-  "enterprise",
-  "agency",
-]);
-
 const problemTypeEnum = z.enum([
   "workflow",       // complex task flows, EHR, ops tools
   "system",         // design systems, component libraries
@@ -69,8 +60,7 @@ const workCollection = defineCollection({
     // Shown when visibility = partial | request
     nda_note: z.string().optional(),
 
-    // ── Domain + skills — powers filtering
-    domain: domainEnum,
+    // ── Problem types + skills — powers filtering
     // Can belong to multiple problem types
     problem_types: z.array(problemTypeEnum),
     skills: z.array(z.string()).default([]),
@@ -142,7 +132,7 @@ const labCollection = defineCollection({
 
 // ─── Additional Work collection ────────────────────────────────────────────
 // Shorter-form portfolio pieces — primarily images with light metadata.
-// No domain, no year, no outcomes, no featured flag. Not on home page.
+// No year, no outcomes, no featured flag. Not on home page.
 
 const additionalWorkCollection = defineCollection({
   type: "content",

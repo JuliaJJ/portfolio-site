@@ -25,7 +25,6 @@ const issueNum = String(index).padStart(2, "0");
   <div class="ed-gc__header">
     <span class="ed-gc__num" aria-hidden="true">{issueNum}</span>
     <div class="ed-gc__byline">
-      <span class={`ed-gc__domain`}>{data.domain}</span>
       {data.visibility === "partial" && (
         <span class="ed-gc__flag">Process shown</span>
       )}
@@ -93,16 +92,6 @@ const issueNum = String(index).padStart(2, "0");
     gap: var(--space-2);
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-
-  .ed-gc__domain {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    padding: 2px 6px;
-    border: 1px solid var(--rule-2);
-    color: var(--text-3);
   }
 
   .ed-gc__flag {

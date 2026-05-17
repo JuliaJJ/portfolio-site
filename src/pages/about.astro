@@ -49,15 +49,6 @@ const tools = about?.tools ?? [];
               <dt class="label">Experience</dt>
               <dd>20+ years</dd>
             </div>
-            <div class="fact">
-              <dt class="label">Domains</dt>
-              <dd class="fact__tags">
-                <span class="tag tag--healthcare">Healthcare</span>
-                <span class="tag tag--ecommerce">Ecommerce</span>
-                <span class="tag tag--enterprise">Enterprise</span>
-                <span class="tag tag--web">Web</span>
-              </dd>
-            </div>
             {about?.available && (
               <div class="fact">
                 <dt class="label">Status</dt>
@@ -131,15 +122,6 @@ const tools = about?.tools ?? [];
         </div>
 
         <div class="about-pixel__divider">════════════════════════════════</div>
-        <p class="about-pixel__section-head">DOMAINS UNLOCKED</p>
-        <div class="about-pixel__domains">
-          <span class="about-pixel__domain about-pixel__domain--healthcare">■ HEALTHCARE</span>
-          <span class="about-pixel__domain about-pixel__domain--ecommerce">■ ECOMMERCE</span>
-          <span class="about-pixel__domain about-pixel__domain--enterprise">■ ENTERPRISE</span>
-          <span class="about-pixel__domain about-pixel__domain--web">■ WEB</span>
-        </div>
-
-        <div class="about-pixel__divider">════════════════════════════════</div>
         <p class="about-pixel__section-head">SKILLS</p>
         <div class="about-pixel__skills">
           {skills.map((s) => (
@@ -185,10 +167,6 @@ const tools = about?.tools ?? [];
             <div class="about-editorial__fact">
               <span class="about-editorial__fact-num">20+</span>
               <span class="about-editorial__fact-label">Years of practice</span>
-            </div>
-            <div class="about-editorial__fact">
-              <span class="about-editorial__fact-num">4</span>
-              <span class="about-editorial__fact-label">Major domains</span>
             </div>
           </div>
 
@@ -241,15 +219,6 @@ const tools = about?.tools ?? [];
               <div class="st-about__fact">
                 <dt class="label">Experience</dt>
                 <dd>20+ years</dd>
-              </div>
-              <div class="st-about__fact">
-                <dt class="label">Domains</dt>
-                <dd class="st-about__fact-tags">
-                  <span class="tag tag--healthcare">Healthcare</span>
-                  <span class="tag tag--ecommerce">Ecommerce</span>
-                  <span class="tag tag--enterprise">Enterprise</span>
-                  <span class="tag tag--web">Web</span>
-                </dd>
               </div>
               {about?.available && (
                 <div class="st-about__fact">
@@ -462,24 +431,6 @@ const tools = about?.tools ?? [];
     letter-spacing: 0.12em;
     color: var(--accent);
   }
-
-  .about-pixel__domains {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .about-pixel__domain {
-    font-family: var(--font-display);
-    font-size: 0.5rem;
-    letter-spacing: 0.1em;
-    color: var(--text-2);
-  }
-
-  .about-pixel__domain--healthcare { color: var(--domain-healthcare-text); }
-  .about-pixel__domain--ecommerce  { color: var(--domain-ecommerce-text);  }
-  .about-pixel__domain--enterprise { color: var(--domain-enterprise-text); }
-  .about-pixel__domain--web        { color: var(--domain-web-text);        }
 
   .about-pixel__skills {
     display: flex;

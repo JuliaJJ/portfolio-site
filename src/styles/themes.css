@@ -88,20 +88,6 @@ html[data-theme="pixel"] {
   --accent-dim:  rgba(0, 255, 65, 0.07);
   --accent-mid:  rgba(0, 255, 65, 0.15);
 
-  /* Domain tags */
-  --domain-healthcare:        #0a2e14;
-  --domain-healthcare-text:   #4dcc7a;
-  --domain-ecommerce:         #1a2e0a;
-  --domain-ecommerce-text:    #99cc4d;
-  --domain-enterprise:        #0a1a33;
-  --domain-enterprise-text:   #4d99e6;
-  --domain-web:               #1a0a33;
-  --domain-web-text:          #9966e6;
-  --domain-mobile:            #0a2e2e;
-  --domain-mobile-text:       #4de6e6;
-  --domain-agency:            #2e0a1a;
-  --domain-agency-text:       #e64d99;
-
   /* Semantic */
   --color-success:      #00cc34;
   --color-success-bg:   rgba(0, 204, 52, 0.12);
@@ -236,20 +222,6 @@ html[data-theme="editorial"] {
   --accent-dim:  rgba(200, 16, 46, 0.07);
   --accent-mid:  rgba(200, 16, 46, 0.14);
 
-  /* Domain tags — rebalanced for light background */
-  --domain-healthcare:        #d0ece6;
-  --domain-healthcare-text:   #1a6b50;
-  --domain-ecommerce:         #eee8d4;
-  --domain-ecommerce-text:    #7a5020;
-  --domain-enterprise:        #d4dcea;
-  --domain-enterprise-text:   #1a3d6b;
-  --domain-web:               #e0d4ea;
-  --domain-web-text:          #52206b;
-  --domain-mobile:            #d4eaea;
-  --domain-mobile-text:       #1a6060;
-  --domain-agency:            #ead4e0;
-  --domain-agency-text:       #6b1a40;
-
   /* Semantic */
   --color-success:      #1a7a48;
   --color-success-bg:   rgba(26, 122, 72, 0.1);
@@ -357,20 +329,6 @@ html[data-theme="studio"] {
   --accent-dim: rgba(61, 107, 63, 0.08);
   --accent-mid: rgba(61, 107, 63, 0.16);
 
-  /* Domain tags — rebalanced for light background */
-  --domain-healthcare:        #dff0e8;
-  --domain-healthcare-text:   #1a5e3d;
-  --domain-ecommerce:         #f0ead8;
-  --domain-ecommerce-text:    #704f18;
-  --domain-enterprise:        #d8e5f0;
-  --domain-enterprise-text:   #1a3d6b;
-  --domain-web:               #e6d8f0;
-  --domain-web-text:          #4c1f6b;
-  --domain-mobile:            #d8eef0;
-  --domain-mobile-text:       #1a5c60;
-  --domain-agency:            #f0d8e8;
-  --domain-agency-text:       #6b1a42;
-
   /* Semantic */
   --color-success:      #2a7a48;
   --color-success-bg:   rgba(42, 122, 72, 0.10);
@@ -417,8 +375,7 @@ html[data-theme="studio"] .theme-overlay {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Neutral tags — give them a visible border on the light Studio background
-   so they sit consistently alongside the coloured domain tags */
+/* Neutral tags — give them a visible border on the light Studio background */
 html[data-theme="studio"] .tag--neutral {
   background: var(--bg-2);
   border: 1px solid var(--rule);

@@ -41,7 +41,6 @@ const num = String(index).padStart(2, "0");
     <span class="st-wc__num" aria-hidden="true">{num}</span>
     <span class="st-wc__title">{data.title}</span>
     <div class="st-wc__meta">
-      <span class={`tag tag--${data.domain}`}>{data.domain}</span>
       {data.visibility !== "full" && (
         <span class="st-wc__nda">NDA</span>
       )}

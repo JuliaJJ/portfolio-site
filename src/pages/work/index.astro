@@ -42,8 +42,7 @@ const sortedAdditional = allAdditional
     return 0;
   });
 
-const domains = ["all", ...new Set(sorted.map((e) => e.data.domain))];
-const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
+const types = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
 ---
 
 <BaseLayout
@@ -63,12 +62,11 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
       </header>
 
       <!-- DomainFilter only operates on default shell cards -->
-      <DomainFilter client:load domains={domains} types={types} />
+      <DomainFilter client:load types={types} />
 
       <ul class="work-default__grid" role="list">
         {sorted.map((entry, i) => (
           <li
-            data-card-domain={entry.data.domain}
             data-card-types={entry.data.problem_types.join(",")}
           >
             <TechWorkGridCard entry={entry} index={i + 1} />

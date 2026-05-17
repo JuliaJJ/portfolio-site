@@ -121,7 +121,7 @@ h5 { font-size: var(--text-md);  font-weight: var(--weight-medium); }
 }
 .link-accent:hover { color: var(--accent-2); }
 
-/* Tags / domain badges */
+/* Tags */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -134,12 +134,6 @@ h5 { font-size: var(--text-md);  font-weight: var(--weight-medium); }
   line-height: 1;
 }
 
-.tag--healthcare { background: var(--domain-healthcare); color: var(--domain-healthcare-text); }
-.tag--ecommerce  { background: var(--domain-ecommerce);  color: var(--domain-ecommerce-text);  }
-.tag--enterprise { background: var(--domain-enterprise); color: var(--domain-enterprise-text); }
-.tag--web        { background: var(--domain-web);        color: var(--domain-web-text);        }
-.tag--mobile     { background: var(--domain-mobile);     color: var(--domain-mobile-text);     }
-.tag--agency     { background: var(--domain-agency);     color: var(--domain-agency-text);     }
 .tag--neutral    { background: var(--bg-3); color: var(--text-3); }
 
 /* Metric display */

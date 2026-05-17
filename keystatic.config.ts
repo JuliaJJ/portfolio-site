@@ -39,18 +39,6 @@ export default config({
         }),
         nda_note: fields.text({ label: "NDA note", multiline: true, validation: { isRequired: false } }),
 
-        domain: fields.select({
-          label: "Domain",
-          defaultValue: "web",
-          options: [
-            { label: "Healthcare", value: "healthcare" },
-            { label: "Ecommerce", value: "ecommerce" },
-            { label: "Web", value: "web" },
-            { label: "Mobile", value: "mobile" },
-            { label: "Enterprise", value: "enterprise" },
-            { label: "Agency", value: "agency" },
-          ],
-        }),
         problem_types: fields.multiselect({
           label: "Problem types",
           options: [
