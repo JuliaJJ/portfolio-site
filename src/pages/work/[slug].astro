@@ -71,11 +71,15 @@ const structuredData = {
         <NdaBanner visibility={data.visibility} note={data.nda_note} />
       )}
 
-      {data.cover_image && (
-        <div class="cs-default__cover">
+      <div class="cs-default__cover">
+        {data.cover_image ? (
           <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
-        </div>
-      )}
+        ) : (
+          <div class="img-placeholder" aria-hidden="true">
+            <span class="img-placeholder__label">Cover image</span>
+          </div>
+        )}
+      </div>
 
       {data.outcomes.length > 0 && (
         <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
@@ -195,11 +199,15 @@ const structuredData = {
         <NdaBanner visibility={data.visibility} note={data.nda_note} />
       )}
 
-      {data.cover_image && (
-        <div class="cs-editorial__cover">
+      <div class="cs-editorial__cover">
+        {data.cover_image ? (
           <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
-        </div>
-      )}
+        ) : (
+          <div class="img-placeholder" aria-hidden="true">
+            <span class="img-placeholder__label">Cover image</span>
+          </div>
+        )}
+      </div>
 
       {data.outcomes.length > 0 && (
         <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
@@ -233,12 +241,16 @@ const structuredData = {
   <StudioLayout>
     <article class="st-cs">
 
-      {/* Full-bleed cover — breaks out of the gutter via negative margin */}
-      {data.cover_image && (
-        <div class="st-cs__cover-bleed">
+      {/* Full-bleed cover — st-main has no padding-inline so this hits edges naturally */}
+      <div class="st-cs__cover-bleed">
+        {data.cover_image ? (
           <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
-        </div>
-      )}
+        ) : (
+          <div class="img-placeholder" aria-hidden="true">
+            <span class="img-placeholder__label">Cover image</span>
+          </div>
+        )}
+      </div>
 
       <div class="st-cs__inner">
 
@@ -382,8 +394,14 @@ const structuredData = {
     gap: var(--space-1);
   }
 
-  .cs-default__cover { margin-bottom: var(--space-10); }
-  .cs-default__cover img { width: 100%; border-radius: var(--radius-md); border: var(--border); }
+  .cs-default__cover {
+    margin-bottom: var(--space-10);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: var(--border);
+  }
+  .cs-default__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cs-default__body { margin-bottom: var(--space-12); }
 
   .cs-default__footer {
@@ -614,8 +632,13 @@ const structuredData = {
     gap: var(--space-1);
   }
 
-  .cs-editorial__cover { margin-bottom: var(--space-10); }
-  .cs-editorial__cover img { width: 100%; border: var(--border); }
+  .cs-editorial__cover {
+    margin-bottom: var(--space-10);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: var(--border);
+  }
+  .cs-editorial__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cs-editorial__body { margin-bottom: var(--space-12); }
 
   .cs-editorial__footer {
@@ -637,11 +660,13 @@ const structuredData = {
   .st-cs__cover-bleed {
     margin-bottom: var(--space-12);
     overflow: hidden;
+    aspect-ratio: 21 / 9;
+    max-height: 560px;
   }
 
   .st-cs__cover-bleed img {
     width: 100%;
-    max-height: 560px;
+    height: 100%;
     object-fit: cover;
     display: block;
   }

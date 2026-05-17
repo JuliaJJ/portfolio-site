@@ -61,19 +61,8 @@ const hasGallery = data.gallery.length > 0;
         )}
       </header>
 
-      {/* Cover image — shown if no gallery */}
-      {!hasGallery && data.cover_image && (
-        <div class="ld-default__cover">
-          <img
-            src={data.cover_image}
-            alt={data.cover_alt ?? data.title}
-            loading="eager"
-          />
-        </div>
-      )}
-
-      {/* Masonry gallery */}
-      {hasGallery && (
+      {/* Gallery, cover, or placeholder */}
+      {hasGallery ? (
         <div class="ld-default__gallery" aria-label="Project gallery">
           {data.gallery.map((item) => (
             <div class="ld-default__gallery-item">
@@ -83,6 +72,24 @@ const hasGallery = data.gallery.length > 0;
                 loading="lazy"
                 decoding="async"
               />
+            </div>
+          ))}
+        </div>
+      ) : data.cover_image ? (
+        <div class="ld-default__cover">
+          <img
+            src={data.cover_image}
+            alt={data.cover_alt ?? data.title}
+            loading="eager"
+          />
+        </div>
+      ) : (
+        <div class="ld-default__gallery" aria-hidden="true">
+          {[1, 2, 3].map((n) => (
+            <div class="ld-default__gallery-item">
+              <div class="img-placeholder" style="aspect-ratio: 4/3">
+                <span class="img-placeholder__label">Gallery {n}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -153,8 +160,8 @@ const hasGallery = data.gallery.length > 0;
         <div class="ld-pixel__divider">════════════════════════════════</div>
       </div>
 
-      {/* CRT gallery strip */}
-      {hasGallery && (
+      {/* CRT gallery strip, cover, or no-signal placeholder */}
+      {hasGallery ? (
         <div class="ld-pixel__gallery" aria-label="Project gallery">
           {data.gallery.map((item) => (
             <div class="ld-pixel__gallery-item">
@@ -168,9 +175,7 @@ const hasGallery = data.gallery.length > 0;
             </div>
           ))}
         </div>
-      )}
-
-      {!hasGallery && data.cover_image && (
+      ) : data.cover_image ? (
         <div class="ld-pixel__cover-wrap" aria-hidden="true">
           <img
             src={data.cover_image}
@@ -178,6 +183,10 @@ const hasGallery = data.gallery.length > 0;
             class="ld-pixel__gallery-img"
             loading="eager"
           />
+        </div>
+      ) : (
+        <div class="ld-pixel__cover-wrap ld-pixel__no-sig" aria-hidden="true">
+          <span class="ld-pixel__no-sig-text">// NO SIGNAL //</span>
         </div>
       )}
 
@@ -231,8 +240,8 @@ const hasGallery = data.gallery.length > 0;
         )}
       </header>
 
-      {/* Gallery */}
-      {hasGallery && (
+      {/* Gallery, cover, or placeholder */}
+      {hasGallery ? (
         <div class="ld-editorial__gallery" aria-label="Project gallery">
           {data.gallery.map((item) => (
             <div class="ld-editorial__gallery-item">
@@ -245,15 +254,23 @@ const hasGallery = data.gallery.length > 0;
             </div>
           ))}
         </div>
-      )}
-
-      {!hasGallery && data.cover_image && (
+      ) : data.cover_image ? (
         <div class="ld-editorial__cover">
           <img
             src={data.cover_image}
             alt={data.cover_alt ?? data.title}
             loading="eager"
           />
+        </div>
+      ) : (
+        <div class="ld-editorial__gallery" aria-hidden="true">
+          {[1, 2, 3].map((n) => (
+            <div class="ld-editorial__gallery-item">
+              <div class="img-placeholder" style="aspect-ratio: 4/3">
+                <span class="img-placeholder__label">Gallery {n}</span>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -320,7 +337,25 @@ const hasGallery = data.gallery.length > 0;
             loading="eager"
           />
         </div>
-      ) : null}
+      ) : (
+        <div class="st-ld__gallery" aria-hidden="true">
+          <div class="st-ld__gallery-item" style="grid-column: 1 / -1">
+            <div class="img-placeholder">
+              <span class="img-placeholder__label">Gallery · wide</span>
+            </div>
+          </div>
+          <div class="st-ld__gallery-item">
+            <div class="img-placeholder">
+              <span class="img-placeholder__label">Gallery</span>
+            </div>
+          </div>
+          <div class="st-ld__gallery-item">
+            <div class="img-placeholder">
+              <span class="img-placeholder__label">Gallery</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div class="st-ld__inner">
 
@@ -483,12 +518,17 @@ const hasGallery = data.gallery.length > 0;
 
   .ld-default__cover {
     margin-bottom: var(--space-10);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: var(--border);
   }
 
   .ld-default__cover img {
     width: 100%;
-    border-radius: var(--radius-md);
-    border: var(--border);
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .ld-default__body {
@@ -677,6 +717,28 @@ const hasGallery = data.gallery.length > 0;
   }
 
   .ld-pixel__back:hover { color: var(--accent); }
+
+  /* No-signal placeholder for pixel detail page */
+  .ld-pixel__no-sig {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 255, 65, 0.03) 2px,
+      rgba(0, 255, 65, 0.03) 3px
+    );
+  }
+
+  .ld-pixel__no-sig-text {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--rule-2);
+    animation: pixel-blink 2s steps(1) infinite;
+  }
 
   /* ── Editorial shell ─────────────────────────────────────── */
 
