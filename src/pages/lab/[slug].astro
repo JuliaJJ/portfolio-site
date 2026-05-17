@@ -41,7 +41,6 @@ const hasGallery = data.gallery.length > 0;
           {data.tags.map((tag) => (
             <span class="tag tag--neutral">{tag}</span>
           ))}
-          <span class="ld-default__year">{data.year}</span>
         </div>
 
         <h1 class="ld-default__title">{data.title}</h1>
@@ -156,7 +155,7 @@ const hasGallery = data.gallery.length > 0;
             </a>
           )}
         </div>
-        <p class="ld-pixel__meta">{data.type?.toUpperCase()} · {data.year}</p>
+        <p class="ld-pixel__meta">{data.type?.toUpperCase()}</p>
         <div class="ld-pixel__divider">════════════════════════════════</div>
       </div>
 
@@ -218,7 +217,6 @@ const hasGallery = data.gallery.length > 0;
       <header class="ld-editorial__header">
         <div class="ld-editorial__byline">
           <span class="ld-editorial__type">{data.type}</span>
-          <span class="ld-editorial__year">{data.year}</span>
           {data.tags.slice(0, 3).map((tag) => (
             <span class="ld-editorial__tag">{tag}</span>
           ))}
@@ -363,7 +361,6 @@ const hasGallery = data.gallery.length > 0;
           <div class="st-ld__header-main">
             <div class="st-ld__eyebrow">
               <span class="st-ld__type">{data.type}</span>
-              <span class="st-ld__year">{data.year}</span>
             </div>
             <h1 class="st-ld__title">{data.title}</h1>
             <p class="st-ld__summary">{data.summary}</p>
@@ -454,13 +451,6 @@ const hasGallery = data.gallery.length > 0;
     gap: var(--space-2);
     flex-wrap: wrap;
     margin-bottom: var(--space-6);
-  }
-
-  .ld-default__year {
-    font-size: var(--text-xs);
-    color: var(--text-3);
-    letter-spacing: var(--tracking-wide);
-    margin-left: auto;
   }
 
   .ld-default__title {
@@ -771,13 +761,6 @@ const hasGallery = data.gallery.length > 0;
     color: var(--text-3);
   }
 
-  .ld-editorial__year {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    color: var(--text-3);
-  }
-
   .ld-editorial__tag {
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
@@ -998,12 +981,6 @@ const hasGallery = data.gallery.length > 0;
     text-transform: uppercase;
     letter-spacing: var(--tracking-widest);
     color: var(--accent);
-  }
-
-  .st-ld__year {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-wider);
-    color: var(--text-4);
   }
 
   .st-ld__title {

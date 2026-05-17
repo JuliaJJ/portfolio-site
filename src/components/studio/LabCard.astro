@@ -27,7 +27,6 @@ const num = String(index).padStart(2, "0");
   <span class="st-lc__num" aria-hidden="true">{num}</span>
   <span class="st-lc__type">{data.type}</span>
   <span class="st-lc__title">{data.title}</span>
-  <span class="st-lc__year">{data.year}</span>
   {isExternal && (
     <span class="st-lc__ext" aria-hidden="true">↗</span>
   )}
@@ -37,7 +36,7 @@ const num = String(index).padStart(2, "0");
   .st-lc {
     position: relative;
     display: grid;
-    grid-template-columns: 44px 80px 1fr auto auto;
+    grid-template-columns: 44px 80px 1fr auto;
     align-items: center;
     gap: 0 var(--space-6);
     padding: var(--space-6) 0 var(--space-6) var(--space-5);
@@ -102,13 +101,6 @@ const num = String(index).padStart(2, "0");
     transition: transform var(--duration-base) var(--ease-out);
   }
 
-  .st-lc__year {
-    font-size: var(--text-xs);
-    color: var(--text-4);
-    letter-spacing: var(--tracking-wider);
-    flex-shrink: 0;
-  }
-
   .st-lc__ext {
     font-size: var(--text-sm);
     color: var(--accent);
@@ -124,6 +116,5 @@ const num = String(index).padStart(2, "0");
     }
     .st-lc__type { grid-column: 1; grid-row: 2; font-size: 0.6rem; }
     .st-lc__title { font-size: var(--text-md); }
-    .st-lc__year  { display: none; }
   }
 </style>

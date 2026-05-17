@@ -48,7 +48,6 @@ const workCollection = defineCollection({
     client: z.string(),
     // What you actually did — specific, not "UX Designer"
     role: z.string(),
-    year: z.number(),
     // Controls homepage featured grid (max 3–4 recommended)
     featured: z.boolean().default(false),
     // Sort order within featured (lower = earlier)
@@ -102,7 +101,6 @@ const labCollection = defineCollection({
   schema: z.object({
 
     title: z.string(),
-    year: z.number(),
     // One-liner for the card
     summary: z.string(),
     // What does this demonstrate about you as a designer/builder?

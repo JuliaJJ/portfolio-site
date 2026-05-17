@@ -29,7 +29,7 @@ const sorted = allWork.sort((a, b) => {
   if (a.data.order !== undefined && b.data.order !== undefined) {
     return a.data.order - b.data.order;
   }
-  return b.data.year - a.data.year;
+  return 0;
 });
 
 const allAdditional = await getCollection("additionalWork");

@@ -46,7 +46,6 @@ const num = String(index).padStart(2, "0");
         <span class="st-wc__nda">NDA</span>
       )}
     </div>
-    <span class="st-wc__year">{data.year}</span>
   </div>
 </a>
 
@@ -89,7 +88,7 @@ const num = String(index).padStart(2, "0");
 
   .st-wc__info {
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     align-items: baseline;
     gap: 0 var(--space-8);
     padding-left: var(--space-5);
@@ -162,13 +161,6 @@ const num = String(index).padStart(2, "0");
     border-radius: var(--radius-sm);
   }
 
-  .st-wc__year {
-    font-size: var(--text-xs);
-    color: var(--text-4);
-    letter-spacing: var(--tracking-wider);
-    flex-shrink: 0;
-  }
-
   @media (max-width: 640px) {
     .st-wc__info {
       grid-template-columns: auto 1fr;
@@ -176,7 +168,6 @@ const num = String(index).padStart(2, "0");
       row-gap: var(--space-1);
     }
     .st-wc__meta { grid-column: 2; grid-row: 2; }
-    .st-wc__year { display: none; }
     .st-wc__num  { font-size: clamp(1.5rem, 8vw, 2.5rem); }
   }
 </style>

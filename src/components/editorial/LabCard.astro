@@ -25,7 +25,6 @@ const isExternal = !!data.link;
 
   <div class="ed-lgc__byline">
     <span class="ed-lgc__type">{data.type}</span>
-    <span class="ed-lgc__year">{data.year}</span>
     {data.tags.slice(0, 2).map((tag) => (
       <span class="ed-lgc__tag">{tag}</span>
     ))}
@@ -76,13 +75,6 @@ const isExternal = !!data.link;
     text-transform: uppercase;
     padding: 2px 6px;
     border: 1px solid var(--rule-2);
-    color: var(--text-3);
-  }
-
-  .ed-lgc__year {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
     color: var(--text-3);
   }
 

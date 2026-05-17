@@ -49,7 +49,6 @@ const structuredData = {
           {data.problem_types.map((pt) => (
             <span class="tag tag--neutral">{pt}</span>
           ))}
-          <span class="cs-default__year">{data.year}</span>
         </div>
         <h1 class="cs-default__title">{data.title}</h1>
         <p class="cs-default__summary">{data.summary}</p>
@@ -114,7 +113,7 @@ const structuredData = {
     <div class="cs-pixel">
 
       <div class="cs-pixel__header">
-        <p class="cs-pixel__id">MSN-XX · {data.domain.toUpperCase()} · {data.year}</p>
+        <p class="cs-pixel__id">MSN-XX · {data.domain.toUpperCase()}</p>
         <h1 class="cs-pixel__title">{data.title}</h1>
         <div class="cs-pixel__divider">════════════════════════════════</div>
         <p class="cs-pixel__summary">{data.summary}</p>
@@ -174,7 +173,6 @@ const structuredData = {
           {data.problem_types.map((pt) => (
             <span class="tag tag--neutral">{pt}</span>
           ))}
-          <span class="cs-editorial__year">{data.year}</span>
         </div>
 
         <h1 class="cs-editorial__title">{data.title}</h1>
@@ -262,7 +260,6 @@ const structuredData = {
               {data.problem_types.map((pt) => (
                 <span class="tag tag--neutral">{pt}</span>
               ))}
-              <span class="st-cs__year">{data.year}</span>
             </div>
             <h1 class="st-cs__title">{data.title}</h1>
             <p class="st-cs__summary">{data.summary}</p>
@@ -342,13 +339,6 @@ const structuredData = {
     gap: var(--space-2);
     flex-wrap: wrap;
     margin-bottom: var(--space-6);
-  }
-
-  .cs-default__year {
-    font-size: var(--text-xs);
-    color: var(--text-3);
-    letter-spacing: var(--tracking-wide);
-    margin-left: auto;
   }
 
   .cs-default__title {
@@ -583,13 +573,6 @@ const structuredData = {
     margin-bottom: var(--space-8);
   }
 
-  .cs-editorial__year {
-    font-size: var(--text-xs);
-    color: var(--text-3);
-    letter-spacing: var(--tracking-wide);
-    margin-left: auto;
-  }
-
   .cs-editorial__title {
     font-family: var(--font-display);
     font-style: italic;
@@ -693,13 +676,6 @@ const structuredData = {
     gap: var(--space-2);
     flex-wrap: wrap;
     margin-bottom: var(--space-6);
-  }
-
-  .st-cs__year {
-    font-size: var(--text-xs);
-    color: var(--text-4);
-    letter-spacing: var(--tracking-wide);
-    margin-left: auto;
   }
 
   .st-cs__title {

@@ -29,7 +29,6 @@ const issueNum = String(index).padStart(2, "0");
       <span class={`ed-spread__domain ed-spread__domain--${data.domain}`}>
         {data.domain}
       </span>
-      <span class="ed-spread__year">{data.year}</span>
       {data.visibility === "partial" && (
         <span class="ed-spread__flag">Process shown</span>
       )}
@@ -116,14 +115,6 @@ const issueNum = String(index).padStart(2, "0");
     text-transform: uppercase;
     padding: 2px 8px;
     border: 1px solid var(--rule-2);
-    color: var(--text-3);
-  }
-
-  .ed-spread__year {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
     color: var(--text-3);
   }
 

@@ -17,7 +17,6 @@ export default config({
         title: fields.slug({ name: { label: "Title" } }),
         client: fields.text({ label: "Client" }),
         role: fields.text({ label: "Role" }),
-        year: fields.number({ label: "Year", defaultValue: new Date().getFullYear() }),
         featured: fields.checkbox({ label: "Featured on homepage", defaultValue: false }),
         order: fields.number({ label: "Featured order (lower = first)", validation: { isRequired: false } }),
 
@@ -135,7 +134,6 @@ export default config({
       format: { contentField: "content" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
-        year: fields.number({ label: "Year", defaultValue: new Date().getFullYear() }),
         summary: fields.text({ label: "Summary" }),
         what_it_shows: fields.text({ label: "What it shows", multiline: true }),
 
