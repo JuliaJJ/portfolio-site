@@ -3,30 +3,25 @@
 
 import { useState, useEffect } from "react";
 
-type ThemeId = "default" | "pixel" | "editorial" | "studio";
+type ThemeId = "tech" | "pixel" | "editorial" | "studio";
 
 const THEMES: { id: ThemeId; label: string; bg: string; accent: string }[] = [
-  { id: "default",   label: "Default",   bg: "#0e0f14", accent: "#22d3ee" },
+  { id: "studio",    label: "Studio",    bg: "#f8f8f5", accent: "#3d6b3f" },
+  { id: "tech",      label: "Tech",      bg: "#0e0f14", accent: "#22d3ee" },
   { id: "pixel",     label: "Pixel",     bg: "#070a07", accent: "#00ff41" },
   { id: "editorial", label: "Editorial", bg: "#f8f4ed", accent: "#c8102e" },
-  { id: "studio",    label: "Studio",    bg: "#f8f8f5", accent: "#3d6b3f" },
 ];
 
 function getInitialTheme(): ThemeId {
-  if (typeof window === "undefined") return "default";
-  return (localStorage.getItem("theme") as ThemeId) ?? "default";
+  if (typeof window === "undefined") return "studio";
+  return (localStorage.getItem("theme") as ThemeId) ?? "studio";
 }
 
 export default function ThemeSwitcher() {
   const [active, setActive] = useState<ThemeId>(getInitialTheme);
 
   useEffect(() => {
-    const html = document.documentElement;
-    if (active === "default") {
-      html.removeAttribute("data-theme");
-    } else {
-      html.setAttribute("data-theme", active);
-    }
+    document.documentElement.setAttribute("data-theme", active);
     localStorage.setItem("theme", active);
   }, [active]);
 

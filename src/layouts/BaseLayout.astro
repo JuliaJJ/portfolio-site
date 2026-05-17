@@ -59,8 +59,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <!-- Apply saved theme before first paint -->
   <script is:inline>
     (function () {
-      var t = localStorage.getItem('theme');
-      if (t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+      var t = localStorage.getItem('theme') || 'studio';
+      document.documentElement.setAttribute('data-theme', t);
     })();
   </script>
 </head>
@@ -80,8 +80,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <script is:inline>
     (function () {
       function syncShells() {
-        var theme = document.documentElement.getAttribute('data-theme') || 'default';
-        ['default', 'pixel', 'editorial', 'studio'].forEach(function (t) {
+        var theme = document.documentElement.getAttribute('data-theme') || 'studio';
+        ['tech', 'pixel', 'editorial', 'studio'].forEach(function (t) {
           var el = document.getElementById('shell-' + t);
           if (el) el.setAttribute('aria-hidden', theme === t ? 'false' : 'true');
         });

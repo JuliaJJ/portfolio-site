@@ -12,22 +12,34 @@
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SHELL VISIBILITY — CSS-driven, no FOUC
-   Default is visible; pixel and editorial are hidden.
+   Studio is the default; all others hidden until data-theme is set.
    Switching data-theme on <html> swaps shells instantly.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-#shell-default   { display: block; }
+#shell-tech      { display: none;  }
 #shell-pixel     { display: none;  }
 #shell-editorial { display: none;  }
-#shell-studio    { display: none;  }
+#shell-studio    { display: block; }
 
-html[data-theme="pixel"]     #shell-default   { display: none; }
+html[data-theme="studio"]    #shell-tech      { display: none;  }
+html[data-theme="studio"]    #shell-pixel     { display: none;  }
+html[data-theme="studio"]    #shell-editorial { display: none;  }
+html[data-theme="studio"]    #shell-studio    { display: block; }
+
+html[data-theme="tech"]      #shell-tech      { display: block; }
+html[data-theme="tech"]      #shell-pixel     { display: none;  }
+html[data-theme="tech"]      #shell-editorial { display: none;  }
+html[data-theme="tech"]      #shell-studio    { display: none;  }
+
+html[data-theme="pixel"]     #shell-tech      { display: none; }
 html[data-theme="pixel"]     #shell-pixel     { display: grid; }
 html[data-theme="pixel"]     #shell-editorial { display: none; }
+html[data-theme="pixel"]     #shell-studio    { display: none; }
 
-html[data-theme="editorial"] #shell-default   { display: none;  }
+html[data-theme="editorial"] #shell-tech      { display: none;  }
 html[data-theme="editorial"] #shell-pixel     { display: none;  }
 html[data-theme="editorial"] #shell-editorial { display: block; }
+html[data-theme="editorial"] #shell-studio    { display: none;  }
 
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -304,11 +316,6 @@ html[data-theme="editorial"] .eyebrow--ruled::before {
    Clean off-white. Warm moss accent. Full-width numbered rows.
    Contemporary, minimalist, refined hover animations.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-html[data-theme="studio"] #shell-default   { display: none;  }
-html[data-theme="studio"] #shell-pixel     { display: none;  }
-html[data-theme="studio"] #shell-editorial { display: none;  }
-html[data-theme="studio"] #shell-studio    { display: block; }
 
 html[data-theme="studio"] {
 
