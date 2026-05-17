@@ -57,6 +57,9 @@ const featured = allWork
             <li><CaseStudyCard entry={entry} /></li>
           ))}
         </ul>
+        <div class="default-work-footer">
+          <a href="/work" class="link-accent">All case studies →</a>
+        </div>
       </section>
     )}
 
@@ -95,6 +98,9 @@ const featured = allWork
             {featured.map((entry, i) => (
               <MissionCard entry={entry} index={i + 1} />
             ))}
+          </div>
+          <div class="px-missions__footer">
+            <a href="/work" class="px-missions__all">[ VIEW ALL MISSIONS ]</a>
           </div>
         </div>
       )}
@@ -144,6 +150,9 @@ const featured = allWork
             {featured.map((entry, i) => (
               <SpreadCard entry={entry} index={i + 1} />
             ))}
+          </div>
+          <div class="ed-work-footer">
+            <a href="/work" class="ed-section-link">All case studies →</a>
           </div>
         </section>
       )}
@@ -197,6 +206,9 @@ const featured = allWork
               </li>
             ))}
           </ul>
+          <div class="st-home__work-footer">
+            <a href="/work" class="st-section-link">All projects →</a>
+          </div>
         </section>
       )}
 
@@ -253,6 +265,12 @@ const featured = allWork
   .featured-work {
     padding-top: var(--space-4);
     padding-bottom: var(--space-16);
+  }
+
+  .default-work-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-6);
   }
 
   .default-featured-grid {
@@ -320,6 +338,12 @@ const featured = allWork
 
   .px-missions__list {
     border: 2px solid var(--rule);
+  }
+
+  .px-missions__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-3);
   }
 
   /* ── Editorial: home ─────────────────────────────────────── */
@@ -434,6 +458,13 @@ const featured = allWork
     flex-direction: column;
   }
 
+  .ed-work-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-8);
+  }
+
   /* ── Responsive ──────────────────────────────────────────── */
 
   @media (max-width: 768px) {
@@ -540,8 +571,6 @@ const featured = allWork
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--space-2);
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--rule);
   }
 
   .st-section-link {
@@ -555,6 +584,12 @@ const featured = allWork
 
   .st-home__work { padding-bottom: var(--space-8); }
   .st-home__work-list { list-style: none; }
+
+  .st-home__work-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-6);
+  }
 
   @media (max-width: 900px) {
     .st-home__hero-grid {
