@@ -7,12 +7,11 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
-import CaseStudyCard from "@components/CaseStudyCard.astro";
 import MissionCard from "@components/pixel/MissionCard.astro";
-import SpreadCard from "@components/editorial/SpreadCard.astro";
+import TechWorkGridCard from "@components/tech/WorkGridCard.astro";
+import EditorialWorkGridCard from "@components/editorial/WorkGridCard.astro";
 import DomainFilter from "@components/DomainFilter.tsx";
 import StudioLayout from "@layouts/StudioLayout.astro";
-import StudioWorkCard from "@components/studio/WorkCard.astro";
 import StudioWorkGridCard from "@components/studio/WorkGridCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
@@ -53,12 +52,12 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
       <DomainFilter client:load domains={domains} types={types} />
 
       <ul class="work-default__grid" role="list">
-        {sorted.map((entry) => (
+        {sorted.map((entry, i) => (
           <li
             data-card-domain={entry.data.domain}
             data-card-types={entry.data.problem_types.join(",")}
           >
-            <CaseStudyCard entry={entry} />
+            <TechWorkGridCard entry={entry} index={i + 1} />
           </li>
         ))}
       </ul>
@@ -100,11 +99,13 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
         <p class="work-editorial__intro">{workLanding?.intro}</p>
       </header>
 
-      <div class="work-editorial__list">
+      <ul class="work-editorial__grid" role="list">
         {sorted.map((entry, i) => (
-          <SpreadCard entry={entry} index={i + 1} />
+          <li>
+            <EditorialWorkGridCard entry={entry} index={i + 1} />
+          </li>
         ))}
-      </div>
+      </ul>
 
     </div>
   </EditorialLayout>
@@ -156,9 +157,14 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
   }
 
   .work-default__grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-10);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-8);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .work-default__grid { grid-template-columns: 1fr; }
   }
 
   /* ── Pixel shell ─────────────────────────────────────────── */
@@ -230,10 +236,16 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
     max-width: 62ch;
   }
 
-  .work-editorial__list {
-    display: flex;
-    flex-direction: column;
+  .work-editorial__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-10);
     padding-bottom: var(--space-16);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .work-editorial__grid { grid-template-columns: 1fr; }
   }
 
   /* ── Studio shell ────────────────────────────────────────── */
