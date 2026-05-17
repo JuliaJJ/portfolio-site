@@ -189,13 +189,12 @@ export default config({
         content: fields.mdx({ label: "Body" }),
       },
     }),
-  },
 
     // ── Additional Work ───────────────────────────────────────────────────
     additionalWork: collection({
       label: "Additional Work",
       slugField: "title",
-      path: "src/content/additional-work/*",
+      path: "src/content/additionalWork/*",
       format: { contentField: "notes" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
