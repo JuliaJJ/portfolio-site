@@ -14,6 +14,8 @@ interface Props {
 const { entry, index } = Astro.props;
 const { data, slug } = entry;
 const issueNum = String(index).padStart(2, "0");
+const visibleSkills = data.skills.slice(0, 3);
+const extraSkills = data.skills.length - visibleSkills.length;
 ---
 
 <a
@@ -25,8 +27,11 @@ const issueNum = String(index).padStart(2, "0");
   <div class="ed-gc__header">
     <span class="ed-gc__num" aria-hidden="true">{issueNum}</span>
     <div class="ed-gc__byline">
-      {data.visibility === "partial" && (
-        <span class="ed-gc__flag">Process shown</span>
+      {visibleSkills.map((s) => (
+        <span class="tag tag--neutral">{s}</span>
+      ))}
+      {extraSkills > 0 && (
+        <span class="tag tag--neutral">+{extraSkills}</span>
       )}
       {data.visibility === "request" && (
         <span class="ed-gc__flag ed-gc__flag--nda">NDA</span>

@@ -12,6 +12,8 @@ interface Props {
 const { entry, index } = Astro.props;
 const { data, slug } = entry;
 const leadOutcome = data.outcomes?.[0] ?? null;
+const visibleSkills = data.skills.slice(0, 3);
+const extraSkills = data.skills.length - visibleSkills.length;
 ---
 
 <a href={`/work/${slug}`} class="tc-gc" aria-label={`${data.title} — ${data.summary}`}>
@@ -29,9 +31,6 @@ const leadOutcome = data.outcomes?.[0] ?? null;
         <span class="img-placeholder__label">Cover image</span>
       </div>
     )}
-    {data.visibility === "partial" && (
-      <span class="badge badge--partial tc-gc__badge">Process shown</span>
-    )}
     {data.visibility === "request" && (
       <span class="badge badge--request tc-gc__badge">NDA</span>
     )}
@@ -39,6 +38,12 @@ const leadOutcome = data.outcomes?.[0] ?? null;
 
   <div class="tc-gc__body">
     <div class="tc-gc__meta">
+      {visibleSkills.map((s) => (
+        <span class="tag tag--neutral">{s}</span>
+      ))}
+      {extraSkills > 0 && (
+        <span class="tag tag--neutral">+{extraSkills}</span>
+      )}
     </div>
     <p class="tc-gc__title">{data.title}</p>
     {leadOutcome && (

@@ -11,6 +11,8 @@ const { entry } = Astro.props;
 const { data, slug } = entry;
 
 const leadOutcome = data.outcomes[0] ?? null;
+const visibleSkills = data.skills.slice(0, 3);
+const extraSkills = data.skills.length - visibleSkills.length;
 ---
 
 <a href={`/work/${slug}`} class="cs-card" aria-label={`${data.title} — ${data.summary}`}>
@@ -30,9 +32,6 @@ const leadOutcome = data.outcomes[0] ?? null;
       </div>
     )}
 
-    {data.visibility === "partial" && (
-      <span class="badge badge--partial cs-card__badge">Process shown</span>
-    )}
     {data.visibility === "request" && (
       <span class="badge badge--request cs-card__badge">NDA — request access</span>
     )}
@@ -41,6 +40,12 @@ const leadOutcome = data.outcomes[0] ?? null;
   <div class="cs-card__body">
     <div class="cs-card__left">
       <div class="cs-card__meta">
+        {visibleSkills.map((s) => (
+          <span class="tag tag--neutral">{s}</span>
+        ))}
+        {extraSkills > 0 && (
+          <span class="tag tag--neutral">+{extraSkills}</span>
+        )}
       </div>
       <p class="cs-card__title">{data.title}</p>
       <p class="cs-card__summary">{data.summary}</p>

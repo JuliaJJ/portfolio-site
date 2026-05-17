@@ -15,6 +15,7 @@ const { data, slug } = entry;
 
 const missionId = String(index).padStart(2, "0");
 const leadOutcome = data.outcomes[0] ?? null;
+const skillsLabel = data.skills.slice(0, 3).join(" · ").toUpperCase();
 ---
 
 <a
@@ -49,6 +50,9 @@ const leadOutcome = data.outcomes[0] ?? null;
         <span class="px-mission__id">MSN-{missionId}</span>
         {data.title}
       </p>
+      {skillsLabel && (
+        <p class="px-mission__skills">{skillsLabel}</p>
+      )}
     </div>
 
     {leadOutcome && (
@@ -58,9 +62,6 @@ const leadOutcome = data.outcomes[0] ?? null;
       </div>
     )}
 
-    {data.visibility === "partial" && (
-      <span class="px-mission__flag">[PARTIAL]</span>
-    )}
     {data.visibility === "request" && (
       <span class="px-mission__flag px-mission__flag--nda">[NDA]</span>
     )}
@@ -237,6 +238,16 @@ const leadOutcome = data.outcomes[0] ?? null;
   .px-mission__id {
     color: var(--text-3);
     margin-right: 0.75rem;
+  }
+
+  .px-mission__skills {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.08em;
+    color: var(--text-4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .px-mission__meta {
