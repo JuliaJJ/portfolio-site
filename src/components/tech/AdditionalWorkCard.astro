@@ -1,0 +1,111 @@
+---
+// src/components/tech/AdditionalWorkCard.astro
+// Tech theme: compact grid card for additional work entries.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"additionalWork">;
+}
+
+const { entry } = Astro.props;
+const { data, slug } = entry;
+---
+
+<a
+  href={`/work/additional/${slug}`}
+  class="tc-awc"
+  aria-label={`${data.title} — ${data.client}`}
+>
+  <div class="tc-awc__img-wrap">
+    {data.cover_image ? (
+      <img
+        src={data.cover_image}
+        alt={data.cover_alt ?? data.title}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="img-placeholder">
+        <span class="img-placeholder__label">Cover image</span>
+      </div>
+    )}
+    {data.visibility !== "full" && (
+      <span class="badge badge--request tc-awc__badge">NDA</span>
+    )}
+  </div>
+
+  <div class="tc-awc__body">
+    <p class="tc-awc__title">{data.title}</p>
+    <p class="tc-awc__client">{data.client}</p>
+  </div>
+</a>
+
+<style>
+  .tc-awc {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tc-awc__img-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .tc-awc:hover .tc-awc__img-wrap {
+    transform: translateY(-4px);
+  }
+
+  .tc-awc__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.25) brightness(0.85);
+    transition:
+      filter    400ms var(--ease-out),
+      transform 500ms var(--ease-out);
+  }
+
+  .tc-awc:hover .tc-awc__img-wrap img {
+    filter: saturate(1) brightness(1);
+    transform: scale(1.02);
+  }
+
+  .tc-awc__badge {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+  }
+
+  .tc-awc__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .tc-awc__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-1);
+    transition: color var(--duration-slow) var(--ease-out);
+  }
+
+  .tc-awc:hover .tc-awc__title {
+    color: var(--accent);
+  }
+
+  .tc-awc__client {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+  }
+</style>

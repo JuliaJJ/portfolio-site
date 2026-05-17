@@ -1,0 +1,759 @@
+---
+// src/pages/work/additional/[slug].astro
+
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import StudioLayout from "@layouts/StudioLayout.astro";
+import NdaBanner from "@components/NdaBanner.astro";
+
+export async function getStaticPaths() {
+  const allEntries = await getCollection("additionalWork");
+  return allEntries
+    .filter((e) => !e.data.draft)
+    .map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <article class="aw-default">
+
+      <header class="aw-default__header">
+        <h1 class="aw-default__title">{data.title}</h1>
+        <div class="aw-default__meta">
+          <span class="aw-default__client">{data.client}</span>
+          <span class="aw-default__sep" aria-hidden="true">·</span>
+          <span class="aw-default__role">{data.role}</span>
+          {data.visibility !== "full" && (
+            <span class="badge badge--request">NDA</span>
+          )}
+        </div>
+        <p class="aw-default__description">{data.description}</p>
+      </header>
+
+      {data.visibility !== "full" && (
+        <NdaBanner visibility={data.visibility} note={data.nda_note} />
+      )}
+
+      {data.cover_image && (
+        <div class="aw-default__cover">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      {data.gallery.length > 0 && (
+        <div class="aw-default__gallery">
+          {data.gallery.map((item) => (
+            <figure class="aw-default__gallery-item">
+              <img src={item.image} alt={item.alt ?? ""} loading="lazy" decoding="async" />
+              {item.caption && <figcaption>{item.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )}
+
+      <div class="aw-default__notes prose"><Content /></div>
+
+      <footer class="aw-default__footer">
+        <a href="/work" class="aw-default__back">← Back to Work</a>
+      </footer>
+
+    </article>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <div class="aw-pixel">
+
+      <div class="aw-pixel__header">
+        <p class="aw-pixel__id">ADDITIONAL WORK · {data.client.toUpperCase()}</p>
+        <h1 class="aw-pixel__title">{data.title.toUpperCase()}</h1>
+        <div class="aw-pixel__divider">════════════════════════════════</div>
+        <p class="aw-pixel__role"><span class="aw-pixel__label">ROLE: </span>{data.role}</p>
+      </div>
+
+      {data.visibility !== "full" && (
+        <div class="aw-pixel__nda">
+          <span class="aw-pixel__nda-label">[{data.visibility.toUpperCase()}]</span>
+          {data.nda_note && <span class="aw-pixel__nda-text">{data.nda_note}</span>}
+        </div>
+      )}
+
+      <p class="aw-pixel__description">{data.description}</p>
+
+      {data.cover_image && (
+        <div class="aw-pixel__cover">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      {data.gallery.length > 0 && (
+        <div class="aw-pixel__gallery">
+          <p class="aw-pixel__section-head">GALLERY</p>
+          {data.gallery.map((item, i) => (
+            <div class="aw-pixel__gallery-item">
+              <span class="aw-pixel__gallery-label">[IMG-{String(i + 1).padStart(2, "0")}]</span>
+              <img src={item.image} alt={item.alt ?? ""} loading="lazy" decoding="async" />
+              {item.caption && <p class="aw-pixel__caption">{item.caption}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="aw-pixel__notes"><Content /></div>
+
+      <a href="/work" class="aw-pixel__back">← RETURN TO MISSION SELECT</a>
+
+    </div>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <article class="aw-editorial">
+
+      <header class="aw-editorial__header">
+        <div class="aw-editorial__byline">
+          <span class="aw-editorial__client">{data.client}</span>
+          <span class="aw-editorial__sep" aria-hidden="true">—</span>
+          <span class="aw-editorial__role">{data.role}</span>
+          {data.visibility !== "full" && (
+            <span class="aw-editorial__flag">NDA</span>
+          )}
+        </div>
+        <h1 class="aw-editorial__title">{data.title}</h1>
+        <p class="aw-editorial__description">{data.description}</p>
+      </header>
+
+      {data.visibility !== "full" && (
+        <NdaBanner visibility={data.visibility} note={data.nda_note} />
+      )}
+
+      {data.cover_image && (
+        <div class="aw-editorial__cover">
+          <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
+        </div>
+      )}
+
+      {data.gallery.length > 0 && (
+        <div class="aw-editorial__gallery">
+          {data.gallery.map((item) => (
+            <figure class="aw-editorial__gallery-item">
+              <img src={item.image} alt={item.alt ?? ""} loading="lazy" decoding="async" />
+              {item.caption && <figcaption>{item.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )}
+
+      <div class="aw-editorial__notes prose"><Content /></div>
+
+      <footer class="aw-editorial__footer">
+        <a href="/work" class="aw-editorial__back">← Back to Work</a>
+      </footer>
+
+    </article>
+  </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <article class="st-aw">
+
+      <div class="st-aw__cover-bleed">
+        {(data.cover_image_wide ?? data.cover_image) ? (
+          <img
+            src={data.cover_image_wide ?? data.cover_image}
+            alt={data.cover_alt ?? data.title}
+            loading="eager"
+          />
+        ) : (
+          <div class="img-placeholder" aria-hidden="true">
+            <span class="img-placeholder__label">Cover image</span>
+          </div>
+        )}
+      </div>
+
+      <div class="st-aw__inner">
+
+        <header class="st-aw__header">
+          <div class="st-aw__header-left">
+            <h1 class="st-aw__title">{data.title}</h1>
+            <p class="st-aw__description">{data.description}</p>
+          </div>
+          <aside class="st-aw__header-right">
+            <dl class="st-aw__credits">
+              <div>
+                <dt class="label">Client</dt>
+                <dd>{data.client}</dd>
+              </div>
+              <div>
+                <dt class="label">Role</dt>
+                <dd>{data.role}</dd>
+              </div>
+            </dl>
+            {data.visibility !== "full" && (
+              <p class="st-aw__nda-note">{data.nda_note}</p>
+            )}
+          </aside>
+        </header>
+
+        {data.visibility !== "full" && (
+          <NdaBanner visibility={data.visibility} note={data.nda_note} />
+        )}
+
+        {data.gallery.length > 0 && (
+          <div class="st-aw__gallery">
+            {data.gallery.map((item) => (
+              <figure class="st-aw__gallery-item">
+                <img src={item.image} alt={item.alt ?? ""} loading="lazy" decoding="async" />
+                {item.caption && <figcaption>{item.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        )}
+
+        <div class="st-aw__notes prose"><Content /></div>
+
+        <footer class="st-aw__footer">
+          <a href="/work" class="st-aw__back">← Back to Work</a>
+        </footer>
+
+      </div>
+    </article>
+  </StudioLayout>
+
+</BaseLayout>
+
+
+<style>
+  /* ── Default shell ───────────────────────────────────────── */
+
+  .aw-default {
+    max-width: var(--max-width-prose);
+    margin-inline: auto;
+  }
+
+  .aw-default__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-8);
+  }
+
+  .aw-default__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-4);
+  }
+
+  .aw-default__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--text-3);
+  }
+
+  .aw-default__description {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .aw-default__cover {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: var(--border);
+    margin-bottom: var(--space-6);
+  }
+
+  .aw-default__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .aw-default__gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  @media (max-width: 640px) {
+    .aw-default__gallery { grid-template-columns: 1fr; }
+  }
+
+  .aw-default__gallery-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .aw-default__gallery-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: var(--border);
+    display: block;
+  }
+
+  .aw-default__gallery-item figcaption {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    line-height: var(--leading-snug);
+  }
+
+  .aw-default__notes { margin-bottom: var(--space-10); }
+
+  .aw-default__footer {
+    padding-top: var(--space-8);
+    border-top: var(--border);
+    padding-bottom: var(--space-12);
+  }
+
+  .aw-default__back {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast);
+  }
+  .aw-default__back:hover { color: var(--accent); }
+
+  /* ── Pixel shell ─────────────────────────────────────────── */
+
+  .aw-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+  }
+
+  .aw-pixel__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .aw-pixel__id {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-4);
+  }
+
+  .aw-pixel__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.625rem, 2vw, 1rem);
+    letter-spacing: 0.06em;
+    line-height: 2;
+    color: var(--accent);
+  }
+
+  .aw-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .aw-pixel__label {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    margin-right: var(--space-2);
+  }
+
+  .aw-pixel__role {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+  }
+
+  .aw-pixel__nda {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-warning);
+    color: var(--color-warning);
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  .aw-pixel__nda-text { color: var(--text-2); font-size: inherit; }
+
+  .aw-pixel__description {
+    border-left: 2px solid var(--rule-2);
+    padding-left: var(--space-4);
+    color: var(--text-2);
+  }
+
+  .aw-pixel__cover {
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .aw-pixel__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .aw-pixel__section-head {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .aw-pixel__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .aw-pixel__gallery-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .aw-pixel__gallery-label {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text-4);
+  }
+
+  .aw-pixel__gallery-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--rule);
+    filter: saturate(0.3) brightness(0.9);
+  }
+
+  .aw-pixel__caption {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text-4);
+  }
+
+  .aw-pixel__notes { color: var(--text-1); }
+
+  .aw-pixel__back {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    display: inline-block;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+    transition: color var(--duration-fast);
+  }
+  .aw-pixel__back:hover { color: var(--accent); }
+
+  /* ── Editorial shell ─────────────────────────────────────── */
+
+  .aw-editorial {
+    max-width: 860px;
+    margin-inline: auto;
+    padding-bottom: var(--space-24);
+  }
+
+  .aw-editorial__header {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 3px solid var(--text-1);
+    margin-bottom: var(--space-10);
+  }
+
+  .aw-editorial__byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .aw-editorial__flag {
+    font-size: var(--text-xs);
+    color: var(--color-info);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .aw-editorial__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-bottom: var(--space-8);
+  }
+
+  .aw-editorial__description {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .aw-editorial__cover {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  .aw-editorial__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.2) brightness(0.95);
+  }
+
+  .aw-editorial__gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 640px) {
+    .aw-editorial__gallery { grid-template-columns: 1fr; }
+  }
+
+  .aw-editorial__gallery-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .aw-editorial__gallery-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.2) brightness(0.95);
+    border: var(--border);
+    transition: filter 400ms var(--ease-out);
+  }
+
+  .aw-editorial__gallery-item:hover img { filter: none; }
+
+  .aw-editorial__gallery-item figcaption {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    line-height: var(--leading-snug);
+  }
+
+  .aw-editorial__notes { margin-bottom: var(--space-12); }
+
+  .aw-editorial__footer {
+    padding-top: var(--space-8);
+    border-top: 3px solid var(--text-1);
+  }
+
+  .aw-editorial__back {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast);
+  }
+  .aw-editorial__back:hover { color: var(--accent); }
+
+  /* ── Studio shell ────────────────────────────────────────── */
+
+  .st-aw__cover-bleed {
+    aspect-ratio: 21 / 9;
+    max-height: 560px;
+    overflow: hidden;
+    margin-bottom: var(--space-12);
+  }
+
+  .st-aw__cover-bleed img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .st-aw__inner {
+    padding-inline: var(--gutter);
+  }
+
+  .st-aw__header {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-16);
+    align-items: start;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-12);
+  }
+
+  .st-aw__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3.5rem);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    margin-bottom: var(--space-5);
+  }
+
+  .st-aw__description {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .st-aw__header-right {
+    padding-top: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .st-aw__credits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .st-aw__credits > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .st-aw__credits dd {
+    font-size: var(--text-sm);
+    color: var(--text-2);
+  }
+
+  .st-aw__nda-note {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    line-height: var(--leading-relaxed);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+    font-style: italic;
+  }
+
+  .st-aw__gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 640px) {
+    .st-aw__gallery { grid-template-columns: 1fr; }
+  }
+
+  .st-aw__gallery-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .st-aw__gallery-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.5) brightness(0.9);
+    transition:
+      filter    400ms var(--ease-out),
+      transform 500ms var(--ease-out);
+  }
+
+  .st-aw__gallery-item:hover img {
+    filter: saturate(1) brightness(1);
+    transform: scale(1.01);
+  }
+
+  .st-aw__gallery-item figcaption {
+    font-size: var(--text-xs);
+    color: var(--text-4);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-snug);
+  }
+
+  .st-aw__notes { margin-bottom: var(--space-12); }
+
+  .st-aw__footer {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+    border-top: 1px solid var(--rule);
+  }
+
+  .st-aw__back {
+    font-size: var(--text-xs);
+    color: var(--text-3);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .st-aw__back:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .st-aw__header {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

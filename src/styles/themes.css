@@ -416,3 +416,11 @@ html[data-theme="studio"] ::selection {
 html[data-theme="studio"] .theme-overlay {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
+
+/* Neutral tags — give them a visible border on the light Studio background
+   so they sit consistently alongside the coloured domain tags */
+html[data-theme="studio"] .tag--neutral {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  color: var(--text-3);
+}

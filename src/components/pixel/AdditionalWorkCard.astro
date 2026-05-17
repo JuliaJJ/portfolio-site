@@ -1,0 +1,75 @@
+---
+// src/components/pixel/AdditionalWorkCard.astro
+// Pixel theme: terminal-style row for additional work entries.
+
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"additionalWork">;
+}
+
+const { entry } = Astro.props;
+const { data, slug } = entry;
+---
+
+<a
+  href={`/work/additional/${slug}`}
+  class="px-awc"
+  aria-label={`${data.title} — ${data.client}`}
+>
+  <span class="px-awc__prefix" aria-hidden="true">▶</span>
+  <span class="px-awc__title">{data.title.toUpperCase()}</span>
+  <span class="px-awc__client">{data.client.toUpperCase()}</span>
+  {data.visibility !== "full" && (
+    <span class="px-awc__nda">[NDA]</span>
+  )}
+</a>
+
+<style>
+  .px-awc {
+    display: grid;
+    grid-template-columns: 16px 1fr auto auto;
+    align-items: center;
+    gap: 0 var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--duration-fast);
+  }
+
+  .px-awc:hover {
+    background: var(--bg-2);
+  }
+
+  .px-awc__prefix {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--text-4);
+  }
+
+  .px-awc:hover .px-awc__prefix {
+    color: var(--accent);
+  }
+
+  .px-awc__title {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-1);
+  }
+
+  .px-awc__client {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+  }
+
+  .px-awc__nda {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    letter-spacing: 0.1em;
+    color: var(--color-warning);
+  }
+</style>

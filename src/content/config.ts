@@ -142,9 +142,41 @@ const labCollection = defineCollection({
   }),
 });
 
+// ─── Additional Work collection ────────────────────────────────────────────
+// Shorter-form portfolio pieces — primarily images with light metadata.
+// No domain, no year, no outcomes, no featured flag. Not on home page.
+
+const additionalWorkCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    client: z.string(),
+    role: z.string(),
+    // One or two sentences — no full case study narrative
+    description: z.string(),
+    // Manual sort order
+    order: z.number().optional(),
+    // NDA / visibility
+    visibility: visibilityEnum.default("full"),
+    nda_note: z.string().optional(),
+    // Cover image
+    cover_image: z.string().optional(),
+    cover_image_wide: z.string().optional(),
+    cover_alt: z.string().optional(),
+    // Image gallery
+    gallery: z.array(z.object({
+      image: z.string(),
+      alt: z.string().optional(),
+      caption: z.string().optional(),
+    })).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
 // ─── Export ────────────────────────────────────────────────────────────────
 
 export const collections = {
   work: workCollection,
   lab: labCollection,
+  additionalWork: additionalWorkCollection,
 };

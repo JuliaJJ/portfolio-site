@@ -191,6 +191,54 @@ export default config({
     }),
   },
 
+    // ── Additional Work ───────────────────────────────────────────────────
+    additionalWork: collection({
+      label: "Additional Work",
+      slugField: "title",
+      path: "src/content/additional-work/*",
+      format: { contentField: "notes" },
+      schema: {
+        title: fields.slug({ name: { label: "Title" } }),
+        client: fields.text({ label: "Client" }),
+        role: fields.text({ label: "Role" }),
+        description: fields.text({ label: "Description", multiline: true }),
+        order: fields.number({ label: "Order (lower = first)", validation: { isRequired: false } }),
+
+        visibility: fields.select({
+          label: "Visibility",
+          defaultValue: "full",
+          options: [
+            { label: "Full", value: "full" },
+            { label: "Partial", value: "partial" },
+            { label: "Request (NDA)", value: "request" },
+          ],
+        }),
+        nda_note: fields.text({ label: "NDA note", multiline: true, validation: { isRequired: false } }),
+
+        cover_image: fields.text({ label: "Cover image — standard (16:9)", validation: { isRequired: false } }),
+        cover_image_wide: fields.text({ label: "Cover image — wide (21:9, Studio header)", validation: { isRequired: false } }),
+        cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
+
+        gallery: fields.array(
+          fields.object({
+            image: fields.image({
+              label: "Image",
+              directory: "public/images/additional-work",
+              publicPath: "/images/additional-work/",
+            }),
+            alt: fields.text({ label: "Alt text", validation: { isRequired: false } }),
+            caption: fields.text({ label: "Caption", validation: { isRequired: false } }),
+          }),
+          { label: "Gallery", itemLabel: (p) => p.fields.alt.value || "Image" }
+        ),
+
+        draft: fields.checkbox({ label: "Draft (hide from index)", defaultValue: false }),
+
+        notes: fields.mdx({ label: "Notes (optional)" }),
+      },
+    }),
+  },
+
   singletons: {
     // ── Home ──────────────────────────────────────────────────────────────
     home: singleton({

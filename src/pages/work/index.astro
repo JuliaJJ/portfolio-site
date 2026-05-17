@@ -13,6 +13,10 @@ import EditorialWorkGridCard from "@components/editorial/WorkGridCard.astro";
 import DomainFilter from "@components/DomainFilter.tsx";
 import StudioLayout from "@layouts/StudioLayout.astro";
 import StudioWorkGridCard from "@components/studio/WorkGridCard.astro";
+import StudioAdditionalWorkCard from "@components/studio/AdditionalWorkCard.astro";
+import TechAdditionalWorkCard from "@components/tech/AdditionalWorkCard.astro";
+import EditorialAdditionalWorkCard from "@components/editorial/AdditionalWorkCard.astro";
+import PixelAdditionalWorkCard from "@components/pixel/AdditionalWorkCard.astro";
 import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
@@ -27,6 +31,16 @@ const sorted = allWork.sort((a, b) => {
   }
   return b.data.year - a.data.year;
 });
+
+const allAdditional = await getCollection("additionalWork");
+const sortedAdditional = allAdditional
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => {
+    if (a.data.order !== undefined && b.data.order !== undefined) {
+      return a.data.order - b.data.order;
+    }
+    return 0;
+  });
 
 const domains = ["all", ...new Set(sorted.map((e) => e.data.domain))];
 const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
@@ -62,6 +76,17 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
         ))}
       </ul>
 
+      {sortedAdditional.length > 0 && (
+        <section class="work-default__additional">
+          <h2 class="work-default__additional-heading">Additional Work</h2>
+          <ul class="work-default__additional-grid" role="list">
+            {sortedAdditional.map((entry) => (
+              <li><TechAdditionalWorkCard entry={entry} /></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
     </div>
   </DefaultLayout>
 
@@ -83,6 +108,17 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
           <MissionCard entry={entry} index={i + 1} />
         ))}
       </div>
+
+      {sortedAdditional.length > 0 && (
+        <div class="work-pixel__additional">
+          <p class="work-pixel__additional-head">ADDITIONAL WORK · {sortedAdditional.length} ENTRIES</p>
+          <div class="work-pixel__additional-list">
+            {sortedAdditional.map((entry) => (
+              <PixelAdditionalWorkCard entry={entry} />
+            ))}
+          </div>
+        </div>
+      )}
 
     </div>
   </PixelLayout>
@@ -106,6 +142,17 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
           </li>
         ))}
       </ul>
+
+      {sortedAdditional.length > 0 && (
+        <section class="work-editorial__additional">
+          <h2 class="work-editorial__additional-heading">Additional Work</h2>
+          <ul class="work-editorial__additional-grid" role="list">
+            {sortedAdditional.map((entry) => (
+              <li><EditorialAdditionalWorkCard entry={entry} /></li>
+            ))}
+          </ul>
+        </section>
+      )}
 
     </div>
   </EditorialLayout>
@@ -132,6 +179,17 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
             </li>
           ))}
         </ul>
+      )}
+
+      {sortedAdditional.length > 0 && (
+        <section class="st-work__additional">
+          <h2 class="st-work__additional-heading">Additional Work</h2>
+          <ul class="st-work__additional-grid" role="list">
+            {sortedAdditional.map((entry) => (
+              <li><StudioAdditionalWorkCard entry={entry} /></li>
+            ))}
+          </ul>
+        </section>
       )}
 
     </div>
@@ -294,5 +352,112 @@ const types   = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))]
     padding: var(--space-16) 0;
     color: var(--text-3);
     font-size: var(--text-sm);
+  }
+
+  /* ── Additional Work sections ─────────────────────────────── */
+
+  /* Default / Tech */
+  .work-default__additional {
+    padding-top: var(--space-16);
+    border-top: var(--border);
+    margin-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  .work-default__additional-heading {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .work-default__additional-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-8);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .work-default__additional-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Pixel */
+  .work-pixel__additional {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border-top: 2px solid var(--rule);
+    padding-top: var(--space-6);
+  }
+
+  .work-pixel__additional-head {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--text-4);
+  }
+
+  .work-pixel__additional-list {
+    border: 2px solid var(--rule);
+  }
+
+  /* Editorial */
+  .work-editorial__additional {
+    padding-top: var(--space-16);
+    border-top: 3px solid var(--text-1);
+    margin-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  .work-editorial__additional-heading {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    letter-spacing: -0.03em;
+    color: var(--text-1);
+    margin-bottom: var(--space-10);
+  }
+
+  .work-editorial__additional-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-10);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .work-editorial__additional-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Studio */
+  .st-work__additional {
+    padding-top: var(--space-16);
+    border-top: 1px solid var(--rule);
+    margin-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  .st-work__additional-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.01em;
+    color: var(--text-3);
+    margin-bottom: var(--space-10);
+  }
+
+  .st-work__additional-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-8);
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .st-work__additional-grid { grid-template-columns: 1fr; }
   }
 </style>
