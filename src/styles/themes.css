@@ -160,6 +160,15 @@ html[data-theme="pixel"] body::after {
   z-index: var(--z-modal);
 }
 
+/* ThemeSwitcher overlay — force consistent typography and geometry
+   so it doesn't inherit VT323, zero-radius, or 2px borders */
+html[data-theme="pixel"] .theme-overlay {
+  --font-body:  system-ui, -apple-system, sans-serif;
+  --radius-sm:  4px;
+  --border:     1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 4px;
+}
+
 /* Global keyframe shared by pixel components */
 @keyframes pixel-blink {
   0%, 49% { opacity: 1; }
