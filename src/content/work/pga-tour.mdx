@@ -1,0 +1,97 @@
+---
+title: "Modular content components for live event data"
+client: "PGA TOUR"
+role: "Senior User Experience Designer"
+featured: false
+order: 3
+
+summary: "The PGA TOUR's app couldn't flex to fit a live tournament — every event looked the same regardless of context, and each branding refresh was bespoke work. I led the content architecture redesign that solved both problems with a single modular component system."
+complexity_note: "Consumer-facing, high data density. Multiple concurrent tournaments with distinct branding requirements, real-time scoring on two timescales (round and aggregate), and a fan base that expects immediacy."
+my_contribution: "Consultant engagement — content audit and atomization, modular component design, high-fidelity wireframes, and a visual design system adaptable across tournament brands."
+collaborators:
+  - "Internal PGA TOUR development team"
+  - "PGA TOUR brand team"
+
+visibility: full
+
+problem_types:
+  - redesign
+  - system
+skills:
+  - "Information architecture"
+  - "Component design"
+  - "Wireframing"
+  - "Visual design"
+tools:
+  - "Sketch"
+  - "Illustrator"
+  - "Xcode"
+
+outcomes:
+  - metric: "Component reuse"
+    value: "1 system, 40+ tournaments"
+    note: "A single component library skinnable per tournament — no bespoke design work per event after initial build."
+  - metric: "Home screen states"
+    value: "3 covered by 1 system"
+    note: "Upcoming, in-progress, and concluded tournament states all composable from the same component set."
+  - metric: "Handoff timeline"
+    value: "Compressed"
+    note: "Hi-fi wireframes delivered to dev before visual design was complete, allowing component infrastructure to be built in parallel."
+
+impact_note: "Post-launch engagement data (session length, App Store ratings, favorites feature adoption) wasn't captured as part of this consulting engagement. The compounding value of the component system accrues across every tournament the TOUR runs going forward."
+
+# cover_image: "./covers/pga-tour-cover.png"
+# cover_alt: "PGA TOUR app leaderboard screen showing live tournament data and modular content components"
+---
+
+## The problem
+
+The PGA TOUR runs multiple tournaments simultaneously — often in different parts of the US and internationally — each with its own scoring cadence, branding, and fan base. Golf is a statistics-heavy sport, and scores operate on two timescales at once: within a single weekend of play and aggregated across an entire tournament season.
+
+The app's existing content display had been built as monolithic, event-agnostic views. They couldn't flex to fit the context — there was no meaningful difference in how the app presented a tournament that was three days out versus one mid-Round 2. And because each tournament has its own brand identity, any visual customization had been bespoke work rather than a system.
+
+Fans were also underserved on the features that sustain engagement during live events: tracking specific players, seeing the latest media, and moving quickly between leaderboard, tee times, and field views.
+
+## My approach to the problem
+
+The first question I brought to the project wasn't "what screens need to be redesigned" — it was "what's the smallest unit of data a golf fan actually cares about, and how do we design containers flexible enough to surface it in any context." Reframing the problem that way made the solution obvious: a component library, not a template refresh. The goal became a home screen composable from interchangeable pieces — configured for an upcoming tournament, a live Round 2, or a final leaderboard — and skinnable to match the branding of whichever event was active.
+
+## Design approach
+
+### Component architecture
+
+Every piece of existing content was treated as a candidate for decomposition. The inventory question wasn't "what screens do we have" but "what are the smallest meaningful units of data a fan might care about" — and then designing containers for those units that could compose into any configuration needed.
+
+The resulting library covered leaderboard rows, player cards, video highlight modules, score tickers, favorites tracking, tee time lists, and FedExCup standings — each designed to work standalone or in combination, and each inheriting tournament identity through a theming layer rather than one-off styling.
+
+High-fidelity wireframes were produced for each component before visual design began, so the development team could start building component infrastructure in parallel. That sequencing compressed the overall build timeline.
+
+### Tournament theming
+
+Each PGA TOUR event has a distinct logo and color palette. Rather than treating that as a design problem to solve tournament by tournament, the component system was built with brand inheritance as a first-class feature: drop in a tournament's primary color and mark, and every component on the screen reflects it — the Quicken Loans National looks different from the Shaw Charity Classic without any additional design work per event.
+
+### Home screen composition
+
+The home screen shifted from a fixed layout to a slot-based system. For an upcoming tournament: featured players, tee times, and preview content. During live play: live leaderboard, video highlights, favorites tracking, and round-in-progress indicators. After a tournament closes: final standings, FedExCup implications, and recap content. Same components, different configuration.
+
+<ProcessTimeline steps={[
+  { label: "Audit", detail: "Content inventory, existing app teardown" },
+  { label: "Atomize", detail: "Component identification, data model mapping" },
+  { label: "Wireframe", detail: "Hi-fi component wireframes, dev handoff specs" },
+  { label: "Theme system", detail: "Brand inheritance layer, per-tournament skinning" },
+  { label: "Visual design", detail: "Full UI across multiple tournament contexts" },
+]} />
+
+## Outcome
+
+The component library gave the PGA TOUR a durable asset rather than a one-time redesign. Every tournament going forward benefits from the same system — data surfaces cleanly whether the event is a major or a mid-season Champions Tour stop — and the branding adapts without bespoke design work each time.
+
+Delivering high-fidelity wireframes before visual design was finalized allowed development to begin building component infrastructure early, shortening the overall build cycle.
+
+The favorites tracking and media integration gave fans the engagement hooks that matter most during live rounds: following specific players through a day of play and staying current with video highlights without leaving the leaderboard context.
+
+## What I'd do differently
+
+The component system solved the per-tournament branding problem cleanly, but theming was still a manual designer handoff ahead of each event. With the volume of tournaments the TOUR runs, that's real overhead. I'd push to design the theming layer as a self-service tool for the content team from day one — so tournament setup requires no designer involvement at all.
+
+The more strategic thing I'd do differently: make the system's long-term value visible to stakeholders earlier. A component library that serves 40+ tournaments is a significant organizational asset, but it looks like a design deliverable until someone does the math on what it displaces. I'd build that business case into the project framing from the start — because "we won't have to do bespoke design work for every event going forward" is a budget argument, not just a design one, and it's the argument that funds the next iteration of the system.

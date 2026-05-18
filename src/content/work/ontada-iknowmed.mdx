@@ -1,0 +1,109 @@
+---
+title: "Ordering experience redesign for oncology EHR"
+client: "Ontada — iKnowMed"
+role: "Senior UX Designer, Design Lead"
+featured: true
+order: 1
+
+summary: "iKnowMed's ordering workflow was costing oncology providers measurable time per patient — but any redesign that forced relearning would cost more. I led the multi-year UX effort to improve performance within the existing mental model, validated through structured provider testing before a line of production code was written."
+complexity_note: "Mission-critical clinical software. Ordering spans chemotherapy regimens, lab panels, scheduling, and supplies across multiple provider personas. A redesign that disrupts workflow pulls time directly from patient care — and relearning time is measured in patient visits, not hours."
+my_contribution: "Subject-matter expertise development, one-on-one provider interviews, multi-paradigm concept design and prototype testing with UXUMLite scoring, low- and high-fidelity prototyping, cross-functional alignment with product and engineering, full design-to-handoff documentation including interaction specifications."
+collaborators:
+  - "Oncologists and nurse practitioners"
+  - "Administrative staff and schedulers"
+  - "Product management"
+  - "Engineering team"
+
+visibility: partial
+nda_note: "Production screens are under NDA. Process artifacts, research artifacts, wireframes, and prototype documentation are shown. Happy to walk through the full case study — reach out."
+
+problem_types:
+  - workflow
+  - redesign
+skills:
+  - "Domain expertise development"
+  - "Stakeholder interviews"
+  - "Concept testing"
+  - "Low-fidelity prototyping"
+  - "High-fidelity prototyping"
+  - "Interaction design"
+  - "Cross-functional facilitation"
+  - "Design-to-engineering handoff"
+tools:
+  - "Figma"
+  - "Jira"
+  - "Confluence"
+  - "Protopie"
+
+outcomes:
+  - metric: "Design paradigms tested"
+    value: "Multiple, with clickable prototypes"
+    note: "Each paradigm was fully prototyped and tested with real providers performing real tasks — not evaluated abstractly."
+  - metric: "Evaluation method"
+    value: "UXUMLite scoring"
+    note: "Providers rated each paradigm on intuitiveness and appeal after completing common ordering tasks. Scores were aggregated to guide the design direction decision."
+  - metric: "Design direction"
+    value: "Validated before engineering commitment"
+    note: "Provider testing confirmed the direction — iterate on the existing paradigm rather than replace it — before significant engineering investment was made."
+  - metric: "Handoff completeness"
+    value: "Full interaction + functionality documentation"
+    note: "Engineering received design files alongside detailed specs covering interaction behavior, edge cases, and functional requirements — reducing back-and-forth during build."
+
+impact_note: "This case study documents the design and handoff phase. Post-launch clinical outcome data (error rates, task completion, satisfaction scores) is tracked by Ontada's clinical outcomes team and is not available for external attribution. See the iKnowMed Ordering case study for data from the earlier prescription ordering project."
+
+# cover_image: "./covers/ontada-iknowmed-cover.png"
+# cover_alt: "iKnowMed New Orders interface showing the redesigned ordering panel with prior orders, quick links, and categorized order types"
+---
+
+## The problem
+
+Ordering is one of the most consequential workflows in iKnowMed. Oncologists, nurse practitioners, administrative staff, and schedulers all touch some part of it — and the scope is wide: procuring medications, setting up chemotherapy regimens, requesting lab panels, scheduling follow-up appointments, and requesting equipment like wheelchairs that patients need as part of their care plan.
+
+Providers had grown acutely aware of the click count each task required. Multiplied across dozens of patients per week, the friction had a real cost — and that cost came directly out of patient care time, not administrative overhead. The ordering interface was something they used all day, every day, and every inefficiency compounded.
+
+The redesign was the culmination of a multi-year research effort to identify exactly where the pain lived and design solutions that would make providers more efficient — without disrupting a workflow so ingrained that relearning it would itself be a patient care burden.
+
+## How I got up to speed
+
+Before touching the design, I needed to become a credible subject-matter expert in how oncology ordering actually worked — not in the abstract, but in the specific, messy reality of clinical practice.
+
+That meant using iKnowMed with test patients, completing the same onboarding and training sessions that providers went through, and conducting one-on-one interviews with oncologists, nurse practitioners, and administrative staff to understand directly how software usability affected their day. I also shadowed the workflow blueprint process — mapping the full initial visit clinical flow — to understand where ordering sat within the larger patient encounter.
+
+Getting to that level of domain fluency wasn't optional. In clinical software, a designer who doesn't understand the workflow can't be trusted by the providers they're designing for.
+
+## Testing multiple paradigms
+
+Because any redesign would also require significant engineering investment, our cross-functional team treated the project as an opportunity to explore whether there were fundamentally better ways to think about the ordering interaction — not just to refine what existed.
+
+I designed and built clickable prototypes for each paradigm. Providers were then asked to perform common ordering tasks they already did daily — placing a medication order, requesting a lab panel, adding a recurring appointment — and rate each approach on intuitiveness and appeal using UXUMLite scoring.
+
+The finding was unambiguous: providers were not willing to trade familiarity for novelty, even for a paradigm that performed better on paper. The existing ordering mental model was deeply ingrained across diverse provider types and practice patterns. Introducing a fundamentally different interaction required a relearning investment that would cost more in clinical time than it could save.
+
+That finding shaped everything: **performance improvement within the existing paradigm, not replacement of it.**
+
+## Design approach
+
+Working from low-fidelity wireframes through high-fidelity Figma designs and Protopie interactive prototypes, I iterated with providers directly — showing how specific changes affected their actual workflow before any commitment to build. The goal was always to reduce clicks and cognitive load on the tasks providers performed most often, without touching the mental model they'd internalized.
+
+I met regularly with product managers and engineering leads throughout — keeping the design process visible, surfacing constraints early, and reducing the handoff gap. When the time came to transition to build, engineering received not just design files but detailed interaction documentation covering behavior, edge cases, and functional requirements. Less back-and-forth in build means faster time to clinical impact.
+
+<ProcessTimeline steps={[
+  { label: "Immersion", detail: "Software training, test patient sessions, provider interviews, workflow shadowing" },
+  { label: "Concept", detail: "Multiple ordering paradigms, low-fi exploration" },
+  { label: "Test", detail: "Clickable prototypes per paradigm, UXUMLite scoring, provider task sessions" },
+  { label: "Direction", detail: "Paradigm selection: iterate on existing model, focus on performance" },
+  { label: "Iterate", detail: "Lo-fi to hi-fi, provider feedback loops throughout" },
+  { label: "Handoff", detail: "Figma designs + Protopie interactions + full interaction and functionality documentation" },
+]} />
+
+## Outcome
+
+The paradigm testing resolved a decision that could have cost the organization months of engineering effort on the wrong direction. By validating — with real providers doing real tasks — that an evolutionary approach would outperform a revolutionary one, the team avoided building something that would have required retraining time across an entire provider network.
+
+The high-fidelity prototypes and detailed handoff documentation gave engineering a complete picture of the intended interaction, reducing interpretation ambiguity during build. In clinical software, ambiguity in a handoff doesn't just slow development — it risks shipping behavior that doesn't match the clinical workflow it was designed for.
+
+## What I'd do differently
+
+The UXUMLite scoring gave us a defensible, aggregated signal for the paradigm decision, but the rubric captures intuitiveness and appeal — not speed, and not error rate. For a workflow where the primary user complaint was time-per-task, I'd add a task-timing component to the evaluation from the start. Knowing that Paradigm B averaged 30 seconds less per ordering task than the current baseline would have been a much more compelling argument for investment than a satisfaction score alone.
+
+I'd also push to define success metrics and measurement ownership with the clinical outcomes team before design begins — not as an afterthought post-launch. Post-launch data on error rates and task completion exists somewhere in the organization; making sure it gets connected back to the design decisions that drove it is something I'd advocate for earlier and more explicitly next time.

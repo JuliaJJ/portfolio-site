@@ -1,0 +1,124 @@
+---
+title: "Website and app overhaul with third-party platform migration"
+client: "Atkins Nutritionals"
+role: "UX Lead"
+featured: false
+order: 4
+
+summary: "Atkins was rebuilding their web and app experience while simultaneously migrating an active user base and launching two new diet plans — a coordination problem as much as a design one. I led the UX across all three workstreams."
+complexity_note: "Dual-surface redesign (web + native app) run in parallel, with a live data migration for an active user base. Authenticated and unauthenticated journeys required separate, carefully coordinated treatment. Third-party vendor dependency added coordination complexity throughout."
+my_contribution: "End-to-end involvement — discovery, information architecture, user research, wireframing, visual design, third-party vendor coordination, launch oversight, and post-launch analytics."
+collaborators:
+  - "Client brand team"
+  - "Internal design and development team"
+  - "Third-party tooling vendor (H2 Wellness)"
+
+visibility: full
+
+problem_types:
+  - redesign
+  - research
+skills:
+  - "Information architecture"
+  - "User research"
+  - "Card sorting"
+  - "Journey mapping"
+  - "Wireframing"
+  - "Visual design"
+  - "Stakeholder management"
+  - "Vendor coordination"
+  - "Post-launch analytics"
+tools:
+  - "Adobe Illustrator"
+  - "Adobe Photoshop"
+  - "Xcode"
+  - "Bootstrap"
+  - "HTML/CSS"
+  - "WordPress"
+  - "Google Analytics"
+
+outcomes:
+  - metric: "Surfaces redesigned"
+    value: "2 in parallel"
+    note: "Website and native mobile app designed concurrently with consistent IA and brand — a coordination challenge as much as a design one."
+  - metric: "User journey coverage"
+    value: "3 entry points fully mapped"
+    note: "Get Started, Learn More, and Free Support — each with distinct authenticated/unauthenticated paths documented through to the third-party vendor handoff."
+  - metric: "Data migration"
+    value: "Zero reported data loss"
+    note: "Meal tracking history, community accounts, and user profiles migrated to H2 Wellness platform. Migration success was a hard requirement — any loss would have directly harmed active dieters mid-plan."
+  - metric: "New plan launches"
+    value: "2 simultaneous"
+    note: "Both new Atkins diet plans launched with the redesigned site and app, with the full sign-up and onboarding flow live on day one."
+
+impact_note: "Post-launch conversion rates and engagement metrics were monitored via Google Analytics as part of launch oversight, but specific numbers are not available for external attribution."
+
+# cover_image: "./covers/atkins-cover.png"
+# cover_alt: "Atkins website home page and mobile app side by side showing the redesigned diet tracking and plan selection experience"
+---
+
+## The problem
+
+Atkins Nutritionals wanted a complete overhaul of both their website and mobile app — and they wanted to launch two new diet plans alongside it. The added complexity: they also needed to migrate their entire existing user base (meal tracking history, community forum accounts, and more) to a new third-party platform, without data loss, while the redesign was still in flight.
+
+The new experiences had to serve multiple distinct user types at once: people discovering Atkins for the first time, active dieters tracking daily carb intake, community members connecting with other plan followers, and shoppers purchasing Atkins-branded food products. The authenticated and unauthenticated journeys were meaningfully different and required separate, carefully coordinated treatment throughout the IA.
+
+## Research strategy
+
+Since Atkins operates in a crowded diet app market, competitive context mattered as much as internal user research. Before committing to any structural direction, I needed to know both how users thought about diet tracking and where the existing market was failing them — so we could design something meaningfully better, not just differently organized.
+
+**Research methods:**
+- Card sorting for IA structure and navigation labeling — we wanted the naming conventions to reflect how users thought about diet plans, not how Atkins internally organized them
+- User surveys and focus groups on structure, navigation, and diet plan comprehension
+- Journey documentation in close partnership with the third-party vendor, mapping the full flow from plan selection through account creation and data handoff
+- Traffic and engagement monitoring post-launch through Google Analytics
+
+## What the research told us — and what I decided to do with it
+
+The site's existing structure had been organized around internal business logic rather than user goals. The most important decision a new visitor had to make — which plan is right for me — was buried rather than centered. And the distinction between what authenticated users needed (tracking tools, daily plan, community) versus what unauthenticated users needed (plan comparison, recipes, shopping, education) wasn't reflected in the navigation at all.
+
+That finding drove a structural decision I pushed for early: the IA needed to be built around user intent state, not content category. Anonymous visitor paths and authenticated member paths had to be designed as separate, coordinated experiences — not a single navigation that tried to serve both at once.
+
+On mobile, the separate but related problem was visual: the app had accumulated complexity over successive releases — heavy gradients, drop shadows — that buried the one number that mattered most to an active dieter: net carbs remaining for the day.
+
+## Design approach
+
+### Information architecture
+
+We built a new IA for both web and app from scratch, grounding every structural decision in the card sort and survey data. The branching paths of authenticated and unauthenticated users were documented in detail, with particular attention to the three primary home page entry points — "Get Started," "Learn More," and "Free Support" — each of which led through a different sequence toward plan selection, account creation, and the handoff to the H2 Wellness tracking tools.
+
+Diet plan selection was moved to the front and center of the experience. Users had to be able to understand the difference between the two new plans quickly enough to commit — which meant educational content couldn't be siloed in a "How It Works" section but had to be woven into the path.
+
+### Mobile ideation
+
+Moderate-fidelity wireframes were produced for every screen in the app — food search, daily plan tracking, progress dashboards, recipe browsing, dining-out finder, and community access. The app also carried significant educational content about the diet plans themselves; we treated that as a design challenge, not a content dump, making sure the information appeared at the moments it was actually useful rather than all at once.
+
+### Website design
+
+Because Atkins is a brand as much as a diet, the site had to integrate ecommerce alongside plan tools and content. Recipes, success stories, plan comparisons, and product pages were cross-referenced throughout — whatever brought a visitor in, relevant support was within reach. The goal was that no visitor should hit a dead end; every page had a logical next step whether you were a first-time browser or an active member looking for new recipes.
+
+### Mobile visual design
+
+The app visual design echoed the website's brand palette while eliminating the accumulated visual noise of the prior version. Flattening the UI — removing the heavy gradients and drop shadows — made the primary daily metric (net carbs remaining) the immediate visual focus on the tracking screen. Navigating between food search, daily plan, progress, and recipes became quicker and more direct.
+
+<ProcessTimeline steps={[
+  { label: "Discovery", detail: "Kickoff, competitive audit, user interviews" },
+  { label: "Research", detail: "Card sorting, surveys, focus groups" },
+  { label: "Architecture", detail: "IA for web + app, authenticated/unauthenticated journey documentation" },
+  { label: "Wireframes", detail: "Low-fi sketches through hi-fi Illustrator comps, web and mobile" },
+  { label: "Visual design", detail: "Web UI and app UI, brand-consistent across surfaces" },
+  { label: "Launch", detail: "Third-party vendor coordination, site and app launch" },
+  { label: "Post-launch", detail: "Traffic monitoring, engagement analysis" },
+]} />
+
+## Outcome
+
+Both the redesigned website and app launched simultaneously with the two new Atkins diet plans — a hard deadline, since the plans were the anchor of the brand's marketing push. The data migration to H2 Wellness completed without reported data loss, which was the most operationally critical success criterion: active dieters mid-plan would have churned immediately if their tracking history had disappeared.
+
+The flattened mobile UI made the core daily task — checking and logging net carbs — faster and more legible. The new IA gave first-time visitors a clear, research-validated path from interest to plan selection to account creation, rather than requiring them to navigate a structure organized around the brand's internal taxonomy.
+
+## What I'd do differently
+
+The biggest coordination challenge on this project was the three-party relationship between our team, the client brand team, and the H2 Wellness vendor — particularly around the journey seams where our design handed off to their platform. I'd establish a shared journey documentation format with the vendor much earlier, so there was one source of truth for the full user flow rather than two teams maintaining parallel documentation.
+
+I'd also push to instrument the plan-selection funnel more precisely at launch. Knowing where users dropped out between "Learn More" and completing account creation would have been immediately actionable data — and it was the kind of insight that would have justified further UX investment in the onboarding sequence.
