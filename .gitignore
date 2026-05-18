@@ -29,3 +29,4 @@ dist/
 
 # Logs
 npm-debug.log*
+node_modules
