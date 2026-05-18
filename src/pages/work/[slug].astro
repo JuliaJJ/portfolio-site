@@ -280,7 +280,7 @@ const structuredData = {
                 </div>
               )}
             </dl>
-            {data.complexity_note && (
+            {Boolean(data.complexity_note) && (
               <p class="st-cs__complexity">{data.complexity_note}</p>
             )}
           </aside>
@@ -300,13 +300,13 @@ const structuredData = {
           {data.skills.length > 0 && (
             <div class="cs-tags">
               <span class="label">Skills</span>
-              {data.skills.map((s) => <span class="tag tag--neutral">{s}</span>)}
+              {data.skills.map((s: string) => <span class="tag tag--neutral">{s}</span>)}
             </div>
           )}
           {data.tools.length > 0 && (
             <div class="cs-tags">
               <span class="label">Tools</span>
-              {data.tools.map((t) => <span class="tag tag--neutral">{t}</span>)}
+              {data.tools.map((t: string) => <span class="tag tag--neutral">{t}</span>)}
             </div>
           )}
           <a href="/work" class="st-cs__back">← Back to Work</a>
@@ -754,5 +754,18 @@ const structuredData = {
       grid-template-columns: 1fr;
       gap: var(--space-8);
     }
+  }
+
+  /* ── Studio breakout elements ────────────────────────────── */
+  /*
+   * .st-cs__body constrains prose to 68ch, left-aligned within
+   * .st-cs__inner (which has padding-inline: var(--gutter)).
+   * Breakout elements extend rightward to the full inner width.
+   * Left edge is already at the left gutter boundary — no offset needed.
+   */
+  :global(.st-cs__body .cs-image--breakout),
+  :global(.st-cs__body .process-timeline) {
+    width: calc(100vw - 2 * var(--gutter));
+    max-width: none;
   }
 </style>

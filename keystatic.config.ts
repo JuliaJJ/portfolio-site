@@ -107,6 +107,7 @@ export default config({
                   options: [
                     { label: "Full width", value: "full" },
                     { label: "Medium (centred)", value: "medium" },
+                    { label: "Breakout (wider than prose)", value: "breakout" },
                   ],
                 }),
               },

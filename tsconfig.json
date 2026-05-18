@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@layouts": ["src/layouts"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"]
+    }
+  },
+  "exclude": ["node_modules", "node_modules.nosync", "dist", ".astro"],
+  "include": ["src", "env.d.ts"]
+}

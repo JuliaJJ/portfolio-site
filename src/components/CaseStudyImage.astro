@@ -7,7 +7,7 @@ interface Props {
   image: string;
   alt?: string;
   caption?: string;
-  size?: "full" | "medium";
+  size?: "full" | "medium" | "breakout";
 }
 
 const { image, alt = "", caption, size = "full" } = Astro.props;
