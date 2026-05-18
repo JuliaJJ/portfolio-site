@@ -7,14 +7,18 @@ import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const footer = await reader.singletons.footer.read();
+const [footer, workLanding, labLanding] = await Promise.all([
+  reader.singletons.footer.read(),
+  reader.singletons.workLanding.read(),
+  reader.singletons.labLanding.read(),
+]);
 
 const path = Astro.url.pathname;
 const navItems = [
-  { href: "/work",  label: "Work"  },
-  { href: "/lab",   label: "Lab"   },
-  { href: "/about", label: "About" },
-];
+  { href: "/work",  label: "Work",  show: workLanding?.published !== false },
+  { href: "/lab",   label: "Lab",   show: labLanding?.published  !== false },
+  { href: "/about", label: "About", show: true },
+].filter((item) => item.show);
 ---
 
 <div class="px-shell" id="shell-pixel" aria-hidden="true">

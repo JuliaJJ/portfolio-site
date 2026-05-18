@@ -66,9 +66,7 @@ const types = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
 
       <ul class="work-default__grid" role="list">
         {sorted.map((entry, i) => (
-          <li
-            data-card-types={entry.data.problem_types.join(",")}
-          >
+          <li data-card-types={entry.data.problem_types.join(",")}>
             <TechWorkGridCard entry={entry} index={i + 1} />
           </li>
         ))}
@@ -170,24 +168,26 @@ const types = ["all", ...new Set(sorted.flatMap((e) => e.data.problem_types))];
       {sorted.length === 0 ? (
         <p class="st-work__empty">No case studies yet.</p>
       ) : (
-        <ul class="st-work__grid" role="list">
-          {sorted.map((entry, i) => (
-            <li style={`--st-delay: ${i * 60}ms`}>
-              <StudioWorkGridCard entry={entry} index={i + 1} />
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {sortedAdditional.length > 0 && (
-        <section class="st-work__additional">
-          <h2 class="st-work__additional-heading">Additional Work</h2>
-          <ul class="st-work__additional-grid" role="list">
-            {sortedAdditional.map((entry) => (
-              <li><StudioAdditionalWorkCard entry={entry} /></li>
+        <>
+          <ul class="st-work__grid" role="list">
+            {sorted.map((entry, i) => (
+              <li style={`--st-delay: ${i * 60}ms`}>
+                <StudioWorkGridCard entry={entry} index={i + 1} />
+              </li>
             ))}
           </ul>
-        </section>
+
+          {sortedAdditional.length > 0 && (
+            <section class="st-work__additional">
+              <h2 class="st-work__additional-heading">Additional Work</h2>
+              <ul class="st-work__additional-grid" role="list">
+                {sortedAdditional.map((entry) => (
+                  <li><StudioAdditionalWorkCard entry={entry} /></li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </>
       )}
 
     </div>

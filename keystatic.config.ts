@@ -127,6 +127,7 @@ export default config({
         title: fields.slug({ name: { label: "Title" } }),
         summary: fields.text({ label: "Summary" }),
         what_it_shows: fields.text({ label: "What it shows", multiline: true }),
+        order: fields.number({ label: "Order (lower = first)", validation: { isRequired: false } }),
 
         type: fields.select({
           label: "Type",
@@ -278,6 +279,7 @@ export default config({
       label: "Work landing",
       path: "src/content/singletons/work-landing",
       schema: {
+        published: fields.checkbox({ label: "Published (show section on site)", defaultValue: true }),
         intro: fields.text({ label: "Intro paragraph", multiline: true }),
       },
     }),
@@ -287,6 +289,7 @@ export default config({
       label: "Lab landing",
       path: "src/content/singletons/lab-landing",
       schema: {
+        published: fields.checkbox({ label: "Published (show section on site)", defaultValue: true }),
         intro: fields.text({ label: "Intro paragraph", multiline: true }),
       },
     }),

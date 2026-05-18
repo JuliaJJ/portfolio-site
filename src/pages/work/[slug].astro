@@ -642,8 +642,10 @@ const structuredData = {
      edge-to-edge. st-cs__inner below it adds the gutter for text content. */
   .st-cs__cover-bleed {
     margin-bottom: var(--space-12);
+    margin-inline: auto;
     overflow: hidden;
     aspect-ratio: 21 / 9;
+    max-width: 1600px;
     max-height: 560px;
   }
 
@@ -656,7 +658,7 @@ const structuredData = {
 
   .st-cs__inner {
     padding-inline: var(--gutter);
-    max-width: 1200px;
+    max-width: 1600px;
     margin-inline: auto;
   }
 
@@ -767,7 +769,7 @@ const structuredData = {
    */
   :global(.st-cs__body .cs-image--breakout),
   :global(.st-cs__body .process-timeline) {
-    width: calc(min(100vw, 1200px) - 2 * var(--gutter));
+    width: calc(min(100vw, 1600px) - 2 * var(--gutter));
     max-width: none;
   }
 </style>

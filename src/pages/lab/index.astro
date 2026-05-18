@@ -17,7 +17,6 @@ import keystaticConfig from "../../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 const labLanding = await reader.singletons.labLanding.read();
-
 const allLab = await getCollection("lab", ({ data }) => !data.draft);
 const sorted = allLab.sort((a, b) => {
   if (a.data.order !== undefined && b.data.order !== undefined) return a.data.order - b.data.order;
