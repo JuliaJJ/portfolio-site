@@ -1,15 +1,14 @@
 tagline: Senior UX Designer
-heading: "Designing for complexity."
+heading: Designing for complexity.
 intro: >-
-  Twenty years of going toward the hard problems — clinical workflows,
-  large-scale commerce, enterprise platforms, and everything in between.
-  I make complex software comprehensible and high-stakes decisions
-  feel inevitable.
+  Twenty years designing software that resists simplification — clinical
+  systems, enterprise platforms, large-scale commerce. I make complexity
+  comprehensible.
 stats:
-  - value: "20+"
+  - value: 20+
     label: years
-  - value: "4"
+  - value: '4'
     label: domains
-  - value: "∞"
+  - value: ∞
     label: hard problems
 email: hello@juliejohnston.design
