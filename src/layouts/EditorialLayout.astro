@@ -3,6 +3,12 @@
 // Editorial layout shell: newspaper masthead, thin rule nav, colophon footer.
 // Completely independent HTML structure — shares no classes with DefaultLayout.
 
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const footer = await reader.singletons.footer.read();
+
 const path = Astro.url.pathname;
 const navItems = [
   { href: "/work",  label: "Work"  },
@@ -65,25 +71,27 @@ const navItems = [
     <div class="container ed-footer__inner">
       <div class="ed-colophon-left">
         <span class="ed-colophon-name">Julie Johnston</span>
-        <span class="ed-colophon-tagline">Designing for complexity</span>
+        <span class="ed-colophon-tagline">{footer?.tagline}</span>
       </div>
       <div class="ed-colophon-right">
-        <a href="mailto:hello@juliejohnston.design" class="ed-footer-link">
-          hello@juliejohnston.design
+        <a href={`mailto:${footer?.email}`} class="ed-footer-link">
+          {footer?.email}
         </a>
-        <a
-          href="https://linkedin.com/in/juliejohnston"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="ed-footer-link"
-        >
-          LinkedIn ↗
-        </a>
+        {footer?.linkedin_url && (
+          <a
+            href={footer.linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="ed-footer-link"
+          >
+            LinkedIn ↗
+          </a>
+        )}
       </div>
     </div>
     <div class="container ed-footer-bottom">
       <span>© {new Date().getFullYear()} Julie Johnston</span>
-      <span>Built with Astro</span>
+      <span>{footer?.credit_line}</span>
     </div>
   </footer>
 

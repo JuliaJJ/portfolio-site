@@ -3,11 +3,17 @@
 // Standard layout shell: sticky top nav, main content area, footer.
 // Visible by default; hidden when data-theme is "pixel" or "editorial".
 
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
+
 interface Props {
   fullBleed?: boolean;
 }
 
 const { fullBleed = false } = Astro.props;
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const footer = await reader.singletons.footer.read();
 
 const path = Astro.url.pathname;
 const navItems = [
@@ -66,7 +72,7 @@ const navItems = [
 
       <div class="footer-left">
         <span class="nav-wordmark">JJ</span>
-        <p class="footer-tagline">Designed for complexity.</p>
+        <p class="footer-tagline">{footer?.tagline}</p>
       </div>
 
       <nav class="footer-nav" aria-label="Footer navigation">
@@ -78,24 +84,26 @@ const navItems = [
       </nav>
 
       <div class="footer-contact">
-        <a href="mailto:hello@juliejohnston.design" class="footer-link">
-          hello@juliejohnston.design
+        <a href={`mailto:${footer?.email}`} class="footer-link">
+          {footer?.email}
         </a>
-        <a
-          href="https://linkedin.com/in/juliejohnston"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer-link"
-        >
-          LinkedIn ↗
-        </a>
+        {footer?.linkedin_url && (
+          <a
+            href={footer.linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-link"
+          >
+            LinkedIn ↗
+          </a>
+        )}
       </div>
 
     </div>
 
     <div class="container footer-bottom">
       <span>© {new Date().getFullYear()} Julie Johnston</span>
-      <span>Built with Astro · Deployed on Vercel</span>
+      <span>{footer?.credit_line}</span>
     </div>
   </footer>
 

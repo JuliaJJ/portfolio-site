@@ -3,6 +3,12 @@
 // Pixel theme shell: sidebar nav + terminal content area.
 // Completely independent HTML structure — no shared classes with other layouts.
 
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const footer = await reader.singletons.footer.read();
+
 const path = Astro.url.pathname;
 const navItems = [
   { href: "/work",  label: "Work"  },
@@ -67,7 +73,7 @@ const navItems = [
     <footer class="px-footer">
       <div class="px-footer__credits">
         <span>© {new Date().getFullYear()} JULIE JOHNSTON</span>
-        <span class="px-footer__blink">★ PRESS START ★</span>
+        <span class="px-footer__blink">{footer?.pixel_tagline}</span>
       </div>
     </footer>
   </div>

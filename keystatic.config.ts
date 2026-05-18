@@ -289,5 +289,18 @@ export default config({
         intro: fields.text({ label: "Intro paragraph", multiline: true }),
       },
     }),
+
+    // ── Footer ────────────────────────────────────────────────────────────
+    footer: singleton({
+      label: "Footer",
+      path: "src/content/singletons/footer",
+      schema: {
+        tagline: fields.text({ label: "Tagline" }),
+        email: fields.text({ label: "Contact email" }),
+        linkedin_url: fields.url({ label: "LinkedIn URL", validation: { isRequired: false } }),
+        credit_line: fields.text({ label: "Credit line (bottom right)" }),
+        pixel_tagline: fields.text({ label: "Pixel theme footer blink text" }),
+      },
+    }),
   },
 });

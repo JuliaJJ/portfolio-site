@@ -4,6 +4,12 @@
 // No container constraint — sections manage their own horizontal padding.
 // Signature: ultra-thin nav, warm moss accent, refined micro-animations.
 
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const footer = await reader.singletons.footer.read();
+
 const path = Astro.url.pathname;
 const navItems = [
   { href: "/work",  label: "Work"  },
@@ -58,7 +64,7 @@ const navItems = [
 
       <div class="st-footer__brand">
         <span class="st-footer__name">Julie Johnston</span>
-        <span class="st-footer__tagline">Designing for complexity</span>
+        <span class="st-footer__tagline">{footer?.tagline}</span>
       </div>
 
       <nav class="st-footer__nav" aria-label="Footer navigation">
@@ -70,24 +76,26 @@ const navItems = [
       </nav>
 
       <div class="st-footer__contact">
-        <a href="mailto:hello@juliejohnston.design" class="st-footer__link">
-          hello@juliejohnston.design
+        <a href={`mailto:${footer?.email}`} class="st-footer__link">
+          {footer?.email}
         </a>
-        <a
-          href="https://linkedin.com/in/juliejohnston"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="st-footer__link"
-        >
-          LinkedIn ↗
-        </a>
+        {footer?.linkedin_url && (
+          <a
+            href={footer.linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="st-footer__link"
+          >
+            LinkedIn ↗
+          </a>
+        )}
       </div>
 
     </div>
 
     <div class="st-footer__bottom">
       <span>© {new Date().getFullYear()} Julie Johnston</span>
-      <span>Built with Astro · Deployed on Vercel</span>
+      <span>{footer?.credit_line}</span>
     </div>
   </footer>
 
