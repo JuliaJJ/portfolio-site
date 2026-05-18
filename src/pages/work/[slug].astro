@@ -760,9 +760,10 @@ const structuredData = {
     }
   }
 
-  /* h2 border-top in prose creates a rule that visually underlaps the
-     wider ProcessTimeline breakout — suppress it in the Studio body */
-  :global(.st-cs__body h2) {
+  /* h2 border-top after a breakout element creates a rule that visually
+     underlaps the wider timeline/image — suppress only in that case */
+  :global(.st-cs__body .process-timeline + h2),
+  :global(.st-cs__body .cs-image--breakout + h2) {
     border-top: none;
     padding-top: 0;
   }
