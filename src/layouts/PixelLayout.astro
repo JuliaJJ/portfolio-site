@@ -62,9 +62,6 @@ const navItems = [
       </div>
     </div>
 
-    <div class="px-sidebar__bottom">
-      <div class="px-prompt">C:\&gt; _</div>
-    </div>
 
   </aside>
 
@@ -122,14 +119,6 @@ const navItems = [
     flex-direction: column;
     gap: var(--space-4);
     flex: 1;
-  }
-
-  .px-sidebar__bottom {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    border-top: 1px solid var(--rule);
-    padding-top: var(--space-3);
   }
 
   /* Logo */
@@ -229,14 +218,6 @@ const navItems = [
     color: var(--accent);
   }
 
-  /* Command prompt */
-  .px-prompt {
-    font-family: var(--font-display);
-    font-size: 8px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    animation: px-blink-cursor 1.2s steps(1) infinite;
-  }
   @keyframes px-blink-cursor {
     0%, 49%  { opacity: 1; }
     50%, 100% { opacity: 0; }
