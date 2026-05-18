@@ -71,6 +71,9 @@ const workCollection = defineCollection({
     // Freeform note when metrics aren't available
     impact_note: z.string().optional(),
 
+    // Hide from site without deleting the file
+    draft: z.boolean().default(false),
+
     // ── Assets
     // Path relative to this file, or /public URL
     cover_image: z.string().optional(),

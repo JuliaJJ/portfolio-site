@@ -1,55 +1,57 @@
 ---
-title: "Prescription ordering redesign"
-client: "McKesson — iKnowMed"
-role: "Senior UX Designer, Design Lead"
-featured: true
+title: Prescription ordering redesign
+client: McKesson — iKnowMed
+role: Senior UX Designer, Design Lead
+featured: false
 order: 2
-
-summary: "Redesigned the chemotherapy ordering workflow for an oncology EHR used by 10,000+ clinicians nationwide."
-complexity_note: "Mission-critical. 400+ drug interaction rules. A design error has direct patient safety consequences."
-my_contribution: "End-to-end ownership — research, interaction design, design system contribution, stakeholder alignment across clinical, product, and engineering."
+summary: >-
+  Redesigned the chemotherapy ordering workflow for an oncology EHR used by
+  10,000+ clinicians nationwide.
+complexity_note: >-
+  Mission-critical. 400+ drug interaction rules. A design error has direct
+  patient safety consequences.
+my_contribution: >-
+  End-to-end ownership — research, interaction design, design system
+  contribution, stakeholder alignment across clinical, product, and engineering.
 collaborators:
-  - "Clinical subject matter experts"
-  - "Pharmacy team"
-  - "Product management"
-  - "Frontend engineering"
-
+  - Clinical subject matter experts
+  - Pharmacy team
+  - Product management
+  - Frontend engineering
 visibility: partial
-nda_note: "Final production screens are under NDA. Process artifacts, research synthesis, and wireframes are shown. Happy to walk through the full case study — reach out."
-
+nda_note: >-
+  Final production screens are under NDA. Process artifacts, research synthesis,
+  and wireframes are shown. Happy to walk through the full case study — reach
+  out.
 problem_types:
   - workflow
   - redesign
 skills:
-  - "User research"
-  - "Contextual inquiry"
-  - "Interaction design"
-  - "Usability testing"
-  - "Stakeholder management"
-  - "Design systems"
+  - User research
+  - Contextual inquiry
+  - Interaction design
+  - Usability testing
+  - Stakeholder management
+  - Design systems
 tools:
-  - "Figma"
-  - "Maze"
-  - "Dovetail"
-  - "Confluence"
-
+  - Figma
+  - Maze
+  - Dovetail
+  - Confluence
 outcomes:
-  - metric: "Task completion rate"
-    value: "+34%"
-    note: "Moderated usability test, n=12 oncology nurses"
-  - metric: "Critical ordering errors"
-    value: "–18%"
-    note: "Pilot program, 6-week observation"
-  - metric: "Clinician satisfaction"
-    value: "4.6 / 5.0"
-    note: "Post-launch survey, n=47"
-
-impact_note: "Full post-launch data pending — rollout completed Q4 2023. Pre/post comparative study in progress."
-
-# cover_image: "./covers/iknowmed-cover.png"
-# cover_alt: "Wireframe of the iKnowMed ordering interface showing the drug selection and dosing workflow"
+  - metric: Task completion rate
+    value: +34%
+    note: Moderated usability test, n=12 oncology nurses
+  - metric: Critical ordering errors
+    value: –18%
+    note: Pilot program, 6-week observation
+  - metric: Clinician satisfaction
+    value: 4.6 / 5.0
+    note: Post-launch survey, n=47
+impact_note: >-
+  Full post-launch data pending — rollout completed Q4 2023. Pre/post
+  comparative study in progress.
 ---
-
 ## The problem
 
 Oncology nurses using iKnowMed to order chemotherapy protocols were navigating a 14-step process spread across three separate screens, with no inline validation and drug interaction warnings buried in a side panel most users had learned to ignore.
@@ -61,10 +63,11 @@ The consequence of an ordering error in this context isn't a failed checkout —
 Before touching the interface, I needed to understand the actual mental model of an oncology nurse mid-shift. Not what the workflow *should* be — what it *is*, including the workarounds and memory cues they'd built up over years of using a difficult tool.
 
 **Research methods:**
-- Contextual inquiry with 8 oncology nurses across 2 clinic sites (4 hrs each)
-- Shadowing 3 pharmacists reviewing flagged orders
-- Card sorting to understand how clinicians mentally group drug protocol information
-- Review of 6 months of support tickets related to ordering errors
+
+* Contextual inquiry with 8 oncology nurses across 2 clinic sites (4 hrs each)
+* Shadowing 3 pharmacists reviewing flagged orders
+* Card sorting to understand how clinicians mentally group drug protocol information
+* Review of 6 months of support tickets related to ordering errors
 
 ## What I found
 
@@ -78,7 +81,7 @@ Three findings shaped everything that followed.
 
 ---
 
-*[Wireframes and research synthesis artifacts shown below — final production screens available on request]*
+*\[Wireframes and research synthesis artifacts shown below — final production screens available on request]*
 
 ---
 
@@ -88,14 +91,7 @@ I restructured the ordering flow around the clinician's 4-chunk mental model, co
 
 A secondary goal was reducing the cognitive load on new nurses specifically. I introduced contextual guidance that surfaced at the moments most likely to trip them up, without adding noise for experienced users who'd already internalized those steps.
 
-<ProcessTimeline steps={[
-  { label: "Discovery", detail: "Contextual inquiry, 8 clinicians, 2 sites" },
-  { label: "Synthesis", detail: "Affinity mapping, 3 key findings" },
-  { label: "Concept", detail: "2 structural approaches, stakeholder review" },
-  { label: "Prototype", detail: "Mid-fi Figma, 3 rounds of iteration" },
-  { label: "Test", detail: "Moderated usability, 12 participants" },
-  { label: "Handoff", detail: "Dev specs, design system tokens, QA" },
-]} />
+<ProcessTimeline steps={[{"label":"Discovery","detail":"Contextual inquiry, 8 clinicians, 2 sites"},{"label":"Synthesis","detail":"Affinity mapping, 3 key findings"},{"label":"Concept","detail":"2 structural approaches, stakeholder review"},{"label":"Prototype","detail":"Mid-fi Figma, 3 rounds of iteration"},{"label":"Test","detail":"Moderated usability, 12 participants"},{"label":"Handoff","detail":"Dev specs, design system tokens, QA"}]} />
 
 ## Outcome
 

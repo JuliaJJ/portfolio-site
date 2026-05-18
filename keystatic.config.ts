@@ -74,6 +74,8 @@ export default config({
         cover_alt: fields.text({ label: "Cover image alt text", validation: { isRequired: false } }),
         prototype_url: fields.url({ label: "Prototype URL (Figma)", validation: { isRequired: false } }),
 
+        draft: fields.checkbox({ label: "Draft (hide from site)", defaultValue: false }),
+
         content: fields.mdx({
           label: "Case study body",
           components: {

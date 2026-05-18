@@ -14,10 +14,12 @@ import CaseStudyImage from "@components/CaseStudyImage.astro";
 
 export async function getStaticPaths() {
   const allWork = await getCollection("work");
-  return allWork.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  return allWork
+    .filter((e) => !e.data.draft)
+    .map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry },
+    }));
 }
 
 const { entry } = Astro.props;

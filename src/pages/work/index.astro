@@ -23,7 +23,7 @@ const reader = createReader(process.cwd(), keystaticConfig);
 const workLanding = await reader.singletons.workLanding.read();
 
 const allWork = await getCollection("work");
-const sorted = allWork.sort((a, b) => {
+const sorted = allWork.filter((e) => !e.data.draft).sort((a, b) => {
   if (a.data.featured && !b.data.featured) return -1;
   if (!a.data.featured && b.data.featured) return 1;
   if (a.data.order !== undefined && b.data.order !== undefined) {

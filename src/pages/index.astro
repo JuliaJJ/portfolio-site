@@ -17,7 +17,7 @@ const home = await reader.singletons.home.read();
 
 const allWork = await getCollection("work");
 const featured = allWork
-  .filter((e) => e.data.featured)
+  .filter((e) => e.data.featured && !e.data.draft)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
   .slice(0, 4);
 ---
