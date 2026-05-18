@@ -45,6 +45,11 @@ const { outcomes, note } = Astro.props;
     gap: var(--space-3);
   }
 
+  /* Tech theme's content block is narrower — cap at two columns */
+  :global(.cs-default) .outcome-block__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .outcome-block__item {
     display: flex;
     flex-direction: column;
