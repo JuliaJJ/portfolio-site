@@ -1,100 +1,150 @@
 ---
-title: ON.Notate chart abstraction MVP
-client: McKesson — Ontada
-role: Senior UX Designer, Design Lead
+title: "Chart abstraction workspace — MVP"
+client: "Ontada — ON.Notate"
+role: "Senior UX Designer, Design Lead"
 featured: true
 order: 1
-summary: >-
-  Redesigned the chemotherapy ordering workflow for an oncology EHR used by
-  10,000+ clinicians nationwide.
-complexity_note: >-
-  Mission-critical. 400+ drug interaction rules. A design error has direct
-  patient safety consequences.
-my_contribution: >-
-  End-to-end ownership — research, interaction design, design system
-  contribution, stakeholder alignment across clinical, product, and engineering.
+
+summary: "Oncology data exists in two forms — clean structured data, and messy unstructured clinical notes, faxed lab results, and physician documentation that resists aggregation. I led the end-to-end design of ON.Notate, a workspace that lets specialized clinical abstractors convert that unstructured data into structured, analysis-ready form — from blank canvas through a two-year MVP build."
+complexity_note: "Mission-critical data pipeline for oncology research. Multi-persona workflow (abstractors, QC reviewers, admins) with complex state management, conditional form logic, audit requirements, data provenance tracking, and a design system that had to be extended significantly to accommodate data types it was never built for."
+my_contribution: "Designer of record for the full product lifecycle — workspace architecture, all 24 domain forms, multi-persona workflow design, design system extension, cross-functional roadmap collaboration with engineering and product. Translated ambiguous business requirements into concrete designs that product then used as the basis for formal documentation."
 collaborators:
-  - Clinical subject matter experts
-  - Pharmacy team
-  - Product management
-  - Frontend engineering
+  - "Engineering lead"
+  - "Product manager"
+  - "UX manager (oversight)"
+  - "Chart abstractors and QC reviewers (research participants)"
+
 visibility: partial
-nda_note: >-
-  Final production screens are under NDA. Process artifacts, research synthesis,
-  and wireframes are shown. Happy to walk through the full case study — reach
-  out.
+nda_note: "Production screens are under NDA. Workspace architecture, workflow documentation, and component design artifacts are shown. Happy to walk through the full case study — reach out."
+
 problem_types:
   - workflow
-  - redesign
+  - 0-to-1
 skills:
-  - User research
-  - Contextual inquiry
-  - Interaction design
-  - Usability testing
-  - Stakeholder management
-  - Design systems
+  - "Product definition"
+  - "Workflow design"
+  - "Information architecture"
+  - "Interaction design"
+  - "Component design"
+  - "Design system extension"
+  - "User research"
+  - "Cross-functional facilitation"
+  - "Subject-matter expertise development"
 tools:
-  - Figma
-  - Maze
-  - Dovetail
-  - Confluence
+  - "Figma"
+  - "Jira"
+  - "Confluence"
+
 outcomes:
-  - metric: Task completion rate
-    value: +34%
-    note: Moderated usability test, n=12 oncology nurses
-  - metric: Critical ordering errors
-    value: –18%
-    note: Pilot program, 6-week observation
-  - metric: Clinician satisfaction
-    value: 4.6 / 5.0
-    note: Post-launch survey, n=47
-impact_note: >-
-  Full post-launch data pending — rollout completed Q4 2023. Pre/post
-  comparative study in progress.
+  - metric: "Domains designed"
+    value: "24"
+    note: "Each with its own form schema, conditional logic, and data provenance requirements — coordinated across a two-year build."
+  - metric: "Personas served"
+    value: "3"
+    note: "Chart abstractors, QC reviewers, and project admins — each with distinct views, permissions, and interaction patterns on the same underlying data."
+  - metric: "User feedback"
+    value: "Preferred over prior tools"
+    note: "Abstractors reported the integrated document-and-form workspace as a significant improvement over the previous workflow of running an EHR and abstraction tool side by side."
+  - metric: "Design-to-requirements direction"
+    value: "Inverted"
+    note: "Requirements were often undefined at outset. Designs served as the specification that product used to write formal business and functional requirements."
+
+impact_note: "ON.Notate is a production tool within Ontada's oncology data platform. Post-MVP adoption and data quality metrics are tracked internally and are not available for external attribution."
+
+# cover_image: "./covers/on-notate-mvp-cover.png"
+# cover_alt: "ON.Notate chart abstraction workspace showing the three-panel layout with document viewer, domain accordion, and abstraction form"
 ---
+
 ## The problem
 
-Oncology nurses using iKnowMed to order chemotherapy protocols were navigating a 14-step process spread across three separate screens, with no inline validation and drug interaction warnings buried in a side panel most users had learned to ignore.
+In oncology research, data is only as useful as its structure. Clinicians generate enormous volumes of patient information — but most of it lives as unstructured text: physician notes, faxed lab results, imaging reports arriving in inconsistent formats from different vendors. You can't aggregate it, anonymize it, or run analysis on it while it's in that form.
 
-The consequence of an ordering error in this context isn't a failed checkout — it's the wrong drug, wrong dose, or wrong schedule reaching a cancer patient.
+Chart abstraction is the process of fixing that. A trained clinical specialist — typically a nurse or nurse practitioner with deep oncology knowledge — reviews a patient's raw documentation and transcribes the relevant data into structured fields. That structured data can then be used to assess drug efficacy, determine clinical trial eligibility, and, in aggregate anonymized form, inform pharmaceutical research and development.
 
-## What I wanted to understand
+ON.Notate is the tool that makes that process possible. At its core: a workspace that puts a patient's documents and a structured data entry interface side by side, so abstractors can move through clinical records and capture what they find without switching between applications.
 
-Before touching the interface, I needed to understand the actual mental model of an oncology nurse mid-shift. Not what the workflow *should* be — what it *is*, including the workarounds and memory cues they'd built up over years of using a difficult tool.
+## What I came into
 
-**Research methods:**
+I joined the project in the planning stages — before any designs existed, before the product had a defined shape. Engineering had a framework concept for the data layer, but the visual interface and the workflows users would take through it were entirely undefined.
 
-* Contextual inquiry with 8 oncology nurses across 2 clinic sites (4 hrs each)
-* Shadowing 3 pharmacists reviewing flagged orders
-* Card sorting to understand how clinicians mentally group drug protocol information
-* Review of 6 months of support tickets related to ordering errors
+Over the next two-plus years, I was the designer of record: sole designer for most of the product's lifecycle, working directly with the engineering lead and product manager to define not just the interface but the scope and roadmap of the product itself.
 
-## What I found
+## Understanding the users
 
-Three findings shaped everything that followed.
+ON.Notate serves three distinct user types, two of whom interact with the data most directly.
 
-**Finding 1: The 14-step process was actually a 4-step mental model.** Clinicians had chunked the workflow into: choose the protocol, confirm the patient context, set the schedule, and verify dosing. The interface didn't map to any of those chunks — it was organized around the database structure, not the clinical task.
+**Chart abstractors** are the primary users. They are not generalists — these are clinically trained specialists, often nurses or nurse practitioners, with specific oncology expertise. That expertise matters because the data they're handling is precise and consequential: chemotherapy regimen components, biomarker results that vary by cancer type, lab values that require domain knowledge to correctly identify and place. Getting it wrong has downstream effects on research validity and, in some cases, patient safety.
 
-**Finding 2: The side-panel warning pattern had trained people to dismiss it.** Because non-critical informational notices used the same visual treatment as critical drug interaction warnings, clinicians had unconsciously learned to close the panel without reading it. This is a known issue in alert fatigue research, but seeing it in context made the severity concrete.
+**QC reviewers** follow abstractors through each chart, verifying that abstracted data was correctly identified from a source document, checking for errors, and resolving discrepancies. Every data field carries a document source — the specific clinical document where the value was found — so QC can always trace what was entered back to its origin. An audit trail records the full history of each field: whether the value was imported from the EHR, added by an abstractor, or corrected by a QC reviewer.
 
-**Finding 3: New nurses were the highest-risk users, not experienced ones.** Experienced nurses had built reliable mental checklists. New nurses didn't have those yet and were most likely to miss the edge cases the interface assumed you'd already know.
+**Project administrators** set up and manage studies — grouping patient charts into cohorts by cancer type or research objective — and can assign specific charts to specialist abstractors when a chart requires domain expertise in a particular area.
 
----
+We conducted multiple research studies with these users throughout the build: a pilot study covering a subset of domains, a separate study where abstractors verified data surfaced by an NLP system, and ongoing video interviews tracking how user impressions evolved as the product matured. The same users were engaged over time, giving us longitudinal visibility into how the product was landing.
 
-*\[Wireframes and research synthesis artifacts shown below — final production screens available on request]*
+## The hardest design problems
 
----
+### State at every level
 
-## Design approach
+ON.Notate is a deeply stateful application. A chart has a status. A domain within a chart has a status. An individual data field has a status. A document has a review status. When multiple abstractors work the same chart simultaneously, their contributions have to be tracked and attributed individually. The same chart moves through roughly a dozen states — abstraction in progress, abstraction complete, QC in progress, QC complete, data reconciled — and the interface has to surface the right information and actions for each persona at each stage.
 
-I restructured the ordering flow around the clinician's 4-chunk mental model, collapsing the 14 screens into a single-page progressive disclosure pattern. Drug interaction warnings were separated into a dedicated severity hierarchy with distinct visual treatments — critical alerts required active acknowledgment before proceeding.
+Designing that state system — making it legible without overwhelming the interface — was one of the most sustained challenges of the project.
 
-A secondary goal was reducing the cognitive load on new nurses specifically. I introduced contextual guidance that surfaced at the moments most likely to trip them up, without adding noise for experienced users who'd already internalized those steps.
+### A design system built for a different product
 
-<ProcessTimeline steps={[{"label":"Discovery","detail":"Contextual inquiry, 8 clinicians, 2 sites"},{"label":"Synthesis","detail":"Affinity mapping, 3 key findings"},{"label":"Concept","detail":"2 structural approaches, stakeholder review"},{"label":"Prototype","detail":"Mid-fi Figma, 3 rounds of iteration"},{"label":"Test","detail":"Moderated usability, 12 participants"},{"label":"Handoff","detail":"Dev specs, design system tokens, QA"}]} />
+The existing Ontada design system was built for iKnowMed, an EHR with a very different data model and interaction pattern. ON.Notate needed to handle data types, input patterns, and display states the system was never designed for. Rather than abandoning the system, I worked with engineering to extend it — building custom components that coexisted with the existing system's API, matched its visual language, and could accommodate the specific demands of chart abstraction. Those components eventually fed back into a broader design system initiative.
+
+### Density on constrained screens
+
+The original product spec assumed large external monitors — enough real estate for a three-panel layout (documents, document viewer, abstraction forms) to breathe. In practice, users were frequently working on laptops. Designing a layout that could flex gracefully to smaller viewports without sacrificing the side-by-side document-and-form relationship that was the product's core value proposition required sustained iteration. The left panel became collapsible; the document viewer and form panel flex to fill available space.
+
+### Conditional form logic across 24 domains
+
+Each of the 24 domains has its own form, and many of those forms contain conditional logic — fields that appear or change based on diagnosis type, medication category, dosage, or other upstream values. Tracking those variants, designing for them consistently, and communicating them to engineering in a way that could be built without ambiguity was a significant coordination challenge across the full project arc.
+
+### Inverting the requirements process
+
+Business requirements for this product were frequently undefined or too abstract to build from directly. Rather than waiting for requirements to materialize, I designed ahead of them — producing interface specifications that product could then use as the basis for writing formal business and functional requirements. This inverted the typical design-follows-requirements flow and required close, ongoing collaboration with the product manager to make sure the designs were solving the right problems before they became the documentation of record.
+
+## Workspace design
+
+### Entry: project dashboard
+
+Users arrive at a dashboard showing cards for each study they're assigned to — study name, patient count, and status. A single abstractor might be working across five or six studies simultaneously, each covering a different cancer type or research objective.
+
+### Project view
+
+Clicking into a study surfaces a status banner showing aggregate chart progress across the pipeline — how many charts are in abstraction, in QC, reconciled back to the central data model — followed by the user's personal task queue. Abstractors can hold up to five charts in progress at once; QC reviewers can hold ten. Charts beyond that stay in a queue and are retrieved on demand, preventing work hoarding. Admins can assign specific charts to specialist users when a domain requires particular expertise.
+
+### Patient chart workspace
+
+The workspace is a three-panel layout:
+
+**Left panel (collapsible) — Documents.** A list of all documents attached to the patient's chart, with date, author, and review status. Green indicates reviewed; orange indicates not yet reviewed. This panel can be collapsed on smaller screens to give more room to the center and right panels.
+
+**Center panel — Document viewer.** The selected document loads here in full. Controls allow zooming, moving between documents, flagging documents that have been incorrectly attributed to the wrong patient, and marking documents as reviewed. This is the abstractor's source of truth — the raw clinical record they're working from.
+
+**Right panel — Abstraction space.** An accordion of all 24 domains. Each domain expands to show a timeline view — a table of all records entered for that domain, which may have one row or many depending on the data. Clicking a row opens the domain form. Every value entered in the form carries a document source linking it back to the clinical document where it was found. Below the form, a full audit history shows the provenance of every field — imported, abstracted, or corrected — and who made each change.
+
+<ProcessTimeline steps={[
+  { label: "Discovery", detail: "Planning stage entry, engineering framework review, user access established" },
+  { label: "Architecture", detail: "Workspace layout, persona workflows, domain taxonomy" },
+  { label: "Pilot research", detail: "5–6 domain subset study, abstractor sessions, NLP verification study" },
+  { label: "Component design", detail: "Design system extension, custom components, engineering collaboration" },
+  { label: "Domain build-out", detail: "24 domain forms, conditional logic documentation, QC workflow" },
+  { label: "Responsive iteration", detail: "Laptop viewport adaptation, collapsible panel system" },
+  { label: "MVP", detail: "Full abstractor and QC workflows, audit trail, data provenance" },
+]} />
 
 ## Outcome
 
+ON.Notate shipped as a production tool within Ontada's oncology data platform. The integrated document-and-form workspace — putting the source document and the abstraction form in the same screen — was consistently cited by users as a meaningful improvement over the prior workflow, which required running an EHR and a separate abstraction tool side by side.
+
+The audit trail and document provenance system met data quality and compliance requirements for data used in pharmaceutical research and clinical trial eligibility — a non-negotiable bar for a tool operating in this space.
+
+The design system extensions built for ON.Notate became the foundation for a broader initiative to update the Ontada design system to accommodate the data types and interaction patterns that iKnowMed-era components couldn't handle.
+
 ## What I'd do differently
 
-The warning severity hierarchy worked well in testing, but I'd push harder on getting it into the design system as a reusable pattern rather than a one-off for this project. The same alert-fatigue problem exists in at least three other workflows in iKnowMed — a system-level solution would have compounding impact.
+The requirements inversion — designing ahead of formal documentation — was the right call given the ambiguity we were working with, but it created risk: designs could drift from engineering feasibility before anyone caught it. I'd formalize that loop earlier, establishing a lightweight weekly checkpoint with engineering specifically for feasibility review of in-progress designs, rather than catching misalignments later in the process when they were more expensive to resolve.
+
+I'd also push harder at the outset to define the state model as a standalone design artifact — a map of every object in the system, its possible states, and the transitions between them — before any screen design began. We built that understanding incrementally over the course of the project, which meant some early designs had to be revisited when we discovered state interactions we hadn't anticipated. Starting with the state model would have made the entire build more coherent from day one.
