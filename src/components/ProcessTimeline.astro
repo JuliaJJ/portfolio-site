@@ -40,15 +40,13 @@ const { steps } = Astro.props;
     align-items: flex-start;
     gap: 0;
     margin: 2rem 0;
-    overflow-x: auto;
-    padding-bottom: 4px;
   }
 
   .process-timeline__step {
     display: flex;
     align-items: center;
     flex: 1;
-    min-width: 80px;
+    min-width: 0;
     position: relative;
   }
 
@@ -89,14 +87,14 @@ const { steps } = Astro.props;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    width: 90px;
+    width: max-content;
+    max-width: 90px;
   }
 
   .process-timeline__label {
     font-size: 11px;
     font-weight: 500;
     color: var(--color-text-primary);
-    white-space: nowrap;
   }
 
   .process-timeline__detail {

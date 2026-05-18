@@ -656,6 +656,8 @@ const structuredData = {
 
   .st-cs__inner {
     padding-inline: var(--gutter);
+    max-width: 1200px;
+    margin-inline: auto;
   }
 
   .st-cs__header {
@@ -765,7 +767,7 @@ const structuredData = {
    */
   :global(.st-cs__body .cs-image--breakout),
   :global(.st-cs__body .process-timeline) {
-    width: calc(100vw - 2 * var(--gutter));
+    width: calc(min(100vw, 1200px) - 2 * var(--gutter));
     max-width: none;
   }
 </style>
