@@ -760,6 +760,13 @@ const structuredData = {
     }
   }
 
+  /* h2 border-top in prose creates a rule that visually underlaps the
+     wider ProcessTimeline breakout — suppress it in the Studio body */
+  :global(.st-cs__body h2) {
+    border-top: none;
+    padding-top: 0;
+  }
+
   /* ── Studio breakout elements ────────────────────────────── */
   /*
    * .st-cs__body constrains prose to 68ch, left-aligned within

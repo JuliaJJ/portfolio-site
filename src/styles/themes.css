@@ -161,9 +161,10 @@ html[data-theme="pixel"] body::after {
 }
 
 /* ThemeSwitcher overlay — force consistent typography and geometry
-   so it doesn't inherit VT323, zero-radius, or 2px borders */
+   so it doesn't inherit VT323, zero-radius, 2px borders, or enlarged text-xs */
 html[data-theme="pixel"] .theme-overlay {
   --font-body:  system-ui, -apple-system, sans-serif;
+  --text-xs:    0.6875rem;
   --radius-sm:  4px;
   --border:     1px solid rgba(0, 255, 65, 0.3);
   border-radius: 4px;
