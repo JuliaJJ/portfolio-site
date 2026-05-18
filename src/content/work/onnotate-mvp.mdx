@@ -91,11 +91,7 @@ Designing that state system — making it legible without overwhelming the inter
 
 ### A design system built for a different product
 
-The existing Ontada design system was built for iKnowMed, an EHR with a very different data model and interaction pattern. ON.Notate needed to handle data types, input patterns, and display states the system was never designed for. Rather than abandoning the system, I worked with engineering to extend it — building custom components that coexisted with the existing system's API, matched its visual language, and could accommodate the specific demands of chart abstraction. Those components eventually fed back into a broader design system initiative.
-
-### Density on constrained screens
-
-The original product spec assumed large external monitors — enough real estate for a three-panel layout (documents, document viewer, abstraction forms) to breathe. In practice, users were frequently working on laptops. Designing a layout that could flex gracefully to smaller viewports without sacrificing the side-by-side document-and-form relationship that was the product's core value proposition required sustained iteration. The left panel became collapsible; the document viewer and form panel flex to fill available space.
+The existing Ontada design system was built for Ontada Health, a patient-facing product with a very different data model and interaction pattern than an internal clinical tool. ON.Notate needed to handle data types, input patterns, and display states the system was never designed for. Rather than abandoning the system, I worked with engineering to extend it — building custom components that coexisted with the existing system's API, matched its visual language, and could accommodate the specific demands of chart abstraction. Those components eventually fed back into a broader design system initiative.
 
 ### Conditional form logic across 24 domains
 
@@ -141,10 +137,10 @@ ON.Notate shipped as a production tool within Ontada's oncology data platform. T
 
 The audit trail and document provenance system met data quality and compliance requirements for data used in pharmaceutical research and clinical trial eligibility — a non-negotiable bar for a tool operating in this space.
 
-The design system extensions built for ON.Notate became the foundation for a broader initiative to update the Ontada design system to accommodate the data types and interaction patterns that iKnowMed-era components couldn't handle.
+The design system extensions built for ON.Notate became the foundation for a broader initiative to update the Ontada design system to accommodate the data types and interaction patterns that the original patient-facing system couldn't handle.
 
 ## What I'd do differently
 
-The requirements inversion — designing ahead of formal documentation — was the right call given the ambiguity we were working with, but it created risk: designs could drift from engineering feasibility before anyone caught it. I'd formalize that loop earlier, establishing a lightweight weekly checkpoint with engineering specifically for feasibility review of in-progress designs, rather than catching misalignments later in the process when they were more expensive to resolve.
+About a year into the project, design-engineering misalignments had become a real problem — designs were drifting from what was actually buildable, and catching those gaps late was expensive to fix. The solution was structural: we formalized twice-weekly standing meetings with design, product, and engineering to continuously review requirements and in-progress work together. That tripod alignment resolved the problem, and the cadence held for the remainder of the project. If I were starting over, I'd establish that structure from day one rather than arriving at it a year in.
 
-I'd also push harder at the outset to define the state model as a standalone design artifact — a map of every object in the system, its possible states, and the transitions between them — before any screen design began. We built that understanding incrementally over the course of the project, which meant some early designs had to be revisited when we discovered state interactions we hadn't anticipated. Starting with the state model would have made the entire build more coherent from day one.
+I'd also push harder at the outset to define the state model as a standalone design artifact — a map of every object in the system, its possible states, and the transitions between them — before any screen design began. We built that understanding incrementally over the course of the project, which meant some early designs had to be revisited when we discovered state interactions we hadn't anticipated. Starting with the state model would have made the entire build more coherent from the start.
