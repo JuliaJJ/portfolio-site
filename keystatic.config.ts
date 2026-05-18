@@ -297,7 +297,7 @@ export default config({
       schema: {
         tagline: fields.text({ label: "Tagline" }),
         email: fields.text({ label: "Contact email" }),
-        linkedin_url: fields.url({ label: "LinkedIn URL", validation: { isRequired: false } }),
+        linkedin_url: fields.url({ label: "LinkedIn URL" }),
         credit_line: fields.text({ label: "Credit line (bottom right)" }),
         pixel_tagline: fields.text({ label: "Pixel theme footer blink text" }),
       },
