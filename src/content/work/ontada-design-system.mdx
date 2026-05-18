@@ -1,61 +1,84 @@
 ---
-title: "AI-ready design system"
-client: "Ontada"
-role: "Senior UX Designer, Design System Lead"
+title: AI-ready design system
+client: Ontada
+role: Senior UX Designer, Design System Lead
 featured: true
-order: 3
-
-summary: "Ontada's existing design system was built for a patient-facing product and wasn't portable to the data-dense internal tools that needed it most. I led the design and build of a secondary system — architected from the start to produce deterministic, repeatable outputs when consumed by AI — with three parallel implementation tracks and a documentation layer built for both human and machine consumers."
-complexity_note: "Three simultaneous implementation tracks (React Aria + Tailwind, Ant Design, Material UI) targeting different internal engineering teams with different technical stacks. AI-readiness required rethinking documentation as structured machine-consumable context, not just human reference. Designed to coexist with and extend an existing system without breaking its API contract."
-my_contribution: "Led the initiative and nearly fully built two of the three implementation tracks (React Aria + Tailwind and Ant Design). Defined the AI-ready documentation layer including skill files, Storybook structure, and MCP server architecture. Established the custom API layer that extends Ant components without touching the core library. Drove the strategic framing of AI-readiness as an organizational capability, not just a tooling choice."
+order: 1
+summary: >-
+  Ontada's existing design system was built for a patient-facing product and
+  wasn't portable to the data-dense internal tools that needed it most. I led
+  the design and build of a secondary system — architected from the start to
+  produce deterministic, repeatable outputs when consumed by AI — with three
+  parallel implementation tracks and a documentation layer built for both human
+  and machine consumers.
+complexity_note: >-
+  Three simultaneous implementation tracks (React Aria + Tailwind, Ant Design,
+  Material UI) targeting different internal engineering teams with different
+  technical stacks. AI-readiness required rethinking documentation as structured
+  machine-consumable context, not just human reference. Designed to coexist with
+  and extend an existing system without breaking its API contract.
+my_contribution: >-
+  Led the initiative and nearly fully built two of the three implementation
+  tracks (React Aria + Tailwind and Ant Design). Defined the AI-ready
+  documentation layer including skill files, Storybook structure, and MCP server
+  architecture. Established the custom API layer that extends Ant components
+  without touching the core library. Drove the strategic framing of AI-readiness
+  as an organizational capability, not just a tooling choice.
 collaborators:
-  - "Engineering team (technical stack alignment, component testing)"
-  - "UX team colleague (Material UI implementation track)"
-  - "Internal UX team (current testing phase)"
-
+  - Engineering team (technical stack alignment, component testing)
+  - UX team colleague (Material UI implementation track)
+  - Internal UX team (current testing phase)
 visibility: full
-
 problem_types:
   - system
   - 0-to-1
 skills:
-  - "Design system architecture"
-  - "Component design"
-  - "Tokenization"
-  - "AI documentation strategy"
-  - "Storybook"
-  - "React / React Aria"
-  - "Tailwind CSS"
-  - "Cross-functional facilitation"
-  - "Technical writing"
+  - Design system architecture
+  - Component design
+  - Tokenization
+  - AI documentation strategy
+  - Storybook
+  - React / React Aria
+  - Tailwind CSS
+  - Cross-functional facilitation
+  - Technical writing
 tools:
-  - "Figma"
-  - "React Aria"
-  - "Ant Design"
-  - "Tailwind CSS"
-  - "Storybook"
-  - "Material UI"
-
+  - Figma
+  - React Aria
+  - Ant Design
+  - Tailwind CSS
+  - Storybook
+  - Material UI
 outcomes:
-  - metric: "Implementation tracks"
-    value: "3"
-    note: "React Aria + Tailwind, Ant Design, and Material UI — each targeting a different internal engineering team and technical stack."
-  - metric: "Tracks personally built"
-    value: "2 of 3"
-    note: "React Aria + Tailwind and Ant Design tracks built nearly in full. Material UI track built by a colleague."
-  - metric: "Storybook coverage"
-    value: "Full API parity"
-    note: "Stories for every base component plus all documented variants, additional prop combinations explicitly called out, and one-to-one parity with the upstream library API so engineers can explore without hunting."
-  - metric: "AI documentation"
-    value: "Skill files + Storybook + MCP roadmap"
-    note: "Structured skill files travel with the repository. MCP server is the defined Phase 2, moving context upstream to reduce token usage and improve prompt determinism."
-
-impact_note: "Currently in internal UX team testing ahead of engineering handoff. Each of the three implementation tracks will be tested against a different internal product. Production adoption and AI output consistency metrics will be tracked post-handoff."
-
-# cover_image: "./covers/ontada-design-system-cover.png"
-# cover_alt: "Ontada AI-ready design system Storybook documentation showing component variants and token reference"
+  - metric: Implementation tracks
+    value: '3'
+    note: >-
+      React Aria + Tailwind, Ant Design, and Material UI — each targeting a
+      different internal engineering team and technical stack.
+  - metric: Tracks personally built
+    value: 2 of 3
+    note: >-
+      React Aria + Tailwind and Ant Design tracks built nearly in full. Material
+      UI track built by a colleague.
+  - metric: Storybook coverage
+    value: Full API parity
+    note: >-
+      Stories for every base component plus all documented variants, additional
+      prop combinations explicitly called out, and one-to-one parity with the
+      upstream library API so engineers can explore without hunting.
+  - metric: AI documentation
+    value: Skill files + Storybook + MCP roadmap
+    note: >-
+      Structured skill files travel with the repository. MCP server is the
+      defined Phase 2, moving context upstream to reduce token usage and improve
+      prompt determinism.
+impact_note: >-
+  Currently in internal UX team testing ahead of engineering handoff. Each of
+  the three implementation tracks will be tested against a different internal
+  product. Production adoption and AI output consistency metrics will be tracked
+  post-handoff.
+draft: false
 ---
-
 ## The problem
 
 Ontada's existing design system grew out of Ontada Health — a patient-facing platform designed for consumer use, with a visual language built around approachability and simplicity. That made it the wrong foundation for Ontada's internal tools, which are data-dense, clinician-facing, and operated by people who need to move quickly through complex workflows. The internal products needed higher information density, more form complexity, more data table flexibility, and interaction patterns that the patient-facing system simply hadn't been built for.
@@ -89,11 +112,12 @@ Rather than a single implementation, the system was built in three parallel trac
 Each implementation track ships with a structured set of skill files — markdown documents that define design patterns, component behavior, usage guidelines, and prompt guardrails. These travel with the repository and are the primary context source when a designer or engineer prompts an AI tool to generate UI from the design system.
 
 Storybook documentation was built to a higher standard than typical component libraries:
-- Stories for every base component at its default state
-- Stories for all variants shown in the official component documentation
-- Additional stories for prop combinations that are valid in the API but not explicitly documented — surfaced proactively so engineers don't have to discover them through trial and error
-- Full one-to-one parity with the upstream library API (Ant or React Aria) so the Storybook playground exposes everything available
-- Reference sections for color tokens, iconography, and spacing so the full token set is enumerable in one place
+
+* Stories for every base component at its default state
+* Stories for all variants shown in the official component documentation
+* Additional stories for prop combinations that are valid in the API but not explicitly documented — surfaced proactively so engineers don't have to discover them through trial and error
+* Full one-to-one parity with the upstream library API (Ant or React Aria) so the Storybook playground exposes everything available
+* Reference sections for color tokens, iconography, and spacing so the full token set is enumerable in one place
 
 ### Phase 2: MCP server
 
@@ -101,16 +125,7 @@ The skill files solve the AI-readiness problem, but they carry a cost: every pro
 
 The planned architecture combines both approaches: an MCP server holding broad design system context, supplemented by lightweight project-specific skill files that add tightly scoped context for whatever is being generated. That combination delivers both the efficiency of centralized context and the precision of prompt-specific guardrails.
 
-<ProcessTimeline steps={[
-  { label: "Definition", detail: "Gap analysis vs. Ontada Health system, internal team needs assessment, AI-readiness framing" },
-  { label: "Architecture", detail: "Three-track decision, token strategy, API layer design" },
-  { label: "Build — React Aria", detail: "Headless primitives, Tailwind theming, token implementation" },
-  { label: "Build — Ant", detail: "Token overlay, custom API layer, component extensions" },
-  { label: "Documentation", detail: "Skill files, comprehensive Storybook, token reference" },
-  { label: "UX testing", detail: "Internal team testing — current phase" },
-  { label: "Engineering handoff", detail: "Three-track testing against internal products — upcoming" },
-  { label: "Phase 2", detail: "MCP server implementation, hybrid context architecture" },
-]} />
+<ProcessTimeline steps={[{"label":"Definition","detail":"Gap analysis vs. Ontada Health system, internal team needs assessment, AI-readiness framing"},{"label":"Architecture","detail":"Three-track decision, token strategy, API layer design"},{"label":"Build — React Aria","detail":"Headless primitives, Tailwind theming, token implementation"},{"label":"Build — Ant","detail":"Token overlay, custom API layer, component extensions"},{"label":"Documentation","detail":"Skill files, comprehensive Storybook, token reference"},{"label":"UX testing","detail":"Internal team testing — current phase"},{"label":"Engineering handoff","detail":"Three-track testing against internal products — upcoming"},{"label":"Phase 2","detail":"MCP server implementation, hybrid context architecture"}]} />
 
 ## Outcome
 

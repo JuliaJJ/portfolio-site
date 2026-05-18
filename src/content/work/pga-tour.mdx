@@ -1,49 +1,61 @@
 ---
-title: "Modular content components for live event data"
-client: "PGA TOUR"
-role: "Senior User Experience Designer"
+title: Modular content components for live event data
+client: PGA TOUR
+role: Senior User Experience Designer
 featured: false
-order: 3
-
-summary: "The PGA TOUR's app couldn't flex to fit a live tournament — every event looked the same regardless of context, and each branding refresh was bespoke work. I led the content architecture redesign that solved both problems with a single modular component system."
-complexity_note: "Consumer-facing, high data density. Multiple concurrent tournaments with distinct branding requirements, real-time scoring on two timescales (round and aggregate), and a fan base that expects immediacy."
-my_contribution: "Consultant engagement — content audit and atomization, modular component design, high-fidelity wireframes, and a visual design system adaptable across tournament brands."
+order: 7
+summary: >-
+  The PGA TOUR's app couldn't flex to fit a live tournament — every event looked
+  the same regardless of context, and each branding refresh was bespoke work. I
+  led the content architecture redesign that solved both problems with a single
+  modular component system.
+complexity_note: >-
+  Consumer-facing, high data density. Multiple concurrent tournaments with
+  distinct branding requirements, real-time scoring on two timescales (round and
+  aggregate), and a fan base that expects immediacy.
+my_contribution: >-
+  Consultant engagement — content audit and atomization, modular component
+  design, high-fidelity wireframes, and a visual design system adaptable across
+  tournament brands.
 collaborators:
-  - "Internal PGA TOUR development team"
-  - "PGA TOUR brand team"
-
+  - Internal PGA TOUR development team
+  - PGA TOUR brand team
 visibility: full
-
 problem_types:
   - redesign
   - system
 skills:
-  - "Information architecture"
-  - "Component design"
-  - "Wireframing"
-  - "Visual design"
+  - Information architecture
+  - Component design
+  - Wireframing
+  - Visual design
 tools:
-  - "Sketch"
-  - "Illustrator"
-  - "Xcode"
-
+  - Sketch
+  - Illustrator
+  - Xcode
 outcomes:
-  - metric: "Component reuse"
-    value: "1 system, 40+ tournaments"
-    note: "A single component library skinnable per tournament — no bespoke design work per event after initial build."
-  - metric: "Home screen states"
-    value: "3 covered by 1 system"
-    note: "Upcoming, in-progress, and concluded tournament states all composable from the same component set."
-  - metric: "Handoff timeline"
-    value: "Compressed"
-    note: "Hi-fi wireframes delivered to dev before visual design was complete, allowing component infrastructure to be built in parallel."
-
-impact_note: "Post-launch engagement data (session length, App Store ratings, favorites feature adoption) wasn't captured as part of this consulting engagement. The compounding value of the component system accrues across every tournament the TOUR runs going forward."
-
-# cover_image: "./covers/pga-tour-cover.png"
-# cover_alt: "PGA TOUR app leaderboard screen showing live tournament data and modular content components"
+  - metric: Component reuse
+    value: 1 system, 40+ tournaments
+    note: >-
+      A single component library skinnable per tournament — no bespoke design
+      work per event after initial build.
+  - metric: Home screen states
+    value: 3 covered by 1 system
+    note: >-
+      Upcoming, in-progress, and concluded tournament states all composable from
+      the same component set.
+  - metric: Handoff timeline
+    value: Compressed
+    note: >-
+      Hi-fi wireframes delivered to dev before visual design was complete,
+      allowing component infrastructure to be built in parallel.
+impact_note: >-
+  Post-launch engagement data (session length, App Store ratings, favorites
+  feature adoption) wasn't captured as part of this consulting engagement. The
+  compounding value of the component system accrues across every tournament the
+  TOUR runs going forward.
+draft: false
 ---
-
 ## The problem
 
 The PGA TOUR runs multiple tournaments simultaneously — often in different parts of the US and internationally — each with its own scoring cadence, branding, and fan base. Golf is a statistics-heavy sport, and scores operate on two timescales at once: within a single weekend of play and aggregated across an entire tournament season.
@@ -74,13 +86,7 @@ Each PGA TOUR event has a distinct logo and color palette. Rather than treating 
 
 The home screen shifted from a fixed layout to a slot-based system. For an upcoming tournament: featured players, tee times, and preview content. During live play: live leaderboard, video highlights, favorites tracking, and round-in-progress indicators. After a tournament closes: final standings, FedExCup implications, and recap content. Same components, different configuration.
 
-<ProcessTimeline steps={[
-  { label: "Audit", detail: "Content inventory, existing app teardown" },
-  { label: "Atomize", detail: "Component identification, data model mapping" },
-  { label: "Wireframe", detail: "Hi-fi component wireframes, dev handoff specs" },
-  { label: "Theme system", detail: "Brand inheritance layer, per-tournament skinning" },
-  { label: "Visual design", detail: "Full UI across multiple tournament contexts" },
-]} />
+<ProcessTimeline steps={[{"label":"Audit","detail":"Content inventory, existing app teardown"},{"label":"Atomize","detail":"Component identification, data model mapping"},{"label":"Wireframe","detail":"Hi-fi component wireframes, dev handoff specs"},{"label":"Theme system","detail":"Brand inheritance layer, per-tournament skinning"},{"label":"Visual design","detail":"Full UI across multiple tournament contexts"}]} />
 
 ## Outcome
 

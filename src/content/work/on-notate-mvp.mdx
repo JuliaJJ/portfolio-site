@@ -1,60 +1,84 @@
 ---
-title: "Chart abstraction workspace — MVP"
-client: "Ontada — ON.Notate"
-role: "Senior UX Designer, Design Lead"
+title: Chart abstraction workspace — MVP
+client: Ontada — ON.Notate
+role: Senior UX Designer, Design Lead
 featured: true
-order: 1
-
-summary: "Oncology data exists in two forms — clean structured data, and messy unstructured clinical notes, faxed lab results, and physician documentation that resists aggregation. I led the end-to-end design of ON.Notate, a workspace that lets specialized clinical abstractors convert that unstructured data into structured, analysis-ready form — from blank canvas through a two-year MVP build."
-complexity_note: "Mission-critical data pipeline for oncology research. Multi-persona workflow (abstractors, QC reviewers, admins) with complex state management, conditional form logic, audit requirements, data provenance tracking, and a design system that had to be extended significantly to accommodate data types it was never built for."
-my_contribution: "Designer of record for the full product lifecycle — workspace architecture, all 24 domain forms, multi-persona workflow design, design system extension, cross-functional roadmap collaboration with engineering and product. Translated ambiguous business requirements into concrete designs that product then used as the basis for formal documentation."
+order: 2
+summary: >-
+  Oncology data exists in two forms — clean structured data, and messy
+  unstructured clinical notes, faxed lab results, and physician documentation
+  that resists aggregation. I led the end-to-end design of ON.Notate, a
+  workspace that lets specialized clinical abstractors convert that unstructured
+  data into structured, analysis-ready form — from blank canvas through a
+  two-year MVP build.
+complexity_note: >-
+  Mission-critical data pipeline for oncology research. Multi-persona workflow
+  (abstractors, QC reviewers, admins) with complex state management, conditional
+  form logic, audit requirements, data provenance tracking, and a design system
+  that had to be extended significantly to accommodate data types it was never
+  built for.
+my_contribution: >-
+  Designer of record for the full product lifecycle — workspace architecture,
+  all 24 domain forms, multi-persona workflow design, design system extension,
+  cross-functional roadmap collaboration with engineering and product.
+  Translated ambiguous business requirements into concrete designs that product
+  then used as the basis for formal documentation.
 collaborators:
-  - "Engineering lead"
-  - "Product manager"
-  - "UX manager (oversight)"
-  - "Chart abstractors and QC reviewers (research participants)"
-
+  - Engineering lead
+  - Product manager
+  - UX manager (oversight)
+  - Chart abstractors and QC reviewers (research participants)
 visibility: partial
-nda_note: "Production screens are under NDA. Workspace architecture, workflow documentation, and component design artifacts are shown. Happy to walk through the full case study — reach out."
-
+nda_note: >-
+  Production screens are under NDA. Workspace architecture, workflow
+  documentation, and component design artifacts are shown. Happy to walk through
+  the full case study — reach out.
 problem_types:
   - workflow
   - 0-to-1
 skills:
-  - "Product definition"
-  - "Workflow design"
-  - "Information architecture"
-  - "Interaction design"
-  - "Component design"
-  - "Design system extension"
-  - "User research"
-  - "Cross-functional facilitation"
-  - "Subject-matter expertise development"
+  - Product definition
+  - Workflow design
+  - Information architecture
+  - Interaction design
+  - Component design
+  - Design system extension
+  - User research
+  - Cross-functional facilitation
+  - Subject-matter expertise development
 tools:
-  - "Figma"
-  - "Jira"
-  - "Confluence"
-
+  - Figma
+  - Jira
+  - Confluence
 outcomes:
-  - metric: "Domains designed"
-    value: "24"
-    note: "Each with its own form schema, conditional logic, and data provenance requirements — coordinated across a two-year build."
-  - metric: "Personas served"
-    value: "3"
-    note: "Chart abstractors, QC reviewers, and project admins — each with distinct views, permissions, and interaction patterns on the same underlying data."
-  - metric: "User feedback"
-    value: "Preferred over prior tools"
-    note: "Abstractors reported the integrated document-and-form workspace as a significant improvement over the previous workflow of running an EHR and abstraction tool side by side."
-  - metric: "Design-to-requirements direction"
-    value: "Inverted"
-    note: "Requirements were often undefined at outset. Designs served as the specification that product used to write formal business and functional requirements."
-
-impact_note: "ON.Notate is a production tool within Ontada's oncology data platform. Post-MVP adoption and data quality metrics are tracked internally and are not available for external attribution."
-
-# cover_image: "./covers/on-notate-mvp-cover.png"
-# cover_alt: "ON.Notate chart abstraction workspace showing the three-panel layout with document viewer, domain accordion, and abstraction form"
+  - metric: Domains designed
+    value: '24'
+    note: >-
+      Each with its own form schema, conditional logic, and data provenance
+      requirements — coordinated across a two-year build.
+  - metric: Personas served
+    value: '3'
+    note: >-
+      Chart abstractors, QC reviewers, and project admins — each with distinct
+      views, permissions, and interaction patterns on the same underlying data.
+  - metric: User feedback
+    value: Preferred over prior tools
+    note: >-
+      Abstractors reported the integrated document-and-form workspace as a
+      significant improvement over the previous workflow of running an EHR and
+      abstraction tool side by side.
+  - metric: Design-to-requirements direction
+    value: Inverted
+    note: >-
+      Requirements were often undefined at outset. Designs served as the
+      specification that product used to write formal business and functional
+      requirements.
+impact_note: >-
+  ON.Notate is a production tool within Ontada's oncology data platform.
+  Post-MVP adoption and data quality metrics are tracked internally and are not
+  available for external attribution.
+draft: false
 ---
-
 ## The problem
 
 In oncology research, data is only as useful as its structure. Clinicians generate enormous volumes of patient information — but most of it lives as unstructured text: physician notes, faxed lab results, imaging reports arriving in inconsistent formats from different vendors. You can't aggregate it, anonymize it, or run analysis on it while it's in that form.
@@ -125,15 +149,7 @@ The workspace is a three-panel layout:
 
 **Right panel — Abstraction space.** An accordion of all 24 domains. Each domain expands to show a timeline view — a table of all records entered for that domain, which may have one row or many depending on the data. Clicking a row opens the domain form. Every value entered in the form carries a document source linking it back to the clinical document where it was found. Below the form, a full audit history shows the provenance of every field — imported, abstracted, or corrected — and who made each change.
 
-<ProcessTimeline steps={[
-  { label: "Discovery", detail: "Planning stage entry, engineering framework review, user access established" },
-  { label: "Architecture", detail: "Workspace layout, persona workflows, domain taxonomy" },
-  { label: "Pilot research", detail: "5–6 domain subset study, abstractor sessions, NLP verification study" },
-  { label: "Component design", detail: "Design system extension, custom components, engineering collaboration" },
-  { label: "Domain build-out", detail: "24 domain forms, conditional logic documentation, QC workflow" },
-  { label: "Responsive iteration", detail: "Laptop viewport adaptation, collapsible panel system" },
-  { label: "MVP", detail: "Full abstractor and QC workflows, audit trail, data provenance" },
-]} />
+<ProcessTimeline steps={[{"label":"Discovery","detail":"Planning stage entry, engineering framework review, user access established"},{"label":"Architecture","detail":"Workspace layout, persona workflows, domain taxonomy"},{"label":"Pilot research","detail":"5–6 domain subset study, abstractor sessions, NLP verification study"},{"label":"Component design","detail":"Design system extension, custom components, engineering collaboration"},{"label":"Domain build-out","detail":"24 domain forms, conditional logic documentation, QC workflow"},{"label":"Responsive iteration","detail":"Laptop viewport adaptation, collapsible panel system"},{"label":"MVP","detail":"Full abstractor and QC workflows, audit trail, data provenance"}]} />
 
 ## Outcome
 
