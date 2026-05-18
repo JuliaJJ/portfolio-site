@@ -93,6 +93,10 @@ Designing that state system — making it legible without overwhelming the inter
 
 The existing Ontada design system was built for Ontada Health, a patient-facing product with a very different data model and interaction pattern than an internal clinical tool. ON.Notate needed to handle data types, input patterns, and display states the system was never designed for. Rather than abandoning the system, I worked with engineering to extend it — building custom components that coexisted with the existing system's API, matched its visual language, and could accommodate the specific demands of chart abstraction. Those components eventually fed back into a broader design system initiative.
 
+### Density on constrained screens
+
+The original product spec assumed large external monitors — enough real estate for a three-panel layout (documents, document viewer, abstraction forms) to breathe. In practice, users were frequently working on laptops. Designing a layout that could flex gracefully to smaller viewports without sacrificing the side-by-side document-and-form relationship that was the product's core value proposition required sustained iteration. The left panel became collapsible; the document viewer and form panel flex to fill available space.
+
 ### Conditional form logic across 24 domains
 
 Each of the 24 domains has its own form, and many of those forms contain conditional logic — fields that appear or change based on diagnosis type, medication category, dosage, or other upstream values. Tracking those variants, designing for them consistently, and communicating them to engineering in a way that could be built without ambiguity was a significant coordination challenge across the full project arc.
@@ -137,7 +141,7 @@ ON.Notate shipped as a production tool within Ontada's oncology data platform. T
 
 The audit trail and document provenance system met data quality and compliance requirements for data used in pharmaceutical research and clinical trial eligibility — a non-negotiable bar for a tool operating in this space.
 
-The design system extensions built for ON.Notate became the foundation for a broader initiative to update the Ontada design system to accommodate the data types and interaction patterns that the original patient-facing system couldn't handle.
+The design system extensions built for ON.Notate became the catalyst for a broader initiative — the Ontada AI-Ready Design System — specifically because the experience of building custom components exposed a structural problem: getting anything non-standard into the Ontada Health design system required going through a central governance team, creating a bottleneck that product teams couldn't afford. The AI-ready system was designed to solve that directly.
 
 ## What I'd do differently
 
