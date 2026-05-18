@@ -62,6 +62,9 @@ const navItems = [
       </div>
     </div>
 
+    <div class="px-press-start" aria-hidden="true">
+      <span class="px-press-start__text">{footer?.pixel_tagline}</span>
+    </div>
 
   </aside>
 
@@ -74,7 +77,6 @@ const navItems = [
     <footer class="px-footer">
       <div class="px-footer__credits">
         <span>© {new Date().getFullYear()} JULIE JOHNSTON</span>
-        <span class="px-footer__blink">{footer?.pixel_tagline}</span>
       </div>
     </footer>
   </div>
@@ -255,9 +257,17 @@ const navItems = [
     color: var(--text-4);
   }
 
-  .px-footer__blink {
+  .px-press-start {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .px-press-start__text {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 7px;
+    letter-spacing: 0.1em;
     color: var(--accent);
-    font-size: 8px;
     animation: px-blink-cursor 1s steps(1) infinite;
   }
 </style>
