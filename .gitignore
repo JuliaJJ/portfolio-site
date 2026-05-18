@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+node_modules.nosync/
 
 # Build output
 dist/
@@ -29,4 +30,3 @@ dist/
 
 # Logs
 npm-debug.log*
-node_modules
