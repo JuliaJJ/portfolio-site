@@ -7,8 +7,6 @@ intro: >-
 stats:
   - value: 20+
     label: years
-  - value: '4'
-    label: domains
-  - value: ∞
-    label: hard problems
+  - value: '0'
+    label: easy problems
 email: hello@juliejohnston.design
