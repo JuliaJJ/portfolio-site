@@ -788,4 +788,57 @@ const structuredData = {
     width: calc(min(100vw, 1600px) - 2 * var(--gutter));
     max-width: none;
   }
+
+  /* ── Pixel body — MDX section spacing ───────────────────── */
+  /*
+   * .cs-pixel__body has no prose class, so headings and paragraphs
+   * have no default margins. These rules apply the pixel aesthetic
+   * to MDX-rendered content inside the case study body.
+   */
+  :global(.cs-pixel__body h2) {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-2);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  :global(.cs-pixel__body h3) {
+    font-family: var(--font-display);
+    font-size: 0.45rem;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  :global(.cs-pixel__body p) {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+
+  :global(.cs-pixel__body ul),
+  :global(.cs-pixel__body ol) {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+
+  :global(.cs-pixel__body li) {
+    margin-bottom: var(--space-2);
+  }
+
+  :global(.cs-pixel__body strong) {
+    color: var(--text-1);
+    font-weight: var(--weight-medium);
+  }
 </style>
