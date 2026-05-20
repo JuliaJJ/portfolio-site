@@ -329,8 +329,8 @@ html[data-theme="studio"] {
 
   --text-1: #111110;
   --text-2: #4b4946;
-  --text-3: #7c7a74;
-  --text-4: #b0ada8;
+  --text-3: #696764;   /* darkened: ~3.5→5.1:1 vs bg, passes WCAG AA */
+  --text-4: #878582;   /* darkened: ~1.9→3.3:1 vs bg, passes WCAG AA large */
 
   /* Accent — warm moss */
   --accent:     #3d6b3f;
