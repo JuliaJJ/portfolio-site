@@ -7,8 +7,6 @@ import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import StudioLayout from "@layouts/StudioLayout.astro";
-import NdaBanner from "@components/NdaBanner.astro";
-
 export async function getStaticPaths() {
   const allEntries = await getCollection("additionalWork");
   return allEntries
@@ -39,16 +37,9 @@ const { data } = entry;
           <span class="aw-default__client">{data.client}</span>
           <span class="aw-default__sep" aria-hidden="true">·</span>
           <span class="aw-default__role">{data.role}</span>
-          {data.visibility !== "full" && (
-            <span class="badge badge--request">NDA</span>
-          )}
         </div>
         <p class="aw-default__description">{data.description}</p>
       </header>
-
-      {data.visibility !== "full" && (
-        <NdaBanner visibility={data.visibility} note={data.nda_note} />
-      )}
 
       {data.cover_image && (
         <div class="aw-default__cover">
@@ -90,13 +81,6 @@ const { data } = entry;
         <p class="aw-pixel__role"><span class="aw-pixel__label">ROLE: </span>{data.role}</p>
       </div>
 
-      {data.visibility !== "full" && (
-        <div class="aw-pixel__nda">
-          <span class="aw-pixel__nda-label">[{data.visibility.toUpperCase()}]</span>
-          {data.nda_note && <span class="aw-pixel__nda-text">{data.nda_note}</span>}
-        </div>
-      )}
-
       <p class="aw-pixel__description">{data.description}</p>
 
       {data.cover_image && (
@@ -137,17 +121,10 @@ const { data } = entry;
           <span class="aw-editorial__client">{data.client}</span>
           <span class="aw-editorial__sep" aria-hidden="true">—</span>
           <span class="aw-editorial__role">{data.role}</span>
-          {data.visibility !== "full" && (
-            <span class="aw-editorial__flag">NDA</span>
-          )}
         </div>
         <h1 class="aw-editorial__title">{data.title}</h1>
         <p class="aw-editorial__description">{data.description}</p>
       </header>
-
-      {data.visibility !== "full" && (
-        <NdaBanner visibility={data.visibility} note={data.nda_note} />
-      )}
 
       {data.cover_image && (
         <div class="aw-editorial__cover">
@@ -214,15 +191,8 @@ const { data } = entry;
                 <dd>{data.role}</dd>
               </div>
             </dl>
-            {data.visibility !== "full" && (
-              <p class="st-aw__nda-note">{data.nda_note}</p>
-            )}
           </aside>
         </header>
-
-        {data.visibility !== "full" && (
-          <NdaBanner visibility={data.visibility} note={data.nda_note} />
-        )}
 
         {data.gallery.length > 0 && (
           <div class="st-aw__gallery">
@@ -405,20 +375,6 @@ const { data } = entry;
     letter-spacing: 0.1em;
     color: var(--text-2);
   }
-
-  .aw-pixel__nda {
-    font-family: var(--font-display);
-    font-size: 0.5rem;
-    letter-spacing: 0.1em;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--color-warning);
-    color: var(--color-warning);
-    display: flex;
-    gap: var(--space-3);
-    align-items: baseline;
-  }
-
-  .aw-pixel__nda-text { color: var(--text-2); font-size: inherit; }
 
   .aw-pixel__description {
     border-left: 2px solid var(--rule-2);
@@ -683,15 +639,6 @@ const { data } = entry;
   .st-aw__credits dd {
     font-size: var(--text-sm);
     color: var(--text-2);
-  }
-
-  .st-aw__nda-note {
-    font-size: var(--text-sm);
-    color: var(--text-3);
-    line-height: var(--leading-relaxed);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--rule);
-    font-style: italic;
   }
 
   .st-aw__gallery {

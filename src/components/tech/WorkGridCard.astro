@@ -31,9 +31,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
         <span class="img-placeholder__label">Cover image</span>
       </div>
     )}
-    {data.visibility === "request" && (
-      <span class="badge badge--request tc-gc__badge">NDA</span>
-    )}
   </div>
 
   <div class="tc-gc__body">
@@ -90,12 +87,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
   .tc-gc:hover .tc-gc__img-wrap img {
     filter: saturate(1) brightness(1);
     transform: scale(1.02);
-  }
-
-  .tc-gc__badge {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
   }
 
   .tc-gc__body {

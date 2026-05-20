@@ -62,9 +62,6 @@ const skillsLabel = data.skills.slice(0, 3).join(" · ").toUpperCase();
       </div>
     )}
 
-    {data.visibility === "request" && (
-      <span class="px-mission__flag px-mission__flag--nda">[NDA]</span>
-    )}
   </div>
 
 </a>
@@ -287,13 +284,4 @@ const skillsLabel = data.skills.slice(0, 3).join(" · ").toUpperCase();
     color: var(--text-4);
   }
 
-  .px-mission__flag {
-    font-family: var(--font-display);
-    font-size: 0.4rem;
-    letter-spacing: 0.1em;
-    color: var(--color-warning);
-    flex-shrink: 0;
-  }
-
-  .px-mission__flag--nda { color: var(--color-info); }
 </style>

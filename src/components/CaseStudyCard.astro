@@ -32,9 +32,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
       </div>
     )}
 
-    {data.visibility === "request" && (
-      <span class="badge badge--request cs-card__badge">NDA — request access</span>
-    )}
   </div>
 
   <div class="cs-card__body">
@@ -126,12 +123,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     color: var(--text-4);
-  }
-
-  .cs-card__badge {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
   }
 
   /* ── Body ── */

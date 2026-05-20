@@ -34,9 +34,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
       {extraSkills > 0 && (
         <span class="tag tag--neutral">+{extraSkills}</span>
       )}
-      {data.visibility === "request" && (
-        <span class="ed-spread__flag ed-spread__flag--nda">NDA — request access</span>
-      )}
     </div>
   </div>
 
@@ -107,16 +104,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
     gap: var(--space-3);
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-
-  .ed-spread__flag {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-warning);
-  }
-
-  .ed-spread__flag--nda {
-    color: var(--color-info);
   }
 
   /* Cover image */

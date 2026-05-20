@@ -37,7 +37,6 @@ const { data, slug } = entry;
     <span class="st-awc__title">{data.title}</span>
     <span class="st-awc__byline">
       {data.client}
-      {data.visibility !== "full" && <span class="st-awc__nda">NDA</span>}
     </span>
   </div>
 </a>
@@ -106,14 +105,4 @@ const { data, slug } = entry;
     letter-spacing: var(--tracking-wide);
   }
 
-  .st-awc__nda {
-    font-size: var(--text-xs);
-    font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--color-warning);
-    background: var(--color-warning-bg);
-    padding: 1px 5px;
-    border-radius: var(--radius-sm);
-  }
 </style>

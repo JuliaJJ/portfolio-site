@@ -8,7 +8,6 @@ import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import StudioLayout from "@layouts/StudioLayout.astro";
 import OutcomeBlock from "@components/OutcomeBlock.astro";
-import NdaBanner from "@components/NdaBanner.astro";
 import ProcessTimeline from "@components/ProcessTimeline.astro";
 import CaseStudyImage from "@components/CaseStudyImage.astro";
 
@@ -68,10 +67,6 @@ const structuredData = {
         </div>
       </header>
 
-      {data.visibility !== "full" && (
-        <NdaBanner visibility={data.visibility} note={data.nda_note} />
-      )}
-
       <div class="cs-default__cover">
         {data.cover_image ? (
           <img src={data.cover_image} alt={data.cover_alt ?? data.title} loading="eager" />
@@ -119,13 +114,6 @@ const structuredData = {
         <div class="cs-pixel__divider">════════════════════════════════</div>
         <p class="cs-pixel__summary">{data.summary}</p>
       </div>
-
-      {data.visibility !== "full" && (
-        <div class="cs-pixel__nda">
-          <span class="cs-pixel__nda-label">[{data.visibility.toUpperCase()}]</span>
-          {data.nda_note && <span class="cs-pixel__nda-text">{data.nda_note}</span>}
-        </div>
-      )}
 
       <div class="cs-pixel__complexity">
         <span class="cs-pixel__field-label">DIFFICULTY:</span>
@@ -193,10 +181,6 @@ const structuredData = {
           )}
         </div>
       </header>
-
-      {data.visibility !== "full" && (
-        <NdaBanner visibility={data.visibility} note={data.nda_note} />
-      )}
 
       <div class="cs-editorial__cover">
         {data.cover_image ? (
@@ -288,10 +272,6 @@ const structuredData = {
             )}
           </aside>
         </header>
-
-        {data.visibility !== "full" && (
-          <NdaBanner visibility={data.visibility} note={data.nda_note} />
-        )}
 
         {data.outcomes.length > 0 && (
           <OutcomeBlock outcomes={data.outcomes} note={data.impact_note} />
@@ -462,20 +442,6 @@ const structuredData = {
     padding-left: var(--space-4);
     color: var(--text-2);
   }
-
-  .cs-pixel__nda {
-    font-family: var(--font-display);
-    font-size: 0.5rem;
-    letter-spacing: 0.1em;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--color-warning);
-    color: var(--color-warning);
-    display: flex;
-    gap: var(--space-3);
-    align-items: baseline;
-  }
-
-  .cs-pixel__nda-text { color: var(--text-2); font-size: inherit; }
 
   .cs-pixel__complexity {
     font-family: var(--font-body);

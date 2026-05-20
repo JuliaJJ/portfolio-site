@@ -28,17 +28,6 @@ export default config({
           { label: "Collaborators", itemLabel: (p) => p.value }
         ),
 
-        visibility: fields.select({
-          label: "Visibility",
-          defaultValue: "partial",
-          options: [
-            { label: "Full", value: "full" },
-            { label: "Partial", value: "partial" },
-            { label: "Request (NDA)", value: "request" },
-          ],
-        }),
-        nda_note: fields.text({ label: "NDA note", multiline: true, validation: { isRequired: false } }),
-
         problem_types: fields.multiselect({
           label: "Problem types",
           options: [
@@ -192,17 +181,6 @@ export default config({
         role: fields.text({ label: "Role" }),
         description: fields.text({ label: "Description", multiline: true }),
         order: fields.number({ label: "Order (lower = first)", validation: { isRequired: false } }),
-
-        visibility: fields.select({
-          label: "Visibility",
-          defaultValue: "full",
-          options: [
-            { label: "Full", value: "full" },
-            { label: "Partial", value: "partial" },
-            { label: "Request (NDA)", value: "request" },
-          ],
-        }),
-        nda_note: fields.text({ label: "NDA note", multiline: true, validation: { isRequired: false } }),
 
         cover_image: fields.text({ label: "Cover image — standard (16:9)", validation: { isRequired: false } }),
         cover_image_wide: fields.text({ label: "Cover image — wide (21:9, Studio header)", validation: { isRequired: false } }),

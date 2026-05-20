@@ -20,9 +20,6 @@ const { data, slug } = entry;
 >
   <div class="ed-awc__byline">
     <span class="ed-awc__client">{data.client}</span>
-    {data.visibility !== "full" && (
-      <span class="ed-awc__flag">NDA</span>
-    )}
   </div>
 
   <div class="ed-awc__img-wrap" aria-hidden={!data.cover_image}>
@@ -65,12 +62,6 @@ const { data, slug } = entry;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     color: var(--text-3);
-  }
-
-  .ed-awc__flag {
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-info);
   }
 
   .ed-awc__img-wrap {

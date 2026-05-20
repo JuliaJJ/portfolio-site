@@ -30,9 +30,6 @@ const { data, slug } = entry;
         <span class="img-placeholder__label">Cover image</span>
       </div>
     )}
-    {data.visibility !== "full" && (
-      <span class="badge badge--request tc-awc__badge">NDA</span>
-    )}
   </div>
 
   <div class="tc-awc__body">
@@ -75,12 +72,6 @@ const { data, slug } = entry;
   .tc-awc:hover .tc-awc__img-wrap img {
     filter: saturate(1) brightness(1);
     transform: scale(1.02);
-  }
-
-  .tc-awc__badge {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
   }
 
   .tc-awc__body {

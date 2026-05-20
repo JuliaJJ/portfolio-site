@@ -11,12 +11,6 @@ const problemTypeEnum = z.enum([
   "ecommerce",      // purchase flows, catalog, conversion
 ]);
 
-const visibilityEnum = z.enum([
-  "full",           // all screens and artifacts shown
-  "partial",        // process shown, final screens redacted/blurred
-  "request",        // NDA — show summary only, CTA to request walkthrough
-]);
-
 // ─── Outcome block ─────────────────────────────────────────────────────────
 
 const outcomeSchema = z.object({
@@ -54,11 +48,6 @@ const workCollection = defineCollection({
     my_contribution: z.string(),
     // Who else was in the room
     collaborators: z.array(z.string()).default([]),
-
-    // ── NDA / visibility
-    visibility: visibilityEnum.default("partial"),
-    // Shown when visibility = partial | request
-    nda_note: z.string().optional(),
 
     // ── Problem types + skills — powers filtering
     // Can belong to multiple problem types
@@ -147,9 +136,6 @@ const additionalWorkCollection = defineCollection({
     description: z.string(),
     // Manual sort order
     order: z.number().optional(),
-    // NDA / visibility
-    visibility: visibilityEnum.default("full"),
-    nda_note: z.string().optional(),
     // Cover image
     cover_image: z.string().optional(),
     cover_image_wide: z.string().optional(),
