@@ -10,7 +10,6 @@ interface Props {
 const { entry } = Astro.props;
 const { data, slug } = entry;
 
-const leadOutcome = data.outcomes[0] ?? null;
 const visibleSkills = data.skills.slice(0, 3);
 const extraSkills = data.skills.length - visibleSkills.length;
 ---
@@ -35,25 +34,16 @@ const extraSkills = data.skills.length - visibleSkills.length;
   </div>
 
   <div class="cs-card__body">
-    <div class="cs-card__left">
-      <div class="cs-card__meta">
-        {visibleSkills.map((s) => (
-          <span class="tag tag--neutral">{s}</span>
-        ))}
-        {extraSkills > 0 && (
-          <span class="tag tag--neutral">+{extraSkills}</span>
-        )}
-      </div>
-      <p class="cs-card__title">{data.title}</p>
-      <p class="cs-card__summary">{data.summary}</p>
+    <div class="cs-card__meta">
+      {visibleSkills.map((s) => (
+        <span class="tag tag--neutral">{s}</span>
+      ))}
+      {extraSkills > 0 && (
+        <span class="tag tag--neutral">+{extraSkills}</span>
+      )}
     </div>
-
-    {leadOutcome && (
-      <div class="cs-card__right">
-        <p class="cs-card__val">{leadOutcome.value}</p>
-        <p class="cs-card__metric">{leadOutcome.metric}</p>
-      </div>
-    )}
+    <p class="cs-card__title">{data.title}</p>
+    <p class="cs-card__summary">{data.summary}</p>
   </div>
 
 </a>
@@ -129,13 +119,6 @@ const extraSkills = data.skills.length - visibleSkills.length;
 
   .cs-card__body {
     padding: var(--space-4) var(--space-1) 0;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: var(--space-6);
-    align-items: start;
-  }
-
-  .cs-card__left {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -166,34 +149,5 @@ const extraSkills = data.skills.length - visibleSkills.length;
     font-size: var(--text-sm);
     color: var(--text-2);
     line-height: var(--leading-relaxed);
-  }
-
-  /* ── Outcome metric ── */
-
-  .cs-card__right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .cs-card__val {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: var(--weight-black);
-    letter-spacing: var(--tracking-tight);
-    line-height: 1;
-    color: var(--text-3);
-    transition: color var(--duration-slow) var(--ease-out);
-  }
-
-  .cs-card:hover .cs-card__val {
-    color: var(--accent);
-  }
-
-  .cs-card__metric {
-    font-size: var(--text-xs);
-    color: var(--text-3);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wider);
-    margin-top: var(--space-1);
   }
 </style>

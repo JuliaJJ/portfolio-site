@@ -1,0 +1,236 @@
+---
+import '@styles/global.css';
+import { COOKIE_NAME, COOKIE_MAX_AGE, getAuthToken, safeRedirect } from '../lib/auth';
+
+const from = safeRedirect(Astro.url.searchParams.get('from'));
+let error = '';
+
+if (Astro.request.method === 'POST') {
+  const data = await Astro.request.formData();
+  const password = data.get('password')?.toString() ?? '';
+
+  if (password === import.meta.env.SITE_PASSWORD) {
+    Astro.cookies.set(COOKIE_NAME, await getAuthToken(), {
+      httpOnly: true,
+      secure: import.meta.env.PROD,
+      sameSite: 'lax',
+      maxAge: COOKIE_MAX_AGE,
+      path: '/',
+    });
+    return Astro.redirect(from);
+  }
+
+  error = 'Incorrect password.';
+}
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Julie Johnston</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <header class="lp-header">
+    <span class="lp-wordmark">Julie Johnston</span>
+  </header>
+
+  <main class="lp-main">
+    <div class="lp-card">
+
+      <div class="lp-card__top">
+        <p class="lp-eyebrow">Private Preview</p>
+        <h1 class="lp-heading">Portfolio access</h1>
+        <p class="lp-desc">
+          This site is password protected. Enter the passphrase to continue.
+        </p>
+      </div>
+
+      {error && (
+        <p class="lp-error" role="alert">{error}</p>
+      )}
+
+      <form method="POST" action={`/login${from !== '/' ? `?from=${encodeURIComponent(from)}` : ''}`} class="lp-form">
+        <label for="password" class="lp-label">Passphrase</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="lp-input"
+          autocomplete="current-password"
+          placeholder="••••••••"
+          required
+          autofocus
+        />
+        <button type="submit" class="lp-btn">Enter →</button>
+      </form>
+
+    </div>
+  </main>
+
+</body>
+</html>
+
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text-1);
+  }
+
+  /* ── Header ──────────────────────────────────────── */
+
+  .lp-header {
+    border-bottom: 1px solid var(--rule);
+    padding: 0 var(--gutter);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .lp-wordmark {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.07em;
+    color: var(--text-1);
+  }
+
+  /* ── Main ────────────────────────────────────────── */
+
+  .lp-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-16) var(--gutter);
+  }
+
+  .lp-card {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* ── Card top ────────────────────────────────────── */
+
+  .lp-card__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .lp-eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .lp-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    line-height: var(--leading-tight);
+  }
+
+  .lp-desc {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Error ───────────────────────────────────────── */
+
+  .lp-error {
+    font-size: var(--text-sm);
+    color: var(--color-warning);
+    background: var(--color-warning-bg);
+    border: 1px solid rgba(232, 167, 51, 0.25);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* ── Form ────────────────────────────────────────── */
+
+  .lp-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .lp-label {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .lp-input {
+    width: 100%;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    color: var(--text-1);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--weight-light);
+    padding: var(--space-3) var(--space-4);
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  .lp-input::placeholder {
+    color: var(--text-4);
+    letter-spacing: 0.1em;
+  }
+
+  .lp-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--bg-3);
+  }
+
+  .lp-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    padding: var(--space-4);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out);
+    margin-top: var(--space-2);
+  }
+
+  .lp-btn:hover {
+    background: var(--accent-2);
+  }
+
+  .lp-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+</style>

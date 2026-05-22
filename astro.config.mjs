@@ -6,7 +6,7 @@ import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  output: "static",
+  output: "server",
   adapter: vercel(),
   site: "https://portfolio-site-liart-ten.vercel.app",
 

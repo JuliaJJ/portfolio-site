@@ -7,8 +7,9 @@ import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const [footer, workLanding, labLanding] = await Promise.all([
+const [footer, home, workLanding, labLanding] = await Promise.all([
   reader.singletons.footer.read(),
+  reader.singletons.home.read(),
   reader.singletons.workLanding.read(),
   reader.singletons.labLanding.read(),
 ]);
@@ -32,7 +33,7 @@ const navItems = [
         <a href="/" class="ed-site-name" aria-label="Julie Johnston — home">
           Julie Johnston
         </a>
-        <p class="ed-tagline">Senior UX Designer &nbsp;·&nbsp; Designing for complexity</p>
+        <p class="ed-tagline">{home?.tagline}</p>
       </div>
       <div class="ed-masthead__rule-bot"></div>
     </div>
@@ -129,7 +130,7 @@ const navItems = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-6);
   }
 
   /* The headline centrepiece — this IS the brand mark */
