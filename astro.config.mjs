@@ -7,7 +7,15 @@ import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   output: "server",
-  adapter: vercel(),
+  adapter: vercel({
+    includeFiles: [
+      "src/content/singletons/home.yaml",
+      "src/content/singletons/about.yaml",
+      "src/content/singletons/footer.yaml",
+      "src/content/singletons/work-landing.yaml",
+      "src/content/singletons/lab-landing.yaml",
+    ],
+  }),
   site: "https://portfolio-site-liart-ten.vercel.app",
 
   integrations: [
