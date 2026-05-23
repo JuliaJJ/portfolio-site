@@ -11,14 +11,19 @@ if (Astro.request.method === 'POST') {
   const password = data.get('password')?.toString() ?? '';
 
   if (password === import.meta.env.SITE_PASSWORD) {
-    Astro.cookies.set(COOKIE_NAME, await getAuthToken(), {
-      httpOnly: true,
-      secure: import.meta.env.PROD,
-      sameSite: 'lax',
-      maxAge: COOKIE_MAX_AGE,
-      path: '/',
+    const token = await getAuthToken();
+    const cookieParts = [
+      `${COOKIE_NAME}=${token}`,
+      'Path=/',
+      'HttpOnly',
+      'SameSite=Lax',
+      `Max-Age=${COOKIE_MAX_AGE}`,
+    ];
+    if (import.meta.env.PROD) cookieParts.push('Secure');
+    return new Response(null, {
+      status: 302,
+      headers: { 'Location': from, 'Set-Cookie': cookieParts.join('; ') },
     });
-    return Astro.redirect(from);
   }
 
   error = 'Incorrect password.';

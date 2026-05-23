@@ -18,7 +18,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  const token = context.cookies.get(COOKIE_NAME)?.value;
+  const cookieHeader = context.request.headers.get('cookie') ?? '';
+  const token = cookieHeader.split(';')
+    .map(c => c.trim())
+    .find(c => c.startsWith(`${COOKIE_NAME}=`))
+    ?.slice(COOKIE_NAME.length + 1);
+
   const expected = await getAuthToken();
 
   if (token === expected) return next();
