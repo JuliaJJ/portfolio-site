@@ -7,7 +7,7 @@ const PUBLIC_EXACT = new Set(["/login"]);
 
 export const onRequest = defineMiddleware((context, next) => {
   // No password configured → open (local dev without env set)
-  if (!import.meta.env.SITE_PASSWORD) return next();
+  if (!process.env["SITE_PASSWORD"]) return next();
 
   const { pathname } = context.url;
 

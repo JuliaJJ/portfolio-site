@@ -11,17 +11,10 @@ import OutcomeBlock from "@components/OutcomeBlock.astro";
 import ProcessTimeline from "@components/ProcessTimeline.astro";
 import CaseStudyImage from "@components/CaseStudyImage.astro";
 
-export async function getStaticPaths() {
-  const allWork = await getCollection("work");
-  return allWork
-    .filter((e) => !e.data.draft)
-    .map((entry) => ({
-      params: { slug: entry.slug },
-      props: { entry },
-    }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+const allWork = await getCollection("work");
+const entry = allWork.find((e) => e.slug === slug && !e.data.draft);
+if (!entry) return Astro.redirect("/work");
 const { Content } = await render(entry);
 const { data } = entry;
 

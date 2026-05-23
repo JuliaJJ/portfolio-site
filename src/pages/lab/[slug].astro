@@ -11,15 +11,10 @@ import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import StudioLayout from "@layouts/StudioLayout.astro";
 
-export async function getStaticPaths() {
-  const allLab = await getCollection("lab", ({ data }) => !data.draft);
-  return allLab.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+const allLab = await getCollection("lab", ({ data }) => !data.draft);
+const entry = allLab.find((e) => e.slug === slug);
+if (!entry) return Astro.redirect("/lab");
 const { Content } = await render(entry);
 const { data } = entry;
 

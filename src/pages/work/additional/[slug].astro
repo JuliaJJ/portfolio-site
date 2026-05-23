@@ -7,17 +7,10 @@ import DefaultLayout from "@layouts/DefaultLayout.astro";
 import PixelLayout from "@layouts/PixelLayout.astro";
 import EditorialLayout from "@layouts/EditorialLayout.astro";
 import StudioLayout from "@layouts/StudioLayout.astro";
-export async function getStaticPaths() {
-  const allEntries = await getCollection("additionalWork");
-  return allEntries
-    .filter((e) => !e.data.draft)
-    .map((entry) => ({
-      params: { slug: entry.slug },
-      props: { entry },
-    }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+const allEntries = await getCollection("additionalWork");
+const entry = allEntries.find((e) => e.slug === slug && !e.data.draft);
+if (!entry) return Astro.redirect("/work");
 const { Content } = await render(entry);
 const { data } = entry;
 ---
