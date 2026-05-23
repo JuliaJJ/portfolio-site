@@ -8,7 +8,7 @@ summary: >-
   Ontada's existing design system was built for a patient-facing product and
   wasn't portable to the data-dense internal tools that needed it most. I led
   the design and build of a secondary system — architected from the start to
-  produce deterministic, repeatable outputs when consumed by AI — with three
+  produce deterministic, repeatable outputs when consumed by AI, with three
   parallel implementation tracks and a documentation layer built for both human
   and machine consumers.
 complexity_note: >-
@@ -28,7 +28,6 @@ collaborators:
   - Engineering team (technical stack alignment, component testing)
   - UX team colleague (Material UI implementation track)
   - Internal UX team (current testing phase)
-visibility: full
 problem_types:
   - system
   - 0-to-1
@@ -84,19 +83,19 @@ draft: false
 ---
 ## The problem
 
-Ontada's existing design system grew out of Ontada Health — a patient-facing platform designed for consumer use, with a visual language built around approachability and simplicity. That made it the wrong foundation for Ontada's internal tools, which are data-dense, clinician-facing, and operated by people who need to move quickly through complex workflows. The internal products needed higher information density, more form complexity, more data table flexibility, and interaction patterns that the patient-facing system simply hadn't been built for.
+Ontada's existing design system grew out of Ontada Health, a patient-facing platform designed for consumer use, with a visual language built around approachability and simplicity. That made it the wrong foundation for Ontada's internal tools, which are data-dense, clinician-facing, and operated by people who need to move quickly through complex workflows. The internal products needed higher information density, more form complexity, more data table flexibility, and interaction patterns that the patient-facing system simply hadn't been built for.
 
-The ON.Notate build had demonstrated this gap directly — significant custom component work had been required to make the existing system usable for chart abstraction, and other internal teams were facing the same friction. Beyond the component coverage problem, the existing system's engineering implementation was tied tightly to the Ontada Health technical stack. It wasn't portable. Teams working in different frameworks or with different deployment requirements couldn't consume it cleanly.
+The ON.Notate build had demonstrated this gap directly: significant custom component work had been required to make the existing system usable for chart abstraction, and other internal teams were facing the same friction. Beyond the component coverage problem, the existing system's engineering implementation was tied tightly to the Ontada Health technical stack. It wasn't portable. Teams working in different frameworks or with different deployment requirements couldn't consume it cleanly.
 
-At the same time, a company-wide directive had established a target for AI tool adoption and productivity improvement by 2028. Internally, AI tooling was already changing how the team worked — accelerating prototyping, synthesis, and generation. The question became: if we're building a new design system anyway, how do we build it so that AI can consume it reliably?
+At the same time, a company-wide directive had established a target for AI tool adoption and productivity improvement by 2028. Internally, AI tooling was already changing how the team worked, accelerating prototyping, synthesis, and generation. The question became: if we're building a new design system anyway, how do we build it so that AI can consume it reliably?
 
-There was also a governance problem embedded in the status quo. The Ontada Health design system was maintained by a central team, which meant any custom component needed for an internal product had to go through that team's approval and build process before it could be used. For product teams moving quickly — or needing components the patient-facing system had no reason to build — that governance process was a bottleneck. The AI-ready system was designed with a leaner governance model: responsive to internal product team needs, without the dependency on an external team's roadmap and process.
+There was also a governance problem embedded in the status quo. The Ontada Health design system was maintained by a central team, which meant any custom component needed for an internal product had to go through that team's approval and build process before it could be used. For product teams moving quickly, or needing components the patient-facing system had no reason to build, that governance process was a bottleneck. The AI-ready system was designed with a leaner governance model: responsive to internal product team needs, without the dependency on an external team's roadmap and process.
 
 ## The AI-readiness problem
 
-The risk with AI-assisted UI generation isn't that the AI ignores the design system — it's that three different teams using the same system with similar prompts get three different outputs. Without structured, machine-consumable context, generative AI tools interpolate freely. The results are inconsistent, often subtly wrong, and require manual correction that erodes the efficiency gain the AI was supposed to provide.
+The risk with AI-assisted UI generation isn't that the AI ignores the design system. The risk is three different teams using the same system with similar prompts get three different outputs. Without structured, machine-consumable context, generative AI tools interpolate freely. The results are inconsistent, often subtly wrong, and require manual correction that erodes the efficiency gain the AI was supposed to provide.
 
-AI-readiness, as I defined it for this project, means the design system ships with documentation specifically structured for AI consumption — not just human reference — so that prompts produce deterministic, repeatable outputs aligned with the system's actual components, tokens, and patterns.
+AI-readiness, as I defined it for this project, means the design system ships with documentation specifically structured for AI consumption, not just human reference, so that prompts produce deterministic, repeatable outputs aligned with the system's actual components, tokens, and patterns.
 
 ## What I built
 
@@ -106,25 +105,25 @@ Rather than a single implementation, the system was built in three parallel trac
 
 **React Aria + Tailwind.** React Aria provides headless, accessible component primitives with no default styling. Tailwind provides the styling layer. This track gives teams the most flexibility — components are fully unstyled at the primitive level and themed entirely through tokens — and was designed to validate whether that level of control was useful or overwhelming for internal teams.
 
-**Ant Design.** I took Ontada's existing design tokens — colors, spacing, typography — from the Ontada Health system and built a theme layer that overlays on top of Ant Design's component library. Critically, I also built a custom API layer that sits above Ant's native API without modifying it. Ant components remain exactly as they exist in the core library; the Ontada layer extends them with additional variants and entirely new components that follow Ant's API structure closely enough to feel native. The two layers coexist without conflict — and because nothing in the core Ant library has been touched, the team can consume upstream Ant updates freely as the library evolves, without risk of conflicts with Ontada's extensions. That forward compatibility was a deliberate architectural decision, not an afterthought.
+**Ant Design.** I took Ontada's existing design tokens from the Ontada Health system and built a theme layer that overlays on top of Ant Design's component library. Critically, I also built a custom API layer that sits above Ant's native API without modifying it. Ant components remain exactly as they exist in the core library; the Ontada layer extends them with additional variants and entirely new components that follow Ant's API structure closely enough to feel native. The two layers coexist without conflict, and because nothing in the core Ant library has been touched, the team can consume upstream Ant updates freely as the library evolves, without risk of conflicts with Ontada's extensions. That forward compatibility was a deliberate architectural decision, not an afterthought.
 
 **Material UI.** Built by a colleague in parallel, following the same token and documentation standards as the other two tracks.
 
 ### The AI-ready documentation layer
 
-Each implementation track ships with a structured set of skill files — markdown documents that define design patterns, component behavior, usage guidelines, and prompt guardrails. These travel with the repository and are the primary context source when a designer or engineer prompts an AI tool to generate UI from the design system.
+Each implementation track ships with a structured set of skill files: markdown documents that define design patterns, component behavior, usage guidelines, and prompt guardrails. These travel with the repository and are the primary context source when a designer or engineer prompts an AI tool to generate UI from the design system.
 
 Storybook documentation was built to a higher standard than typical component libraries:
 
 * Stories for every base component at its default state
 * Stories for all variants shown in the official component documentation
-* Additional stories for prop combinations that are valid in the API but not explicitly documented — surfaced proactively so engineers don't have to discover them through trial and error
+* Additional stories for prop combinations that are valid in the API but not explicitly documented, surfaced proactively so engineers don't have to discover them through trial and error
 * Full one-to-one parity with the upstream library API (Ant or React Aria) so the Storybook playground exposes everything available
 * Reference sections for color tokens, iconography, and spacing so the full token set is enumerable in one place
 
 ### Phase 2: MCP server
 
-The skill files solve the AI-readiness problem, but they carry a cost: every prompt that needs design system context has to include those files in the context window, which consumes tokens and adds overhead. Phase 2 of the project moves the skill file layer into a dedicated MCP server — context lives upstream, is scoped to what's actually relevant for a given prompt, and doesn't need to be re-sent in full each time.
+The skill files solve the AI-readiness problem, but they carry a cost: every prompt that needs design system context has to include those files in the context window, which consumes tokens and adds overhead. Phase 2 of the project moves the skill file layer into a dedicated MCP server; context lives upstream, is scoped to what's actually relevant for a given prompt, and doesn't need to be re-sent in full each time.
 
 The planned architecture combines both approaches: an MCP server holding broad design system context, supplemented by lightweight project-specific skill files that add tightly scoped context for whatever is being generated. That combination delivers both the efficiency of centralized context and the precision of prompt-specific guardrails.
 
@@ -132,12 +131,12 @@ The planned architecture combines both approaches: an MCP server holding broad d
 
 ## Outcome
 
-The system is currently in internal UX team testing ahead of engineering handoff, where each of the three implementation tracks will be tested against a different internal product. That parallel testing structure was a deliberate choice — rather than selecting a single approach in advance, the three-track build lets real usage data drive the decision about which track (or combination) becomes the standard going forward.
+The system is currently in internal UX team testing ahead of engineering handoff, where each of the three implementation tracks will be tested against a different internal product. That parallel testing structure was a deliberate choice; rather than selecting a single approach in advance, the three-track build lets real usage data drive the decision about which track (or combination) becomes the standard going forward.
 
-The AI-ready documentation layer represents a shift in how the team thinks about design system documentation: not just as human reference, but as structured context that shapes AI behavior. If the MCP server phase proceeds, the system becomes a persistent, queryable source of design truth that any AI tool in the workflow can access — reducing the manual overhead of keeping AI outputs aligned with the system as it evolves.
+The AI-ready documentation layer represents a shift in how the team thinks about design system documentation: not just as human reference, but as structured context that shapes AI behavior. If the MCP server phase proceeds, the system becomes a persistent, queryable source of design truth that any AI tool in the workflow can access, reducing the manual overhead of keeping AI outputs aligned with the system as it evolves.
 
 ## What I'd do differently
 
-Running three implementation tracks in parallel was the right call for generating real comparative data, but it created coordination overhead — keeping token definitions, documentation standards, and API conventions consistent across three codebases simultaneously required more active synchronization than I'd anticipated. I'd build the shared token and documentation layer as a true monorepo from the start, with the three implementation tracks as packages within it, so that a token change or a documentation update propagates everywhere automatically rather than needing to be applied three times.
+Running three implementation tracks in parallel was the right call for generating real comparative data, but it created coordination overhead; keeping token definitions, documentation standards, and API conventions consistent across three codebases simultaneously required more active synchronization than I'd anticipated. I'd build the shared token and documentation layer as a true monorepo from the start, with the three implementation tracks as packages within it, so that a token change or a documentation update propagates everywhere automatically rather than needing to be applied three times.
 
-I'd also involve engineering earlier in the AI-readiness design — specifically in defining what a "good" AI output looks like and what prompt patterns actually get used in practice. The skill files I built are grounded in design system knowledge, but the prompts that engineers write day-to-day may surface edge cases in the documentation that only become visible when someone tries to use it to generate real production code.
+I'd also involve engineering earlier in the AI-readiness design; specifically in defining what a "good" AI output looks like and what prompt patterns actually get used in practice. The skill files I built are grounded in design system knowledge, but the prompts that engineers write day-to-day may surface edge cases in the documentation that only become visible when someone tries to use it to generate real production code.

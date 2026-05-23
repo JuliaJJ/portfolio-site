@@ -1,6 +1,6 @@
 ---
 title: Website redesign with headless CMS and modular content system
-client: Weber Grills
+client: Weber
 role: UX Lead, Information Architect
 featured: false
 order: 5
@@ -11,11 +11,11 @@ summary: >-
   gave the editorial team autonomy they hadn't had before.
 complexity_note: >-
   Large-scale consumer ecommerce site with an extensive product catalog across
-  multiple grill lines, a deep content library, and an active owner community —
+  multiple grill lines, a deep content library, and an active owner community,
   all of which had to serve both pre-purchase decision-making and post-purchase
   support simultaneously, from a single content source.
 my_contribution: >-
-  End-to-end involvement — client discovery, content taxonomy definition, CMS
+  End-to-end involvement: client discovery, content taxonomy definition, CMS
   architecture, wireframing (low-fi through pixel-perfect UI), HTML/CSS
   prototyping with CMS token implementation, and post-launch analytics
   monitoring.
@@ -23,7 +23,6 @@ collaborators:
   - Client brand team
   - Internal design team (tandem wireframe and UI work)
   - Development team
-visibility: full
 problem_types:
   - redesign
   - system
@@ -82,33 +81,33 @@ draft: false
 
 Weber's website had three compounding problems, each reinforcing the others.
 
-**Content was out of sync.** Product data — grill specs, model details, pricing — existed in multiple places across different platforms and was frequently inconsistent. Keeping it aligned was manual, error-prone, and got worse every time a new grill line launched or specs changed. The brand needed a single source of truth that all endpoints — web, app, email, third-party retail partners — could consume from without risk of drift.
+**Content was out of sync.** Product data like grill specs, model details, pricing, and beyond existed in multiple places across different platforms and was frequently inconsistent. Keeping it aligned was manual, error-prone, and got worse every time a new grill line launched or specs changed. The brand needed a single source of truth that all endpoints — web, app, email, third-party retail partners — could consume from without risk of drift.
 
 **Valuable content was invisible.** Weber had built a significant library of expert grilling instruction, recipes, and community stories — but most of it lived in corners of the site that visitors rarely reached. The navigation structure prioritized product browsing over discovery, which meant a visitor who came to the site to learn how to set up their new grill couldn't easily find what they needed, and a visitor comparing grills couldn't easily find the recipe content that might tip a purchase decision.
 
-**The community was underutilized.** Weber has an active owner base and a strong brand identity built around that community. The site wasn't incorporating social content or social proof in any meaningful way — the kind of content that converts browsers into buyers and builds the brand loyalty that keeps owners coming back.
+**The community was underutilized.** Weber has an active owner base and a strong brand identity built around that community. The site wasn't incorporating social content or social proof in any meaningful way, limiting the use of content that converts browsers into buyers and builds the brand loyalty that keeps owners coming back.
 
 ## Design approach
 
 ### Content taxonomy and CMS architecture
 
-Before any wireframe was drawn, we spent significant time establishing a content taxonomy — defining the types of content Weber had, how those types related to each other, and what attributes each type needed to carry. That taxonomy became the architecture of a custom Craft CMS implementation.
+Before drawing any wireframes, we spent significant time establishing a content taxonomy, defining the types of content Weber had, how those types related to each other, and what attributes each type needed to carry. That taxonomy became the architecture of a custom Craft CMS implementation.
 
 The headless approach was the key structural decision: content stored once, consumed anywhere. A grill spec updated in the CMS would be correct on the web, in the app, in marketing emails, and at third-party retailers simultaneously. The data-consistency problem becomes self-solving rather than an ongoing maintenance burden.
 
 ### Modular component system
 
-The page design was built to match the CMS content model. Rather than fixed page templates, pages were assembled from flexible content blocks — a recipe module, a grilling tip, an accessory recommendation, a social proof unit — that editors could place, reorder, and remove from any page without developer involvement.
+The page design was built to match the CMS content model. Rather than fixed page templates, pages were assembled from flexible content blocks, whether a recipe module, a grilling tip, an accessory recommendation, a social proof unit, that editors could place, reorder, and remove from any page without developer involvement.
 
 This served both the content discovery problem and the cross-merchandising goal: a grill series landing page could surface the recipes that work best on that grill type; a recipe page could recommend the accessories that make it easier; a blog post could sit alongside related products. The content model made those relationships possible; the modular design made them editable.
 
 ### Wireframes to production
 
-I owned the IA and content architecture, and worked in tandem with another designer on wireframes and UI — evolving from low-fidelity paper sketches through to high-fidelity Illustrator files and then pixel-perfect UI designs. I also built HTML/CSS prototypes and templates to bridge the design-to-development gap directly — not just handing off comps but providing working code that demonstrated how CMS content tokens should map to page elements. That level of specificity reduced interpretation errors during build.
+I owned the IA and content architecture, and worked in tandem with another designer on wireframes and UI, evolving from low-fidelity paper sketches through to high-fidelity Illustrator files and then pixel-perfect UI designs. I also built HTML/CSS prototypes and templates to bridge the design-to-development gap directly. Not simple handing off comps but providing working code demonstrated how CMS content tokens should map to page elements. That level of specificity reduced interpretation errors during build.
 
 ### Visual design
 
-With the component system established, visual design became a matter of applying a consistent style system across components — creating a wayfinding logic that felt intuitive rather than imposed. Heavy emphasis went to purchase-decision tools: grill finder, side-by-side comparison, related products, reviews, and support documentation links were surfaced prominently at every point in the product browsing path. The goal was that a visitor should never have to work to find the information they needed to feel confident in a purchase.
+With the component system established, visual design became a matter of applying a consistent style system across components, creating a wayfinding logic that felt intuitive rather than imposed. Heavy emphasis went to purchase-decision tools: grill finder, side-by-side comparison, related products, reviews, and support documentation links were surfaced prominently at every point in the product browsing path. The goal was that a visitor should never have to work to find the information they needed to feel confident in a purchase.
 
 <ProcessTimeline steps={[{"label":"Discovery","detail":"Client kickoff, content audit, taxonomy definition"},{"label":"Architecture","detail":"Headless CMS structure, content type relationships, IA"},{"label":"Wireframes","detail":"Paper sketches → hi-fi Illustrator comps"},{"label":"Prototyping","detail":"HTML/CSS prototypes, CMS content token implementation"},{"label":"Visual design","detail":"Pixel-perfect UI, modular component style system"},{"label":"Launch + monitoring","detail":"Post-launch analytics, design decision validation"}]} />
 
@@ -116,12 +115,12 @@ With the component system established, visual design became a matter of applying
 
 The headless CMS implementation solved the data-consistency problem at the root. What had been an ongoing maintenance burden — manually keeping product specs aligned across endpoints — became automatic. When Weber launches a new grill line, it's updated once and correct everywhere.
 
-The modular content system gave the editorial team meaningful autonomy: content that had previously required developer involvement to surface could now be added, rearranged, or removed by anyone on the content team. That autonomy has compounding value — it means the site can respond to campaigns, seasons, and community moments quickly, rather than on developer sprint cycles.
+The modular content system gave the editorial team meaningful autonomy: content that had previously required developer involvement to surface could now be added, rearranged, or removed by anyone on the content team. That autonomy has compounding value: it means the site can respond to campaigns, seasons, and community moments quickly, rather than on developer sprint cycles.
 
 The HTML/CSS prototype layer compressed the design-to-build timeline and reduced the rework that typically comes from ambiguous handoffs on large-scale CMS implementations.
 
 ## What I'd do differently
 
-The content taxonomy work was the most valuable and least visible part of this project — and it was done largely upfront, before stakeholders could see it reflected in any interface. I'd do more to make that work legible earlier: a visual content model or relationship diagram that stakeholders and the editorial team could review would have surfaced misalignments before they became structural constraints in the CMS.
+The content taxonomy work was the most valuable and least visible part of this project, and it was done largely upfront, before stakeholders could see it reflected in any interface. I'd do more to make that work legible earlier: a visual content model or relationship diagram that stakeholders and the editorial team could review would have surfaced misalignments before they became structural constraints in the CMS.
 
-I'd also push for explicit instrumentation of the grill finder and comparison tools from day one. Those were high-investment features designed to guide purchase decisions — the one data point that would tell you immediately whether the design was working is whether visitors who used them converted at a higher rate than those who didn't. Having that instrumentation built into the launch plan rather than added in post-launch monitoring would have made the post-launch story much stronger.
+I'd also push for explicit instrumentation of the grill finder and comparison tools from day one. Those were high-investment features designed to guide purchase decisions; the one data point that would tell you immediately whether the design was working is whether visitors who used them converted at a higher rate than those who didn't. Having that instrumentation built into the launch plan rather than added in post-launch monitoring would have made the post-launch story much stronger.
