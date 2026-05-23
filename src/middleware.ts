@@ -5,7 +5,7 @@ import { COOKIE_NAME, getAuthToken } from "./lib/auth";
 const PUBLIC_PREFIXES = ["/api/auth", "/keystatic", "/api/keystatic"];
 const PUBLIC_EXACT = new Set(["/login"]);
 
-export const onRequest = defineMiddleware(async (context, next) => {
+export const onRequest = defineMiddleware((context, next) => {
   // No password configured → open (local dev without env set)
   if (!import.meta.env.SITE_PASSWORD) return next();
 
@@ -18,15 +18,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  const cookieHeader = context.request.headers.get('cookie') ?? '';
-  const token = cookieHeader.split(';')
-    .map(c => c.trim())
-    .find(c => c.startsWith(`${COOKIE_NAME}=`))
+  const cookieHeader = context.request.headers.get("cookie") ?? "";
+  const token = cookieHeader
+    .split(";")
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`${COOKIE_NAME}=`))
     ?.slice(COOKIE_NAME.length + 1);
 
-  const expected = await getAuthToken();
-
-  if (token === expected) return next();
+  if (token === getAuthToken()) return next();
 
   const from = pathname !== "/" ? `?from=${encodeURIComponent(pathname)}` : "";
   return context.redirect(`/login${from}`);

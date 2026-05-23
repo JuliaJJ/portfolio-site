@@ -11,7 +11,7 @@ if (Astro.request.method === 'POST') {
   const password = data.get('password')?.toString() ?? '';
 
   if (password === import.meta.env.SITE_PASSWORD) {
-    const token = await getAuthToken();
+    const token = getAuthToken();
     const cookieParts = [
       `${COOKIE_NAME}=${token}`,
       'Path=/',
