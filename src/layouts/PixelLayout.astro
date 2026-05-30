@@ -5,6 +5,7 @@
 
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
+import CharacterSheet from "@components/pixel/CharacterSheet.astro";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 const [footer, workLanding, labLanding] = await Promise.all([
@@ -80,6 +81,8 @@ const navItems = [
       </div>
     </footer>
   </div>
+
+  <CharacterSheet />
 
 </div>
 
@@ -259,6 +262,7 @@ const navItems = [
 
   .px-press-start {
     padding-top: var(--space-4);
+    cursor: pointer;
   }
 
   .px-press-start__text {

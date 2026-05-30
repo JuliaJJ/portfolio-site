@@ -1,0 +1,385 @@
+---
+// src/components/pixel/CharacterSheet.astro
+// Easter egg: click PRESS START → RPG character sheet with Julie sprite + Sammy the cat
+---
+
+<div id="px-cs-overlay" class="px-cs-overlay" aria-hidden="true" tabindex="-1">
+  <div class="px-cs-window">
+
+    <div class="px-cs-titlebar">
+      <span>★ PLAYER.DAT</span>
+      <span class="px-cs-hearts">♥ ♥ ♥ ♥ ♥</span>
+    </div>
+
+    <div class="px-cs-body">
+
+      <div class="px-cs-sprite-col">
+        <canvas id="px-cs-julie" width="48" height="76"></canvas>
+        <div class="px-cs-hdiv">════════</div>
+        <canvas id="px-cs-sammy" width="32" height="36"></canvas>
+        <div class="px-cs-pet-tag">SAMMY ♥</div>
+      </div>
+
+      <div class="px-cs-stats-col" id="px-cs-stats" aria-live="polite"></div>
+
+    </div>
+
+    <div class="px-cs-footer">
+      <span class="px-cs-continue">[ PRESS ANY KEY TO CONTINUE ]</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+
+  // ── Palettes ─────────────────────────────────────────────────
+
+  const JC = {
+    '.': null,
+    'H': '#3d2010',  // dark hair
+    'S': '#f4c08b',  // skin
+    'E': '#111827',  // eye
+    'M': '#c07050',  // mouth
+    'C': '#22d3ee',  // shirt (theme cyan)
+    'P': '#1a3050',  // pants
+    'B': '#111827',  // boots
+    'A': '#f4c08b',  // arms (skin)
+  };
+
+  const SC = {
+    '.': null,
+    'O': '#e8834a',  // orange
+    'o': '#c4622c',  // dark orange stripe
+    'b': '#111827',  // eye pupil
+    'N': '#f4a0b0',  // pink nose
+    'W': '#f5f0e0',  // cream belly
+  };
+
+  // ── Julie sprite  12 cols × 18 rows  (scale 4 → 48×72, canvas 48×76 for bob) ──
+
+  const JULIE = [
+    '..HHHHHHHH..',  //  0  hair top
+    '.HHHHHHHHHH.',  //  1  hair wide
+    '.HHSSSSSSHH.',  //  2  face
+    '.HHSESSESHH.',  //  3  eyes (E at cols 4 & 7)
+    '.HHSSSSSSHH.',  //  4  mid face
+    '.HHSSMMSSHH.',  //  5  mouth (M at cols 5 & 6)
+    '..HHSSSSHH..',  //  6  chin taper
+    '..CCCCCCCC..',  //  7  shirt collar
+    'AACCCCCCCCAA',  //  8  body + arms
+    'AACCCCCCCCAA',  //  9
+    'AACCCCCCCCAA',  // 10
+    '..CCCCCCCC..',  // 11  shirt hem
+    '..PPP..PPP..',  // 12  pants
+    '..PPP..PPP..',  // 13
+    '..PPP..PPP..',  // 14
+    '..PPP..PPP..',  // 15
+    '..BBB..BBB..',  // 16  boots
+    '.BBBB..BBBB.',  // 17  boot soles
+  ];
+
+  // ── Sammy sprite  8 cols × 9 rows  (scale 4 → 32×36) ────────
+
+  const SAMMY_OPEN = [
+    '.OO..OO.',  // 0  ears
+    'OOOOOOOO',  // 1  head
+    'OoOOOOoO',  // 2  forehead stripes
+    'OObOObOO',  // 3  eyes (b = pupil, cols 2 & 5)
+    'OOONNooO',  // 4  nose (N cols 3-4) + muzzle stripe
+    'OOOOOOOO',  // 5  chin
+    '.OWWWWOO',  // 6  body with cream belly
+    '.OWWWWOO',  // 7  belly
+    '.OOOOOO.',  // 8  paws
+  ];
+
+  const SAMMY_BLINK = [
+    '.OO..OO.',
+    'OOOOOOOO',
+    'OoOOOOoO',
+    'OOOOOOOO',  // eyes closed — blends into face
+    'OOONNooO',
+    'OOOOOOOO',
+    '.OWWWWOO',
+    '.OWWWWOO',
+    '.OOOOOO.',
+  ];
+
+  // ── Canvas drawing ────────────────────────────────────────────
+
+  function drawSprite(canvas, rows, palette, scale, yOff) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let r = 0; r < rows.length; r++) {
+      for (let c = 0; c < rows[r].length; c++) {
+        const color = palette[rows[r][c]];
+        if (!color) continue;
+        ctx.fillStyle = color;
+        ctx.fillRect(c * scale, (r + (yOff || 0)) * scale, scale, scale);
+      }
+    }
+  }
+
+  // ── Stats lines ───────────────────────────────────────────────
+
+  const LINES = [
+    { text: 'NAME........JULIE J.', cls: 'px-cs-l-name' },
+    { text: 'CLASS...UX DESIGNER',  cls: '' },
+    { text: 'EXP..........20+ YRS', cls: '' },
+    { text: '══════════════════',   cls: 'px-cs-l-div'   },
+    { text: 'HP  ████████░░  COFFEE',  cls: 'px-cs-l-warn' },
+    { text: 'MP  ██████████  EMPATHY', cls: 'px-cs-l-cyan' },
+    { text: '══════════════════',   cls: 'px-cs-l-div'   },
+    { text: 'STR  SYSTEMS THINKING', cls: '' },
+    { text: 'DEX  PROTOTYPING',      cls: '' },
+    { text: 'INT  PATTERN MATCHING', cls: '' },
+    { text: 'WIS  USER RESEARCH',    cls: '' },
+    { text: 'VIT  VISUAL DESIGN',    cls: '' },
+    { text: '══════════════════',   cls: 'px-cs-l-div'   },
+    { text: 'PET  SAMMY ♥  LVL 7', cls: 'px-cs-l-pink'  },
+    { text: 'BONUS  +5 MORALE',      cls: 'px-cs-l-green' },
+  ];
+
+  // ── Refs & state ──────────────────────────────────────────────
+
+  const overlay     = document.getElementById('px-cs-overlay');
+  const statsEl     = document.getElementById('px-cs-stats');
+  const julieCanvas = document.getElementById('px-cs-julie');
+  const sammyCanvas = document.getElementById('px-cs-sammy');
+  const trigger     = document.querySelector('.px-press-start');
+
+  let julieInterval = null;
+  let sammyTimeout  = null;
+  let statTimers    = [];
+  let julieBob      = 0;
+
+  // ── Animation loops ───────────────────────────────────────────
+
+  function startAnimations() {
+    // Julie: 1-pixel vertical bob every 500 ms
+    drawSprite(julieCanvas, JULIE, JC, 4, 0);
+    julieInterval = setInterval(() => {
+      julieBob = julieBob === 0 ? 1 : 0;
+      drawSprite(julieCanvas, JULIE, JC, 4, julieBob);
+    }, 500);
+
+    // Sammy: blink ~every 3 s, closed for 120 ms
+    drawSprite(sammyCanvas, SAMMY_OPEN, SC, 4);
+    function scheduleBlink() {
+      sammyTimeout = setTimeout(() => {
+        drawSprite(sammyCanvas, SAMMY_BLINK, SC, 4);
+        sammyTimeout = setTimeout(() => {
+          drawSprite(sammyCanvas, SAMMY_OPEN, SC, 4);
+          scheduleBlink();
+        }, 120);
+      }, 2500 + Math.random() * 1500);
+    }
+    scheduleBlink();
+  }
+
+  function stopAnimations() {
+    clearInterval(julieInterval);
+    clearTimeout(sammyTimeout);
+    statTimers.forEach(clearTimeout);
+    statTimers  = [];
+    julieInterval = null;
+    sammyTimeout  = null;
+    julieBob      = 0;
+  }
+
+  // ── Stats type-in ─────────────────────────────────────────────
+
+  function typeStats() {
+    statsEl.innerHTML = '';
+    LINES.forEach((line, i) => {
+      const t = setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'px-cs-line' + (line.cls ? ' ' + line.cls : '');
+        el.textContent = line.text;
+        statsEl.appendChild(el);
+      }, 60 + i * 80);
+      statTimers.push(t);
+    });
+
+    // Blinking cursor appears after last line
+    const cursorT = setTimeout(() => {
+      const cur = document.createElement('div');
+      cur.className = 'px-cs-line px-cs-l-cursor';
+      cur.textContent = '▌';
+      statsEl.appendChild(cur);
+    }, 60 + LINES.length * 80 + 60);
+    statTimers.push(cursorT);
+  }
+
+  // ── Open / close ──────────────────────────────────────────────
+
+  function open() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    startAnimations();
+    typeStats();
+    overlay.focus();
+  }
+
+  function close() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    stopAnimations();
+  }
+
+  if (trigger) {
+    trigger.addEventListener('click', () => {
+      if (!overlay.classList.contains('is-open')) open();
+    });
+  }
+
+  overlay.addEventListener('click', close);
+
+  document.addEventListener('keydown', () => {
+    if (overlay.classList.contains('is-open')) close();
+  });
+
+})();
+</script>
+
+<style>
+  /* ── Backdrop ── */
+  .px-cs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    background: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+  }
+  .px-cs-overlay.is-open { display: flex; }
+  .px-cs-overlay:focus   { outline: none; }
+
+  /* ── Window ── */
+  .px-cs-window {
+    position: relative;
+    width: min(640px, 95vw);
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    image-rendering: pixelated;
+  }
+
+  /* CRT scanlines */
+  .px-cs-window::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px, transparent 3px,
+      rgba(0, 0, 0, 0.1) 3px, rgba(0, 0, 0, 0.1) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── Title bar ── */
+  .px-cs-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .px-cs-hearts { letter-spacing: 0.22em; }
+
+  /* ── Body grid ── */
+  .px-cs-body {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    border-top: 2px solid var(--accent);
+  }
+
+  /* ── Sprite column ── */
+  .px-cs-sprite-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-right: 2px solid var(--rule);
+    background: var(--bg-2);
+  }
+
+  .px-cs-sprite-col canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .px-cs-hdiv {
+    font-size: 6px;
+    letter-spacing: -0.05em;
+    color: var(--rule-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .px-cs-pet-tag {
+    font-size: 6px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-align: center;
+    animation: px-cs-blink 1s steps(1) infinite;
+  }
+
+  /* ── Stats column ── */
+  .px-cs-stats-col {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-height: 260px;
+  }
+
+  .px-cs-line {
+    font-size: 7px;
+    letter-spacing: 0.05em;
+    color: var(--text-2);
+    line-height: 2.1;
+    white-space: pre;
+  }
+
+  .px-cs-l-name  { color: var(--text-1); font-size: 8px; letter-spacing: 0.08em; }
+  .px-cs-l-div   { color: var(--rule-2); letter-spacing: -0.04em; line-height: 1.6; }
+  .px-cs-l-warn  { color: var(--color-warning); }
+  .px-cs-l-cyan  { color: var(--accent); }
+  .px-cs-l-pink  { color: #ff9eb5; }
+  .px-cs-l-green { color: var(--color-success); }
+  .px-cs-l-cursor {
+    color: var(--accent);
+    line-height: 1;
+    animation: px-cs-blink 0.8s steps(1) infinite;
+  }
+
+  /* ── Footer ── */
+  .px-cs-footer {
+    border-top: 2px solid var(--rule);
+    padding: 8px 12px;
+    text-align: center;
+    background: var(--bg-2);
+  }
+
+  .px-cs-continue {
+    font-size: 6px;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    animation: px-cs-blink 1s steps(1) infinite;
+  }
+
+  @keyframes px-cs-blink {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+</style>
