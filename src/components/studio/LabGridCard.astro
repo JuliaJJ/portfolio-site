@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { entry, index } = Astro.props;
-const { data, slug } = entry;
+const { data, id: slug } = entry;
 
 const href = data.link ?? `/lab/${slug}`;
 const isExternal = !!data.link;

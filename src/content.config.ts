@@ -1,4 +1,6 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 // ─── Shared enums ──────────────────────────────────────────────────────────
 
@@ -24,7 +26,7 @@ const outcomeSchema = z.object({
 // Professional client work and day-job projects
 
 const workCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/work" }),
   schema: z.object({
 
     // ── Identity
@@ -71,7 +73,7 @@ const workCollection = defineCollection({
     // Alt text for cover
     cover_alt: z.string().optional(),
     // Optional Figma embed URL for prototypes
-    prototype_url: z.string().url().optional(),
+    prototype_url: z.url().optional(),
   }),
 });
 
@@ -79,7 +81,7 @@ const workCollection = defineCollection({
 // Personal projects, experiments, side work — lighter schema
 
 const labCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/lab" }),
   schema: z.object({
 
     title: z.string(),
@@ -101,7 +103,7 @@ const labCollection = defineCollection({
     tools: z.array(z.string()).default([]),
 
     // Optional external link (live project, GitHub, etc.)
-    link: z.string().url().optional(),
+    link: z.url().optional(),
     link_label: z.string().optional(),
 
     // Image gallery — stored as managed image paths (via Keystatic fields.image)
@@ -127,7 +129,7 @@ const labCollection = defineCollection({
 // No year, no outcomes, no featured flag. Not on home page.
 
 const additionalWorkCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/additionalWork" }),
   schema: z.object({
     title: z.string(),
     client: z.string(),
