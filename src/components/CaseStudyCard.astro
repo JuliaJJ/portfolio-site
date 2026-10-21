@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { data, slug } = entry;
+const { data, id: slug } = entry;
 
 const visibleSkills = data.skills.slice(0, 3);
 const extraSkills = data.skills.length - visibleSkills.length;
