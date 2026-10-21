@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { COOKIE_NAME, getAuthToken } from "./lib/auth";
+import { COOKIE_NAME, getAuthToken, safeEqual } from "./lib/auth";
 
 // Routes that never require auth
 const PUBLIC_PREFIXES = ["/api/auth", "/keystatic", "/api/keystatic"];
@@ -25,7 +25,8 @@ export const onRequest = defineMiddleware((context, next) => {
     .find((c) => c.startsWith(`${COOKIE_NAME}=`))
     ?.slice(COOKIE_NAME.length + 1);
 
-  if (token === getAuthToken()) return next();
+  const expected = getAuthToken();
+  if (token && expected && safeEqual(token, expected)) return next();
 
   const from = pathname !== "/" ? `?from=${encodeURIComponent(pathname)}` : "";
   return context.redirect(`/login${from}`);

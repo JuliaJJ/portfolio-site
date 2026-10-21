@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 import '@styles/global.css';
-import { COOKIE_NAME, COOKIE_MAX_AGE, getAuthToken, safeRedirect } from '../lib/auth';
+import { COOKIE_NAME, COOKIE_MAX_AGE, getAuthToken, safeEqual, safeRedirect } from '../lib/auth';
 
 const from = safeRedirect(Astro.url.searchParams.get('from'));
 let error = '';
@@ -9,9 +9,12 @@ let error = '';
 if (Astro.request.method === 'POST') {
   const data = await Astro.request.formData();
   const password = data.get('password')?.toString() ?? '';
+  const sitePassword = process.env["SITE_PASSWORD"];
+  const token = getAuthToken();
 
-  if (process.env["SITE_PASSWORD"] && password === process.env["SITE_PASSWORD"]) {
-    const token = getAuthToken();
+  if (!token) {
+    error = 'Login is not configured. Please try again later.';
+  } else if (sitePassword && safeEqual(password, sitePassword)) {
     const cookieParts = [
       `${COOKIE_NAME}=${token}`,
       'Path=/',
@@ -24,9 +27,9 @@ if (Astro.request.method === 'POST') {
       status: 302,
       headers: { 'Location': from, 'Set-Cookie': cookieParts.join('; ') },
     });
+  } else {
+    error = 'Incorrect password.';
   }
-
-  error = 'Incorrect password.';
 }
 ---
 
