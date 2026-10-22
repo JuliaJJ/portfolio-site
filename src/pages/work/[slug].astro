@@ -14,7 +14,7 @@ import CaseStudyImage from "@components/CaseStudyImage.astro";
 const { slug } = Astro.params;
 const allWork = await getCollection("work");
 const entry = allWork.find((e) => e.id === slug && !e.data.draft);
-if (!entry) return Astro.redirect("/work");
+if (!entry) return Astro.rewrite("/404");
 const { Content } = await render(entry);
 const { data } = entry;
 

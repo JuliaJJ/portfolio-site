@@ -10,7 +10,7 @@ npm run dev      # localhost:4321 (CMS at localhost:4321/keystatic)
 npm run build    # production build (Vercel output in .vercel/output)
 ```
 
-Requires Node 22.23.4 or newer; use Node 24 to match the Vercel runtime.
+Requires Node 22.23.4 or newer; use Node 24 to match the Vercel runtime (`.nvmrc` pins it for nvm/fnm).
 
 > **iCloud note:** this repo lives in iCloud Drive. `node_modules` is excluded from sync with
 > `xattr -w 'com.apple.fileprovider.ignore#P' 1 node_modules`. Re-run that after deleting and

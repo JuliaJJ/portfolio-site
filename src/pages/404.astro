@@ -1,0 +1,212 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import PixelLayout from "@layouts/PixelLayout.astro";
+import EditorialLayout from "@layouts/EditorialLayout.astro";
+import StudioLayout from "@layouts/StudioLayout.astro";
+---
+
+<BaseLayout title="Page not found">
+
+  <!-- ═══════════════════════════════════════════════════════
+       DEFAULT SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <DefaultLayout>
+    <section class="nf-default">
+      <p class="eyebrow eyebrow--ruled fade-up">404</p>
+      <h1 class="nf-default__heading fade-up fade-up--delay-1">Page not found</h1>
+      <p class="nf-default__body fade-up fade-up--delay-2">
+        The page you're looking for has moved or never existed.
+      </p>
+      <div class="nf-ctas fade-up fade-up--delay-3">
+        <a href="/work" class="btn btn--accent">View work</a>
+        <a href="/" class="btn">Home</a>
+      </div>
+    </section>
+  </DefaultLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PIXEL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <PixelLayout>
+    <section class="nf-pixel">
+      <p class="nf-pixel__title">ERROR 404</p>
+      <div class="nf-pixel__divider">════════════════════════════════</div>
+      <h1 class="nf-pixel__heading">LEVEL NOT FOUND</h1>
+      <p>This area of the map doesn't exist. Return to a known checkpoint.</p>
+      <div class="nf-pixel__links">
+        <a href="/work" class="nf-pixel__link">▶ MISSIONS</a>
+        <a href="/" class="nf-pixel__link">▶ START SCREEN</a>
+      </div>
+    </section>
+  </PixelLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDITORIAL SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <EditorialLayout>
+    <section class="nf-editorial">
+      <p class="label">Errata</p>
+      <h1 class="nf-editorial__heading">This page has gone to press elsewhere.</h1>
+      <p class="nf-editorial__deck">
+        The page you're looking for has moved or never existed.
+      </p>
+      <div class="nf-ctas">
+        <a href="/work" class="btn btn--accent">View work</a>
+        <a href="/" class="btn">Front page</a>
+      </div>
+    </section>
+  </EditorialLayout>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       STUDIO SHELL
+       ═══════════════════════════════════════════════════════ -->
+  <StudioLayout>
+    <section class="st-nf">
+      <p class="label st-nf__label">404</p>
+      <h1 class="st-nf__heading">Page not found</h1>
+      <p class="st-nf__body">The page you're looking for has moved or never existed.</p>
+      <div class="nf-ctas">
+        <a href="/work" class="btn btn--accent">View work</a>
+        <a href="/" class="btn">Home</a>
+      </div>
+    </section>
+  </StudioLayout>
+
+</BaseLayout>
+
+<style>
+  .nf-ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  /* ── Default ─────────────────────────────────────── */
+
+  .nf-default {
+    padding-top: var(--space-20);
+    padding-bottom: var(--space-20);
+    max-width: 760px;
+  }
+
+  .nf-default__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .nf-default__body {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 58ch;
+    margin-bottom: var(--space-8);
+  }
+
+  /* ── Pixel ───────────────────────────────────────── */
+
+  .nf-pixel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-2);
+  }
+
+  .nf-pixel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .nf-pixel__divider {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--rule-2);
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .nf-pixel__heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    line-height: 1.4;
+    color: var(--text-1);
+  }
+
+  .nf-pixel__links { display: flex; flex-direction: column; gap: var(--space-3); }
+
+  .nf-pixel__link {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nf-pixel__link:hover,
+  .nf-pixel__link:focus-visible { color: var(--text-1); }
+
+  /* ── Editorial ───────────────────────────────────── */
+
+  .nf-editorial {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-20);
+  }
+
+  .nf-editorial__heading {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-8);
+    max-width: 16ch;
+  }
+
+  .nf-editorial__deck {
+    font-size: var(--text-lg);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 54ch;
+    margin-bottom: var(--space-8);
+  }
+
+  /* ── Studio ──────────────────────────────────────── */
+
+  .st-nf {
+    padding: var(--space-20) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .st-nf__label { color: var(--accent); }
+
+  .st-nf__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.03em;
+    color: var(--text-1);
+  }
+
+  .st-nf__body {
+    font-size: var(--text-md);
+    color: var(--text-2);
+    line-height: var(--leading-relaxed);
+    max-width: 54ch;
+  }
+</style>

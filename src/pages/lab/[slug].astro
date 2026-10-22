@@ -14,7 +14,7 @@ import StudioLayout from "@layouts/StudioLayout.astro";
 const { slug } = Astro.params;
 const allLab = await getCollection("lab", ({ data }) => !data.draft);
 const entry = allLab.find((e) => e.id === slug);
-if (!entry) return Astro.redirect("/lab");
+if (!entry) return Astro.rewrite("/404");
 const { Content } = await render(entry);
 const { data } = entry;
 
